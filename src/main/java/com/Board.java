@@ -1,4 +1,7 @@
 package com;
 
-public class Board {
+import javax.swing.*;
+
+public class Board extends JFrame {
+
 }

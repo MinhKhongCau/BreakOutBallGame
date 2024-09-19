@@ -57,7 +57,6 @@ public class Sprite {
     }
 
     void getImageDimensions() {
-
         imageWidth = image.getWidth(null);
         imageHeight = image.getHeight(null);
     }
