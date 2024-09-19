@@ -158,7 +158,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void jLabel_ExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_ExitMouseClicked
         // TODO add your handling code here:
-        System.exit(0);
+        this.setVisible(false);
     }//GEN-LAST:event_jLabel_ExitMouseClicked
 
     private void jLabel_ExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_ExitMouseExited
@@ -171,7 +171,7 @@ public class LoginForm extends javax.swing.JFrame {
         String name = jTextField_NickName.getText();
         Player player = new Player(name,0,3);
         System.out.println(player.toString());
-        System.exit(0);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton_StartedActionPerformed
 
     /**
