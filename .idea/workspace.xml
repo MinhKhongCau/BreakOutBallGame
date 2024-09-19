@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0650a0d9-51b2-46be-87e7-1333c106ab71" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/maven/archetype.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/archetype-resources/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/archetype-resources/src/main/java/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/archetype-resources/src/test/java/AppTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/Ball.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/Board.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/Breakout.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/Brick.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/Commons.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/LoginForm$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/LoginForm$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/LoginForm$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/LoginForm$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/LoginForm.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/Paddle.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/Person.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/Player.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/Sprite.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/AbstractLayout.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/DimensionInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridConstraints.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridLayoutManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/HorizontalInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/LayoutState.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Spacer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Util.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/VerticalInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2m9T69XJjK00oAsP56hm5zhYL3o" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Breakout.executor": "Run",
+    "Application.RunBreakOutBallGame.executor": "Run",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "335",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/workspace/EclipseProject/BreakOutBallGame",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="RunBreakOutBallGame" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.Breakout" />
+      <module name="BreakOutBallGame" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0650a0d9-51b2-46be-87e7-1333c106ab71" name="Changes" comment="" />
+      <created>1726487614233</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1726487614233</updated>
+      <workItem from="1726487615323" duration="1935000" />
+      <workItem from="1726489693937" duration="2427000" />
+      <workItem from="1726546458739" duration="12431000" />
+      <workItem from="1726633995973" duration="6728000" />
+      <workItem from="1726650279488" duration="101000" />
+      <workItem from="1726650680800" duration="8040000" />
+      <workItem from="1726711226748" duration="1175000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
