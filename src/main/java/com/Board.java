@@ -2,7 +2,6 @@ package com;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import javax.swing.*;
@@ -19,12 +18,12 @@ public class Board extends JFrame implements Runnable{
         paddle = new Paddle();
         
         this.setResizable(true);
-        this.setSize(Commons.TILE_SIZE*Commons.SCREEN_COL,Commons.TILE_SIZE*Commons.SCREEN_ROW);
+        this.setSize(Commons.SCREEN_COL,Commons.SCREEN_ROW);
         this.setTitle("Break out ball");
         this.setLocationRelativeTo(null);
 
         JPanel panelBoard = new JPanel();
-        int frameWidth = Commons.TILE_SIZE*Commons.SCREEN_ROW, frameHeight = Commons.TILE_SIZE*Commons.SCREEN_COL;
+        int frameWidth = Commons.SCREEN_ROW, frameHeight = Commons.SCREEN_COL;
         // init screen with scale 16/9
         panelBoard.setSize(frameHeight,frameHeight);
         panelBoard.setBackground(new Color(54, 66, 66));

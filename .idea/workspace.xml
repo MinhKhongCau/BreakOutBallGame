@@ -5,40 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0650a0d9-51b2-46be-87e7-1333c106ab71" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/maven/archetype.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/archetype-resources/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/archetype-resources/src/main/java/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/archetype-resources/src/test/java/AppTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/Ball.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/Board.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/Breakout.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/Brick.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/Commons.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/LoginForm$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/LoginForm$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/LoginForm$3.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/LoginForm$4.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/LoginForm.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/Paddle.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/Person.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/Player.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/Sprite.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/AbstractLayout.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/DimensionInfo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridConstraints.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridLayoutManager.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/HorizontalInfo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/LayoutState.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Spacer.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Util.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/VerticalInfo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Board.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Breakout.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Commons.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/LoginForm.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/LoginForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Paddle.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Person.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Sprite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/archetype.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/src/main/java/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/src/test/java/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Ball.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Board.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Breakout.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Brick.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Commons.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/LoginForm$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/LoginForm$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/LoginForm$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/LoginForm$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/LoginForm.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Paddle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Person.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Sprite.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +55,7 @@
         <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="ProjectColorInfo">{
@@ -69,27 +66,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Breakout.executor": "Run",
-    "Application.RunBreakOutBallGame.executor": "Run",
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "335",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/workspace/EclipseProject/BreakOutBallGame",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Breakout.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RunBreakOutBallGame.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;335&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/workspace/EclipseProject/BreakOutBallGame&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="RunBreakOutBallGame" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.Breakout" />
@@ -122,6 +120,8 @@
       <workItem from="1726650279488" duration="101000" />
       <workItem from="1726650680800" duration="8040000" />
       <workItem from="1726711226748" duration="1175000" />
+      <workItem from="1726914767478" duration="100000" />
+      <workItem from="1726915943154" duration="559000" />
     </task>
     <servers />
   </component>
