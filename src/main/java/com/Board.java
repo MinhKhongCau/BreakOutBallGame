@@ -25,7 +25,7 @@ public class Board extends JFrame implements Runnable{
         JPanel panelBoard = new JPanel();
         int frameWidth = Commons.SCREEN_ROW, frameHeight = Commons.SCREEN_COL;
         // init screen with scale 16/9
-        panelBoard.setSize(frameHeight,frameHeight);
+        panelBoard.setSize(frameWidth,frameHeight);
         panelBoard.setBackground(new Color(54, 66, 66));
         this.add(panelBoard);
     }

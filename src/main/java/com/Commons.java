@@ -31,4 +31,5 @@ public interface Commons {
     int INPUT_WIDTH = 100;
     // Commons of Windows toolkit
     Toolkit toolkit = Toolkit.getDefaultToolkit();
+
 }
