@@ -35,6 +35,6 @@ public interface Commons {
     // Commons of Windows toolkit
     Toolkit toolkit = Toolkit.getDefaultToolkit();
     // Delta time
-    int FPS = 30;
+    int FPS = 60;
     double DELTA_TIME = (double) 1/FPS;
 }

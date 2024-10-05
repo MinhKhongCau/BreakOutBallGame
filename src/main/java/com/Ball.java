@@ -3,7 +3,6 @@ package com;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
 public class Ball extends Sprite{
     private int width;
@@ -41,10 +40,11 @@ public class Ball extends Sprite{
     
     public void move () {
         try {
-            int speed = 10;
-            this.x += (int) speed*Commons.DELTA_TIME*Commons.FPS;
-            this.y += (int) speed*Commons.DELTA_TIME*Commons.FPS;
-
+            int speed = 500;
+            this.x += (int) speed*Commons.DELTA_TIME;
+            this.y += (int) speed*Commons.DELTA_TIME;
+            
+            
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
