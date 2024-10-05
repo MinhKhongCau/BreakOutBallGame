@@ -53,12 +53,16 @@ public class Board extends JFrame implements Runnable{
     @Override
     public void run() {
         while(clock != null) {
-            //                Thread.sleep(1000);
+            double deltaTime = (double) Commons.DELTA_TIME * 1000;
+            try {
+                Thread.sleep((long) deltaTime);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
             // update position paddle
             update();
             // repaint component
-            repaint();
-
+            repaint();                
         }
     }
 
@@ -68,6 +72,6 @@ public class Board extends JFrame implements Runnable{
         // set position paddle
         paddle.move(point);
         
-//        ball.move(point);
+        ball.move();
     }
 }

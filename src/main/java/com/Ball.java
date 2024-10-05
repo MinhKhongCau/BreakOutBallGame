@@ -39,10 +39,12 @@ public class Ball extends Sprite{
         this.height = height;
     }
     
-    public void move (Point point) {
+    public void move () {
         try {
-            this.x = (int) point.getX();
-            this.y = (int) point.getY();
+            int speed = 10;
+            this.x += (int) speed*Commons.DELTA_TIME*Commons.FPS;
+            this.y += (int) speed*Commons.DELTA_TIME*Commons.FPS;
+
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
@@ -51,7 +53,6 @@ public class Ball extends Sprite{
     public void draw (Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);
-        g2.fillRect(this.x, this.y, Commons.BALL_SIZE, Commons.BALL_SIZE);
-        g2.dispose();
+        g2.fillOval(this.x, this.y, this.width, this.height);
     }
 }

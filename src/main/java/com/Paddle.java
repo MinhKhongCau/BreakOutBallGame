@@ -36,11 +36,8 @@ public class Paddle extends Sprite{
             int frameWidth = Commons.SCREEN_WIDTH;
             int positionX = (int) point.getX() - (int) (screenWidth-frameWidth)/2 - this.width/2;
             this.x = positionX;
-            System.out.println(screenWidth);
-            System.out.println(frameWidth);
-            System.out.println(point.getX()+"-"+point.getY());
             
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) { 
             e.printStackTrace();
         }
     } 
@@ -49,6 +46,6 @@ public class Paddle extends Sprite{
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);
         g2.fillRect(this.x, Commons.INIT_PADDLE_Y, Commons.PADDLE_WIDTH, Commons.PADDLE_HEIGHT);
-        g2.dispose();
+//        g2.dispose();
     }
 }

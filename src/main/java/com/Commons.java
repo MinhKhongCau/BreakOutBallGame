@@ -20,8 +20,8 @@ public interface Commons {
     int PADDLE_WIDTH = TILE_SIZE*8;
     int PADDLE_HEIGHT = TILE_SIZE*1;
     // Commons in ball dimention
-    int INIT_BALL_X = SCREEN_WIDTH/2;
-    int INIT_BALL_Y = SCREEN_HEIGHT/2;
+    int INIT_BALL_X = 100;
+    int INIT_BALL_Y = 100;
     int BALL_SIZE = TILE_SIZE;
     int PERIOD = 10;
     // Commons in login form dimention
@@ -34,4 +34,7 @@ public interface Commons {
     int INPUT_WIDTH = 100;
     // Commons of Windows toolkit
     Toolkit toolkit = Toolkit.getDefaultToolkit();
+    // Delta time
+    int FPS = 30;
+    double DELTA_TIME = (double) 1/FPS;
 }
