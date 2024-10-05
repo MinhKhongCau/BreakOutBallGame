@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
-import javax.swing.JFrame;
 
 public class Paddle extends Sprite{  
     private int width;
@@ -14,8 +13,8 @@ public class Paddle extends Sprite{
     public Paddle() {
         this.x = Commons.INIT_PADDLE_X;
         this.y = Commons.INIT_PADDLE_Y;
-        this.width = Commons.TILE_SIZE*Commons.PADDLE_WIDTH;
-        this.height = Commons.TILE_SIZE*Commons.PADDLE_HEIGHT;
+        this.width = Commons.PADDLE_WIDTH;
+        this.height = Commons.PADDLE_HEIGHT;
     }
 
     public Paddle(int width, int height) {
@@ -33,23 +32,23 @@ public class Paddle extends Sprite{
     
     public void move(Point point) {
         try {
-            this.x = (int) point.getX();
-            this.y = (int) point.getY();
-            
+            double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+            int frameWidth = Commons.SCREEN_WIDTH;
+            int positionX = (int) point.getX() - (int) (screenWidth-frameWidth)/2 - this.width/2;
+            this.x = positionX;
+            System.out.println(screenWidth);
+            System.out.println(frameWidth);
             System.out.println(point.getX()+"-"+point.getY());
+            
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
     } 
     
     public void draw(Graphics g) {
-        int tile = Commons.TILE_SIZE;
-        double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        int frameWidth = Commons.SCREEN_COL*Commons.TILE_SIZE;
-        int positionX = this.x - (int) (screenWidth-frameWidth)/2;
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);
-        g2.fillRect(positionX, Commons.INIT_PADDLE_Y, Commons.PADDLE_WIDTH*tile, Commons.PADDLE_HEIGHT*tile);
+        g2.fillRect(this.x, Commons.INIT_PADDLE_Y, Commons.PADDLE_WIDTH, Commons.PADDLE_HEIGHT);
         g2.dispose();
     }
 }
