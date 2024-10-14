@@ -4,14 +4,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+
+import DatabaseConfig.ConnectionConfig;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Board extends JFrame implements Runnable{
     private Thread clock;
     private Paddle paddle;
     private Ball ball;
+    private Player player;
     
     public Board() {
         initComponent();
@@ -52,18 +58,22 @@ public class Board extends JFrame implements Runnable{
      */
     @Override
     public void run() {
-        while(clock != null) {
+        try {
+            while(clock != null) {
             double deltaTime = (double) Commons.DELTA_TIME * 1000;
-            try {
-                Thread.sleep((long) deltaTime);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            // update position paddle
+            Thread.sleep((long) deltaTime);
+            // update coponent
             update();
             // repaint component
-            repaint();                
+            repaint();   
+//            if (player.getLife() == 0) {
+//                savePerformance();
+//            }
+            }    
+        } catch (InterruptedException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     private void update() {
@@ -73,5 +83,21 @@ public class Board extends JFrame implements Runnable{
         paddle.move(point);
         
         ball.move();
+    }
+    
+    public void savePerformance() {
+        try {
+            //1. get connection to database
+            Connection con = ConnectionConfig.getConnection();
+            //2. create query insert data to database
+            String query = "INSERT INTO Player (nick_name) VALUES ('%s')";
+            query = String.format(query, player.getName());
+            //3. create statement for execute query
+            Statement st = con.createStatement();
+            //4. execute query
+            st.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
