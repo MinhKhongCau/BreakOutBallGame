@@ -1,10 +1,10 @@
 package com;
 
 public class Breakout {
+    private Player player;
+    
     public static void main(String[] args) {
-//        new LoginForm().setVisible(true);
-        Board board = new Board();
-        board.setVisible(true);
-        board.startedGame();
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
     }
 }

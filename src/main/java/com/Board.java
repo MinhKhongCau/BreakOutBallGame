@@ -40,7 +40,8 @@ public class Board extends JFrame implements Runnable{
         this.add(panelBoard);
     }
     
-    public void startedGame() {
+    public void startedGame(Player player) {
+        this.player = player;
         clock = new Thread(this);
         clock.start();
     }

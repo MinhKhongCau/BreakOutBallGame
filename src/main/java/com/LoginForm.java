@@ -11,11 +11,13 @@ import java.awt.Color;
  * @author minhn
  */
 public class LoginForm extends javax.swing.JFrame {
-
+    Board board;
     /**
      * Creates new form LoginForm
      */
     public LoginForm() {
+        board = new Board();
+        board.setVisible(true);
         initComponents();
     }
 
@@ -170,7 +172,7 @@ public class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         String name = jTextField_NickName.getText();
         Player player = new Player(name,0,3);
-        System.out.println(player.toString());
+        board.startedGame(player);
         this.setVisible(false);
     }//GEN-LAST:event_jButton_StartedActionPerformed
 

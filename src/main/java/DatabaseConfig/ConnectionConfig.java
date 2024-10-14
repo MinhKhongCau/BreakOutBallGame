@@ -29,7 +29,7 @@ public class ConnectionConfig {
             String username = "sa";
             String password = "123456";
             //3. Execute link
-            con = (Connection) DriverManager.getConnection(url, url, password);
+            con = (Connection) DriverManager.getConnection(url, username, password);
             if (con != null) {
                 System.out.println("Connect to database sucessfully!!!");
             }
