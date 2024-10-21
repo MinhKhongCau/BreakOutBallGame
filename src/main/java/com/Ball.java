@@ -44,7 +44,6 @@ public class Ball extends Sprite{
             this.x += (int) speed*Commons.DELTA_TIME;
             this.y += (int) speed*Commons.DELTA_TIME;
             
-            
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }

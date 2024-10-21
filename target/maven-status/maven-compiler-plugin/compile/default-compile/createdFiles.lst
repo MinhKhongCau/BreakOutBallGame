@@ -1,4 +1,6 @@
 com\LoginForm.class
+com\Brick.class
+com\Item.class
 com\Sprite.class
 com\Person.class
 com\LoginForm$3.class

@@ -70,7 +70,7 @@ public class Board extends JFrame implements Runnable{
         ball.draw(g);
 //        item.draw(g);
         for(int i=0;i<amount_brick;i++) {
-        	brick[i].draw(g);
+            brick[i].draw(g);
         }
     }
 
