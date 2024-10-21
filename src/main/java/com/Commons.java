@@ -19,6 +19,14 @@ public interface Commons {
     int INIT_PADDLE_Y = SCREEN_HEIGHT/10*8;
     int PADDLE_WIDTH = TILE_SIZE*8;
     int PADDLE_HEIGHT = TILE_SIZE*1;
+ // Commons in brick dimention
+    int BRICK_WIDTH = TILE_SIZE*6;
+    int BRICK_HEIGHT = TILE_SIZE*2;
+    int BRICK_ROW = (SCREEN_WIDTH*3/4)/BRICK_WIDTH;
+    int BRICK_COL = (SCREEN_HEIGHT/3)/BRICK_HEIGHT;
+//    int INIT_BRICK_X = 500;
+//    int INIT_BRICK_Y = 30;
+    
     // Commons in ball dimention
     int INIT_BALL_X = 100;
     int INIT_BALL_Y = 100;

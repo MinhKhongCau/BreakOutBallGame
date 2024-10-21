@@ -17,7 +17,10 @@ public class Board extends JFrame implements Runnable{
     private Thread clock;
     private Paddle paddle;
     private Ball ball;
+    private Brick[] brick;
+    private int amount_brick=0;
     private Player player;
+    private Item item;
     
     public Board() {
         initComponent();
@@ -26,6 +29,9 @@ public class Board extends JFrame implements Runnable{
     private void initComponent() {
         paddle = new Paddle();
         ball = new Ball();
+        item = new Item();    
+        brick = new Brick[Commons.BRICK_ROW*Commons.BRICK_COL];
+        createBrick(brick);
         
         this.setResizable(false);
         this.setSize(Commons.TILE_SIZE*Commons.SCREEN_COL,Commons.TILE_SIZE*Commons.SCREEN_ROW);
@@ -40,6 +46,16 @@ public class Board extends JFrame implements Runnable{
         this.add(panelBoard);
     }
     
+    private void createBrick(Brick[] brick) {
+    	for(int i=0; i<Commons.BRICK_ROW; i++) {
+    		for(int j=0; j<Commons.BRICK_COL; j++) {
+    			brick[amount_brick] = new Brick();
+    			brick[amount_brick].x = i*Commons.BRICK_WIDTH+155;
+    			brick[amount_brick].y = j*Commons.BRICK_HEIGHT+80;
+    			amount_brick+=1;
+    		}
+    	}
+    }
     public void startedGame(Player player) {
         this.player = player;
         clock = new Thread(this);
@@ -52,6 +68,10 @@ public class Board extends JFrame implements Runnable{
         
         paddle.draw(g);
         ball.draw(g);
+//        item.draw(g);
+        for(int i=0;i<amount_brick;i++) {
+        	brick[i].draw(g);
+        }
     }
 
     /**
@@ -84,6 +104,7 @@ public class Board extends JFrame implements Runnable{
         paddle.move(point);
         
         ball.move();
+//        item.move();
     }
     
     public void savePerformance() {
