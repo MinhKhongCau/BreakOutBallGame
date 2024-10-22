@@ -86,7 +86,8 @@ public class Board extends JFrame implements Runnable{
             // update coponent
             update();
             // repaint component
-            repaint();   
+            repaint(ball.getX()-ball.getWidth(),ball.getY()-ball.getHeight(),ball.getWidth()*2,ball.getHeight()*2);
+            repaint(0,paddle.getY(),Commons.SCREEN_WIDTH,paddle.getHeight()*2);
 //            if (player.getLife() == 0) {
 //                savePerformance();
 //            }

@@ -11,8 +11,8 @@ public class Brick extends Sprite{
     public Brick() {
 //		this.x = Commons.INIT_BRICK_X;
 //		this.y = Commons.INIT_BRICK_Y;
-		this.width = Commons.BRICK_WIDTH;
-		this.height = Commons.BRICK_HEIGHT;
+                this.width = Commons.BRICK_WIDTH;
+                this.height = Commons.BRICK_HEIGHT;
 	}
     
     public Brick(int width, int height) {

@@ -4,11 +4,11 @@ import java.awt.image.BufferedImage;
 import java.awt.Rectangle;
 
 public class Sprite {
-    public int x;
-    public int y;
-    public int imageWidth;
-    public int imageHeight;
-    public BufferedImage image;
+    protected int x;
+    protected int y;
+    protected int imageWidth;
+    protected int imageHeight;
+    protected BufferedImage image;
 
     public BufferedImage getImage() {
         return image;
