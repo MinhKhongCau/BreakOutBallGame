@@ -5,6 +5,9 @@ import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.sql.Connection;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -28,8 +31,8 @@ public class Board extends JFrame implements Runnable{
     
     private void initComponent() {
         paddle = new Paddle();
-        ball = new Ball();
-        item = new Item();    
+        ball = new Ball();  
+        item = new Item(100, 150, 998);
         brick = new Brick[Commons.BRICK_ROW*Commons.BRICK_COL];
         createBrick(brick);
         
@@ -68,7 +71,7 @@ public class Board extends JFrame implements Runnable{
         
         paddle.draw(g);
         ball.draw(g);
-//        item.draw(g);
+        item.draw(g);
         for(int i=0;i<amount_brick;i++) {
         	brick[i].draw(g);
         }
@@ -83,10 +86,25 @@ public class Board extends JFrame implements Runnable{
             while(clock != null) {
             double deltaTime = (double) Commons.DELTA_TIME * 1000;
             Thread.sleep((long) deltaTime);
+            if(ball.getY()>200) {
+            	dropItem(155,80);
+            }
             // update coponent
             update();
             // repaint component
-            repaint();   
+            repaint(ball.getX()-ball.getWidth(),ball.getY()-ball.getHeight(),ball.getWidth()*2,ball.getHeight()*2);
+            repaint(0,paddle.getY(),Commons.SCREEN_WIDTH,paddle.getHeight()*2);   
+        	repaint(item.getX()-item.getWidth(),item.getY()-item.getHeight(),item.getWidth()*2,item.getHeight()*2);
+           
+           
+           if(item.getY()>paddle.getY() && (item.getX()>=paddle.getX() && item.getX()<=paddle.getX()+paddle.getWidth())) {
+        	   touchItem(item);
+        	   item = new Item(100, 150, 998);
+           }
+        	
+           if(item.getY()>Commons.SCREEN_HEIGHT) {
+        	   item = new Item(100, 150, 998);
+           }
 //            if (player.getLife() == 0) {
 //                savePerformance();
 //            }
@@ -102,9 +120,10 @@ public class Board extends JFrame implements Runnable{
         Point point = MouseInfo.getPointerInfo().getLocation();
         // set position paddle
         paddle.move(point);
-        
         ball.move();
-//        item.move();
+        if(item.getNum()!=998) {
+        	item.move();
+        }
     }
     
     public void savePerformance() {
@@ -121,5 +140,57 @@ public class Board extends JFrame implements Runnable{
         } catch (SQLException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void dropItem(int x, int y) {
+    	if(item.getNum()==998) {
+//    		Random generator = new Random();
+//        	int value = generator.nextInt(10)+1;
+//        	
+//        	if(value%3==0) {
+        		item.setX(x);
+        		item.setY(y);
+        		item.setNum(3);
+//        	}
+        	
+    	}
+    }
+    
+    public void touchItem(Item i) {   	
+    	 switch(i.getNum()){
+    	 	case 3: paddle.setWidth(Commons.PADDLE_WIDTH+200);
+    	 			setPaddleDefault();
+    	 			break;
+    	 	case 6: paddle.setWidth(Commons.PADDLE_WIDTH-60);
+    	 			setPaddleDefault();
+    	 			break;
+    	 	case 9: ball.setWidth(Commons.BALL_SIZE+3);
+    	 			ball.setHeight(Commons.BALL_SIZE+3);
+    	 			setBallDefault();
+    	 			break;
+    	 	default:
+    	 		break;
+    	 }    	 
+    }
+    
+    public void setPaddleDefault() {
+    	Timer t = new Timer();
+    	TimerTask task = new TimerTask() {
+            public void run() {
+                paddle.setWidth(Commons.PADDLE_WIDTH); 
+            }
+        };
+        t.schedule(task, 2000);
+    }
+    
+    public void setBallDefault() {
+    	Timer t = new Timer();
+    	TimerTask task = new TimerTask() {
+            public void run() {
+                ball.setWidth(Commons.BALL_SIZE);
+                ball.setHeight(Commons.BALL_SIZE);
+            }
+        };
+        t.schedule(task, 2000);
     }
 }
