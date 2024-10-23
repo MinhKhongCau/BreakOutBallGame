@@ -5,19 +5,22 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 public class Brick extends Sprite{
-	private int width;
+    private int width;
     private int height;
+    private boolean broke;
     
     public Brick() {
 //		this.x = Commons.INIT_BRICK_X;
 //		this.y = Commons.INIT_BRICK_Y;
                 this.width = Commons.BRICK_WIDTH;
                 this.height = Commons.BRICK_HEIGHT;
+                this.broke = false;
 	}
     
     public Brick(int width, int height) {
     	this.width = width;
         this.height = height;
+        this.broke = false;
     }
     
     public int getWidth() {
@@ -26,6 +29,10 @@ public class Brick extends Sprite{
 
     public int getHeight() {
         return height;
+    }
+    
+    public boolean isBroke() {
+        return broke;
     }
     
     public void draw(Graphics g) {

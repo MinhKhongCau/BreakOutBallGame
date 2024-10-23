@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import DatabaseConfig.ConnectionConfig;
+import java.awt.Graphics2D;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -62,6 +63,18 @@ public class Board extends JFrame implements Runnable{
         clock.start();
     }
     
+    public void drawBrick(Graphics g) {
+        for(int i=0;i<amount_brick;i++) {
+            if (!brick[i].isBroke()) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setColor(new Color(185, 211, 238));
+                g2.fillRect(brick[i].getX(), brick[i].getHeight(), Commons.BRICK_WIDTH-2, Commons.BRICK_HEIGHT-2);
+                g2.setColor(new Color(54,66,66));
+                g2.drawRect(brick[i].getX(), brick[i].getHeight(), Commons.BRICK_WIDTH, Commons.BRICK_HEIGHT);
+            }
+        }
+    }
+    
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -70,8 +83,10 @@ public class Board extends JFrame implements Runnable{
         ball.draw(g);
 //        item.draw(g);
         for(int i=0;i<amount_brick;i++) {
-        	brick[i].draw(g);
+            if (!brick[i].isBroke())
+                brick[i].draw(g);
         }
+//        drawBrick(g);
     }
 
     /**
@@ -80,14 +95,15 @@ public class Board extends JFrame implements Runnable{
     @Override
     public void run() {
         try {
-            while(clock != null) {
             double deltaTime = (double) Commons.DELTA_TIME * 1000;
             Thread.sleep((long) deltaTime);
+            while(clock != null) {
             // update coponent
             update();
             // repaint component
-            repaint(ball.getX()-ball.getWidth(),ball.getY()-ball.getHeight(),ball.getWidth()*2,ball.getHeight()*2);
-            repaint(0,paddle.getY(),Commons.SCREEN_WIDTH,paddle.getHeight()*2);   
+//            repaint(ball.getX()-ball.getWidth(),ball.getY()-ball.getHeight(),ball.getWidth()*2,ball.getHeight()*2);
+//            repaint(0,paddle.getY(),Commons.SCREEN_WIDTH,paddle.getHeight()*2);   
+                repaint();
 //            if (player.getLife() == 0) {
 //                savePerformance();
 //            }
