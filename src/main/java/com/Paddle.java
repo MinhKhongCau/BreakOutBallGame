@@ -25,7 +25,11 @@ public class Paddle extends Sprite{
     public int getWidth() {
         return width;
     }
-
+    
+    public void setWidth(int width) {
+    	this.width = width;
+    }
+    
     public int getHeight() {
         return height;
     }
@@ -53,7 +57,7 @@ public class Paddle extends Sprite{
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);
-        g2.fillRect(this.x, Commons.INIT_PADDLE_Y, Commons.PADDLE_WIDTH, Commons.PADDLE_HEIGHT);
+        g2.fillRect(this.x, Commons.INIT_PADDLE_Y, width, height);
 //        g2.dispose();
     }
 }
