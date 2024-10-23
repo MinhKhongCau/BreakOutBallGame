@@ -17,7 +17,7 @@ import java.awt.Graphics2D;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Board extends JFrame implements Runnable{
+public class Board extends JPanel implements Runnable{
     private Thread clock;
     private Paddle paddle;
     private Ball ball;
@@ -37,17 +37,11 @@ public class Board extends JFrame implements Runnable{
         brick = new Brick[Commons.BRICK_ROW*Commons.BRICK_COL];
         createBrick(brick);
         
-        this.setResizable(false);
-        this.setSize(Commons.TILE_SIZE*Commons.SCREEN_COL,Commons.TILE_SIZE*Commons.SCREEN_ROW);
-        this.setTitle("Break out ball");
-        this.setLocationRelativeTo(null);
-
-        JPanel panelBoard = new JPanel();
         int frameWidth = Commons.SCREEN_WIDTH, frameHeight = Commons.SCREEN_HEIGHT;
         // init screen with scale 16/9
-        panelBoard.setSize(frameWidth,frameHeight);
-        panelBoard.setBackground(new Color(54, 66, 66));
-        this.add(panelBoard);
+        this.setSize(frameWidth,frameHeight);
+        this.setBackground(new Color(54, 66, 66));
+
     }
     
     private void createBrick(Brick[] brick) {
@@ -78,19 +72,27 @@ public class Board extends JFrame implements Runnable{
         }
     }
     
+    /**
+     *
+     * @param g
+     */
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);  // Clears the screen
+
+        // Draw the paddle, ball, item, and bricks
         paddle.draw(g);
         ball.draw(g);
         item.draw(g);
-        for(int i=0;i<amount_brick;i++) {
-            if (brick[i].getStatus() == 1)
+
+        // Draw the active bricks
+        for (int i = 0; i < amount_brick; i++) {
+            if (brick[i].getStatus() == 1) {  // Only draw bricks that are not destroyed
                 brick[i].draw(g);
+            }
         }
-//        drawBrick(g);
     }
+
 
     /**
      * This is run method override Runnable interface
@@ -99,7 +101,7 @@ public class Board extends JFrame implements Runnable{
     public void run() {
         try {
             double deltaTime = (double) Commons.DELTA_TIME * 1000;
-            Thread.sleep((long) deltaTime);
+            
             while(clock != null) {
                 if(ball.getY()>200) {
                     dropItem(155,80);
@@ -123,7 +125,9 @@ public class Board extends JFrame implements Runnable{
                 // if (player.getLife() == 0) {
                 //     savePerformance();
                 // }
-            }    
+                Thread.sleep((long) deltaTime);
+            }  
+            
         } catch (InterruptedException ex) {
                 Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
