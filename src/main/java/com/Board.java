@@ -13,6 +13,9 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import DatabaseConfig.ConnectionConfig;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,6 +28,10 @@ public class Board extends JPanel implements Runnable{
     private int amount_brick=0;
     private Player player;
     private Item item;
+    private JLabel labelName;
+    private JLabel labelFPS;
+    private JLabel labelLife;
+    private JLabel labelScore;
     
     public Board() {
         initComponent();
@@ -41,7 +48,41 @@ public class Board extends JPanel implements Runnable{
         // init screen with scale 16/9
         this.setSize(frameWidth,frameHeight);
         this.setBackground(new Color(54, 66, 66));
-
+        this.setLayout(new BorderLayout());
+        
+        Font font = new java.awt.Font("Segoe UI", Font.BOLD, 15);
+        
+        labelName = new JLabel("Name: Unknown");
+        labelName.setForeground(new java.awt.Color(250, 242, 233));
+        labelName.setFont(font);
+        
+        labelFPS = new JLabel(String.format("FPS: %d", Commons.FPS));
+        labelFPS.setForeground(new java.awt.Color(250, 242, 233));
+        labelFPS.setFont(font);
+        
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(new Color(54, 66, 66));
+        topPanel.setBorder(Commons.PANEL_BORDER);
+        topPanel.add(labelName, BorderLayout.WEST);
+        topPanel.add(labelFPS, BorderLayout.EAST);
+        
+        this.add(topPanel, BorderLayout.NORTH);
+        
+        labelScore = new JLabel(String.format("Score: %d", 0));
+        labelScore.setForeground(new java.awt.Color(250, 242, 233));
+        labelScore.setFont(font);
+        
+        labelLife = new JLabel(String.format("Life: %d", 0));
+        labelLife.setForeground(new java.awt.Color(250, 242, 233));
+        labelLife.setFont(font);
+        
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(new Color(54, 66, 66));
+        bottomPanel.setBorder(Commons.PANEL_BORDER);
+        bottomPanel.add(labelLife,BorderLayout.WEST);
+        bottomPanel.add(labelScore,BorderLayout.EAST);
+        
+        this.add(bottomPanel,BorderLayout.SOUTH);
     }
     
     private void createBrick(Brick[] brick) {
@@ -54,6 +95,7 @@ public class Board extends JPanel implements Runnable{
     		}
     	}
     }
+    
     public void startedGame(Player player) {
         this.player = player;
         clock = new Thread(this);
@@ -105,7 +147,6 @@ public class Board extends JPanel implements Runnable{
             double delta = 0;  // Tracks how much time has passed
             long timer = System.currentTimeMillis();
             int frames = 0;
-            long wait;
             
             while(clock != null) {
                 long now = System.currentTimeMillis();  // Current time in miliseconds
@@ -128,10 +169,12 @@ public class Board extends JPanel implements Runnable{
 
                 // Optional: Print FPS every second for debugging
                 if (System.currentTimeMillis() - timer > 1000) {
-                    System.out.println("FPS: " + frames);
+                    labelFPS.setText(String.format("FPS: %d", frames));
                     frames = 0;
                     timer += 1000;
                 }
+                
+                
                 // if (player.getLife() == 0) {
                 //     savePerformance();
                 // }
@@ -144,6 +187,9 @@ public class Board extends JPanel implements Runnable{
     }
 
     private void update() {
+        labelName.setText(String.format("Name: %s", player.getName()));
+        labelLife.setText(String.format("Life: %d", player.getLife()));
+        labelScore.setText(String.format("Score: %d", player.getScore()));
         // get mouse position
         Point point = MouseInfo.getPointerInfo().getLocation();
         // set position paddle

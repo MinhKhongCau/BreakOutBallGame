@@ -5,37 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0650a0d9-51b2-46be-87e7-1333c106ab71" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Board.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Breakout.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Commons.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/LoginForm.form" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/LoginForm.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Paddle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Person.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Player.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Sprite.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/archetype.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/src/main/java/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/archetype-resources/src/test/java/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/Ball.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/Board.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/Breakout.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/Brick.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/Commons.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/LoginForm$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/LoginForm$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/LoginForm$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/LoginForm$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/LoginForm.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/Paddle.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/Person.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/Player.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/Sprite.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Commons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Commons.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/Board.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/Commons.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/Commons.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +95,7 @@
       <workItem from="1726711226748" duration="1175000" />
       <workItem from="1726914767478" duration="100000" />
       <workItem from="1726915943154" duration="559000" />
+      <workItem from="1729756961453" duration="3000" />
     </task>
     <servers />
   </component>
