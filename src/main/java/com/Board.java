@@ -86,9 +86,7 @@ public class Board extends JFrame implements Runnable{
             while(clock != null) {
             double deltaTime = (double) Commons.DELTA_TIME * 1000;
             Thread.sleep((long) deltaTime);
-            if(ball.getY()>200) {
-            	dropItem(155,80);
-            }
+            
             // update coponent
             update();
             // repaint component
@@ -97,14 +95,6 @@ public class Board extends JFrame implements Runnable{
         	repaint(item.getX()-item.getWidth(),item.getY()-item.getHeight(),item.getWidth()*2,item.getHeight()*2);
            
            
-           if(item.getY()>paddle.getY() && (item.getX()>=paddle.getX() && item.getX()<=paddle.getX()+paddle.getWidth())) {
-        	   touchItem(item);
-        	   item = new Item(100, 150, 998);
-           }
-        	
-           if(item.getY()>Commons.SCREEN_HEIGHT) {
-        	   item = new Item(100, 150, 998);
-           }
 //            if (player.getLife() == 0) {
 //                savePerformance();
 //            }
@@ -121,6 +111,18 @@ public class Board extends JFrame implements Runnable{
         // set position paddle
         paddle.move(point);
         ball.move();
+        if(ball.getY()==200) {
+            dropItem(155,80);
+        }
+        if(item.getY()>paddle.getY() && (item.getX()>=paddle.getX() && item.getX()<=paddle.getX()+paddle.getWidth())) {
+        	touchItem(item);
+        	item = new Item(100, 150, 998);
+        }
+        	
+        if(item.getY()>Commons.SCREEN_HEIGHT) {
+        	item = new Item(100, 150, 998);
+        }
+        
         if(item.getNum()!=998) {
         	item.move();
         }
@@ -148,9 +150,10 @@ public class Board extends JFrame implements Runnable{
 //        	int value = generator.nextInt(10)+1;
 //        	
 //        	if(value%3==0) {
-        		item.setX(x);
-        		item.setY(y);
-        		item.setNum(3);
+    		item = new Item(100, 100, 3);
+//        		item.setX(x);
+//        		item.setY(y);
+//        		item.setNum(3);
 //        	}
         	
     	}
