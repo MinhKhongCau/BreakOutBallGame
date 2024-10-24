@@ -27,6 +27,7 @@ public interface Commons {
     // Commons in item dimention
     int ITEM_SIZE = TILE_SIZE-5;
     // Commons in ball dimention
+    int BALL_SPEED =500;
     int INIT_BALL_X = 100;
     int INIT_BALL_Y = 100;
     int BALL_SIZE = TILE_SIZE;
@@ -44,4 +45,7 @@ public interface Commons {
     // Delta time
     int FPS = 60;
     double DELTA_TIME = (double) 1/FPS;
+    // Commons of Ranking
+    int RANK_WIDTH = TILE_SIZE*18;
+    int RANK_HEIGHT = TILE_SIZE*36;
 }

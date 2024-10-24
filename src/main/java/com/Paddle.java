@@ -43,7 +43,8 @@ public class Paddle extends Sprite{
             double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
             int frameWidth = Commons.SCREEN_WIDTH;
             int positionX = (int) point.getX() - (int) (screenWidth-frameWidth)/2 - this.width/2;
-            this.x = positionX;
+            if (positionX > 0 && positionX < frameWidth-this.width)
+                this.x = positionX;
             
         } catch (NumberFormatException e) { 
             e.printStackTrace();

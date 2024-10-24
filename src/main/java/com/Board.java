@@ -13,10 +13,11 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import DatabaseConfig.ConnectionConfig;
+import java.awt.Graphics2D;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Board extends JFrame implements Runnable{
+public class Board extends JPanel implements Runnable{
     private Thread clock;
     private Paddle paddle;
     private Ball ball;
@@ -36,17 +37,11 @@ public class Board extends JFrame implements Runnable{
         brick = new Brick[Commons.BRICK_ROW*Commons.BRICK_COL];
         createBrick(brick);
         
-        this.setResizable(false);
-        this.setSize(Commons.TILE_SIZE*Commons.SCREEN_COL,Commons.TILE_SIZE*Commons.SCREEN_ROW);
-        this.setTitle("Break out ball");
-        this.setLocationRelativeTo(null);
-
-        JPanel panelBoard = new JPanel();
         int frameWidth = Commons.SCREEN_WIDTH, frameHeight = Commons.SCREEN_HEIGHT;
         // init screen with scale 16/9
-        panelBoard.setSize(frameWidth,frameHeight);
-        panelBoard.setBackground(new Color(54, 66, 66));
-        this.add(panelBoard);
+        this.setSize(frameWidth,frameHeight);
+        this.setBackground(new Color(54, 66, 66));
+
     }
     
     private void createBrick(Brick[] brick) {
@@ -65,17 +60,39 @@ public class Board extends JFrame implements Runnable{
         clock.start();
     }
     
+    public void drawBrick(Graphics g) {
+        for(int i=0;i<amount_brick;i++) {
+            if (brick[i].getStatus() == 1) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setColor(new Color(185, 211, 238));
+                g2.fillRect(brick[i].getX(), brick[i].getHeight(), Commons.BRICK_WIDTH-2, Commons.BRICK_HEIGHT-2);
+                g2.setColor(new Color(54,66,66));
+                g2.drawRect(brick[i].getX(), brick[i].getHeight(), Commons.BRICK_WIDTH, Commons.BRICK_HEIGHT);
+            }
+        }
+    }
+    
+    /**
+     *
+     * @param g
+     */
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);  // Clears the screen
+
+        // Draw the paddle, ball, item, and bricks
         paddle.draw(g);
         ball.draw(g);
         item.draw(g);
-        for(int i=0;i<amount_brick;i++) {
-        	brick[i].draw(g);
+
+        // Draw the active bricks
+        for (int i = 0; i < amount_brick; i++) {
+            if (brick[i].getStatus() == 1) {  // Only draw bricks that are not destroyed
+                brick[i].draw(g);
+            }
         }
     }
+
 
     /**
      * This is run method override Runnable interface
@@ -83,22 +100,43 @@ public class Board extends JFrame implements Runnable{
     @Override
     public void run() {
         try {
-            while(clock != null) {
-            double deltaTime = (double) Commons.DELTA_TIME * 1000;
-            Thread.sleep((long) deltaTime);
+            double msPerFrame = 1000 / Commons.FPS;
+            long lastTime = System.currentTimeMillis();  // Time of the previous frame
+            double delta = 0;  // Tracks how much time has passed
+            long timer = System.currentTimeMillis();
+            int frames = 0;
+            long wait;
             
-            // update coponent
-            update();
-            // repaint component
-            repaint(ball.getX()-ball.getWidth(),ball.getY()-ball.getHeight(),ball.getWidth()*2,ball.getHeight()*2);
-            repaint(0,paddle.getY(),Commons.SCREEN_WIDTH,paddle.getHeight()*2);   
-        	repaint(item.getX()-item.getWidth(),item.getY()-item.getHeight(),item.getWidth()*2,item.getHeight()*2);
-           
-           
-//            if (player.getLife() == 0) {
-//                savePerformance();
-//            }
-            }    
+            while(clock != null) {
+
+                long now = System.currentTimeMillis();  // Current time in miliseconds
+                delta = (now - lastTime);  // Accumulate the elapsed time
+                lastTime = now;
+                // If enough time has passed (1 frame's worth), update and render
+                while (delta >= msPerFrame) {
+                    // update coponent
+                    update();
+                    // repaint component
+                    repaint(ball.getX()-ball.getWidth(),ball.getY()-ball.getHeight(),ball.getWidth()*2,ball.getHeight()*2);
+                    repaint(0,paddle.getY(),Commons.SCREEN_WIDTH,paddle.getHeight()*2);   
+                    repaint(item.getX()-item.getWidth(),item.getY()-item.getHeight(),item.getWidth()*2,item.getHeight()*2);
+
+                    delta-=msPerFrame;    // Reduce delta since we've processed one frame
+                }
+                clock.sleep((long) msPerFrame);
+                
+                frames++;  // Count frames per second
+
+                // Optional: Print FPS every second for debugging
+                if (System.currentTimeMillis() - timer > 1000) {
+                    System.out.println("FPS: " + frames);
+                    frames = 0;
+                    timer += 1000;
+                }
+                // if (player.getLife() == 0) {
+                //     savePerformance();
+                // }
+            }  
         } catch (InterruptedException ex) {
                 Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -126,6 +164,19 @@ public class Board extends JFrame implements Runnable{
         if(item.getNum()!=998) {
         	item.move();
         }
+        if(ball.getY()>200) {
+            dropItem(155,80);
+        }
+
+
+        if(item.getY()>paddle.getY() && (item.getX()>=paddle.getX() && item.getX()<=paddle.getX()+paddle.getWidth())) {
+            touchItem(item);
+            item = new Item(100, 150, 998);
+        }
+
+        if(item.getY()>Commons.SCREEN_HEIGHT) {
+            item = new Item(100, 150, 998);
+        }
     }
     
     public void savePerformance() {
@@ -150,7 +201,7 @@ public class Board extends JFrame implements Runnable{
 //        	int value = generator.nextInt(10)+1;
 //        	
 //        	if(value%3==0) {
-    		item = new Item(100, 100, 3);
+    		item = new Item(100, 100, 9);
 //        		item.setX(x);
 //        		item.setY(y);
 //        		item.setNum(3);
@@ -167,10 +218,21 @@ public class Board extends JFrame implements Runnable{
     	 	case 6: paddle.setWidth(Commons.PADDLE_WIDTH-60);
     	 			setPaddleDefault();
     	 			break;
-    	 	case 9: ball.setWidth(Commons.BALL_SIZE+3);
-    	 			ball.setHeight(Commons.BALL_SIZE+3);
+    	 	case 9: ball.setWidth(Commons.BALL_SIZE+5);
+    	 			ball.setHeight(Commons.BALL_SIZE+5);
+    	 			ball.setSpeed(Commons.BALL_SPEED-100);
     	 			setBallDefault();
     	 			break;
+    	 	case 12: ball.setWidth(Commons.BALL_SIZE-3);
+		 			ball.setHeight(Commons.BALL_SIZE-3);
+		 			ball.setSpeed(Commons.BALL_SPEED+100);
+		 			setBallDefault();
+		 			break;
+    	 	case 15: if(ball.getY()==paddle.getY()) {    	 				
+		        		ball.setDir(-1);
+		 			 }
+    	 			 setDefaultShield();
+    	 			 break;
     	 	default:
     	 		break;
     	 }    	 
@@ -192,8 +254,21 @@ public class Board extends JFrame implements Runnable{
             public void run() {
                 ball.setWidth(Commons.BALL_SIZE);
                 ball.setHeight(Commons.BALL_SIZE);
+                ball.setSpeed(500);
             }
         };
         t.schedule(task, 2000);
+    }
+    
+    public void setDefaultShield() {
+    	Timer t = new Timer();
+    	TimerTask task = new TimerTask() {
+            public void run() {
+            	if(ball.getY()==paddle.getY()) {
+            		ball.setDir(1);
+	 			}
+            }
+        };
+        t.schedule(task, 10000);
     }
 }

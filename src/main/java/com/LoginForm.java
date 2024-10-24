@@ -5,19 +5,26 @@
 package com;
 
 import java.awt.Color;
+import javax.swing.JFrame;
 
 /**
  *
  * @author minhn
  */
-public class LoginForm extends javax.swing.JFrame {
+public class LoginForm extends JFrame {
     Board board;
     /**
      * Creates new form LoginForm
      */
     public LoginForm() {
         board = new Board();
-        board.setVisible(true);
+        JFrame frameBoard = new JFrame();
+        frameBoard.setResizable(false);
+        frameBoard.setSize(Commons.TILE_SIZE*Commons.SCREEN_COL,Commons.TILE_SIZE*Commons.SCREEN_ROW);
+        frameBoard.setTitle("Break out ball");
+        frameBoard.setLocationRelativeTo(null);
+        frameBoard.add(board);
+        frameBoard.setVisible(true);
         initComponents();
     }
 
