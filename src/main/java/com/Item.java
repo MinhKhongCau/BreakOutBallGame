@@ -43,7 +43,7 @@ public class Item extends Sprite{
     
     public void move () {
         try {
-            int speed = 200;
+            int speed = 250;
             this.y += (int) speed*Commons.DELTA_TIME;
             
             
@@ -62,6 +62,9 @@ public class Item extends Sprite{
             g2.fillOval(this.x, this.y, this.width, this.height);
         }else if(num==9){
         	g2.setColor(Color.ORANGE);
+            g2.fillOval(this.x, this.y, this.width, this.height);
+        }else if(num==12){
+        	g2.setColor(Color.CYAN);
             g2.fillOval(this.x, this.y, this.width, this.height);
         }else {
         	g2.setColor(new Color(54,66,66));

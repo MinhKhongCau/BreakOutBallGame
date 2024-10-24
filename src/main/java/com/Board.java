@@ -149,6 +149,7 @@ public class Board extends JPanel implements Runnable{
             int frames = 0;
             
             while(clock != null) {
+
                 long now = System.currentTimeMillis();  // Current time in miliseconds
                 delta = (now - lastTime);  // Accumulate the elapsed time
                 lastTime = now;
@@ -179,7 +180,6 @@ public class Board extends JPanel implements Runnable{
                 //     savePerformance();
                 // }
             }  
-            
         } catch (InterruptedException ex) {
                 Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -195,6 +195,18 @@ public class Board extends JPanel implements Runnable{
         // set position paddle
         paddle.move(point);
         ball.move();
+        if(ball.getY()==200) {
+            dropItem(155,80);
+        }
+        if(item.getY()>paddle.getY() && (item.getX()>=paddle.getX() && item.getX()<=paddle.getX()+paddle.getWidth())) {
+        	touchItem(item);
+        	item = new Item(100, 150, 998);
+        }
+        	
+        if(item.getY()>Commons.SCREEN_HEIGHT) {
+        	item = new Item(100, 150, 998);
+        }
+        
         if(item.getNum()!=998) {
         	item.move();
         }
@@ -235,9 +247,10 @@ public class Board extends JPanel implements Runnable{
 //        	int value = generator.nextInt(10)+1;
 //        	
 //        	if(value%3==0) {
-        		item.setX(x);
-        		item.setY(y);
-        		item.setNum(3);
+    		item = new Item(100, 100, 9);
+//        		item.setX(x);
+//        		item.setY(y);
+//        		item.setNum(3);
 //        	}
         	
     	}
@@ -251,10 +264,21 @@ public class Board extends JPanel implements Runnable{
     	 	case 6: paddle.setWidth(Commons.PADDLE_WIDTH-60);
     	 			setPaddleDefault();
     	 			break;
-    	 	case 9: ball.setWidth(Commons.BALL_SIZE+3);
-    	 			ball.setHeight(Commons.BALL_SIZE+3);
+    	 	case 9: ball.setWidth(Commons.BALL_SIZE+5);
+    	 			ball.setHeight(Commons.BALL_SIZE+5);
+    	 			ball.setSpeed(Commons.BALL_SPEED-100);
     	 			setBallDefault();
     	 			break;
+    	 	case 12: ball.setWidth(Commons.BALL_SIZE-3);
+		 			ball.setHeight(Commons.BALL_SIZE-3);
+		 			ball.setSpeed(Commons.BALL_SPEED+100);
+		 			setBallDefault();
+		 			break;
+    	 	case 15: if(ball.getY()==paddle.getY()) {    	 				
+		        		ball.setDir(-1);
+		 			 }
+    	 			 setDefaultShield();
+    	 			 break;
     	 	default:
     	 		break;
     	 }    	 
@@ -276,8 +300,21 @@ public class Board extends JPanel implements Runnable{
             public void run() {
                 ball.setWidth(Commons.BALL_SIZE);
                 ball.setHeight(Commons.BALL_SIZE);
+                ball.setSpeed(500);
             }
         };
         t.schedule(task, 2000);
+    }
+    
+    public void setDefaultShield() {
+    	Timer t = new Timer();
+    	TimerTask task = new TimerTask() {
+            public void run() {
+            	if(ball.getY()==paddle.getY()) {
+            		ball.setDir(1);
+	 			}
+            }
+        };
+        t.schedule(task, 10000);
     }
 }

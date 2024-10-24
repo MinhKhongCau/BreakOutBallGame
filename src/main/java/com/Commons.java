@@ -29,6 +29,7 @@ public interface Commons {
     // Commons in item dimention
     int ITEM_SIZE = TILE_SIZE-5;
     // Commons in ball dimention
+    int BALL_SPEED =500;
     int INIT_BALL_X = 100;
     int INIT_BALL_Y = 100;
     int BALL_SIZE = TILE_SIZE;
