@@ -100,32 +100,41 @@ public class Board extends JPanel implements Runnable{
     @Override
     public void run() {
         try {
-            double deltaTime = (double) Commons.DELTA_TIME * 1000;
+            double msPerFrame = 1000 / Commons.FPS;
+            long lastTime = System.currentTimeMillis();  // Time of the previous frame
+            double delta = 0;  // Tracks how much time has passed
+            long timer = System.currentTimeMillis();
+            int frames = 0;
+            long wait;
             
             while(clock != null) {
-                if(ball.getY()>200) {
-                    dropItem(155,80);
+                long now = System.currentTimeMillis();  // Current time in miliseconds
+                delta = (now - lastTime);  // Accumulate the elapsed time
+                lastTime = now;
+                // If enough time has passed (1 frame's worth), update and render
+                while (delta >= msPerFrame) {
+                    // update coponent
+                    update();
+                    // repaint component
+                    repaint(ball.getX()-ball.getWidth(),ball.getY()-ball.getHeight(),ball.getWidth()*2,ball.getHeight()*2);
+                    repaint(0,paddle.getY(),Commons.SCREEN_WIDTH,paddle.getHeight()*2);   
+                    repaint(item.getX()-item.getWidth(),item.getY()-item.getHeight(),item.getWidth()*2,item.getHeight()*2);
+
+                    delta-=msPerFrame;    // Reduce delta since we've processed one frame
                 }
-                // update coponent
-                update();
-                // repaint component
-                repaint(ball.getX()-ball.getWidth(),ball.getY()-ball.getHeight(),ball.getWidth()*2,ball.getHeight()*2);
-                repaint(0,paddle.getY(),Commons.SCREEN_WIDTH,paddle.getHeight()*2);   
-                repaint(item.getX()-item.getWidth(),item.getY()-item.getHeight(),item.getWidth()*2,item.getHeight()*2);
-            
-            
-                if(item.getY()>paddle.getY() && (item.getX()>=paddle.getX() && item.getX()<=paddle.getX()+paddle.getWidth())) {
-                    touchItem(item);
-                    item = new Item(100, 150, 998);
-                }
-                    
-                if(item.getY()>Commons.SCREEN_HEIGHT) {
-                    item = new Item(100, 150, 998);
+                clock.sleep((long) msPerFrame);
+                
+                frames++;  // Count frames per second
+
+                // Optional: Print FPS every second for debugging
+                if (System.currentTimeMillis() - timer > 1000) {
+                    System.out.println("FPS: " + frames);
+                    frames = 0;
+                    timer += 1000;
                 }
                 // if (player.getLife() == 0) {
                 //     savePerformance();
                 // }
-                Thread.sleep((long) deltaTime);
             }  
             
         } catch (InterruptedException ex) {
@@ -142,6 +151,19 @@ public class Board extends JPanel implements Runnable{
         ball.move();
         if(item.getNum()!=998) {
         	item.move();
+        }
+        if(ball.getY()>200) {
+            dropItem(155,80);
+        }
+
+
+        if(item.getY()>paddle.getY() && (item.getX()>=paddle.getX() && item.getX()<=paddle.getX()+paddle.getWidth())) {
+            touchItem(item);
+            item = new Item(100, 150, 998);
+        }
+
+        if(item.getY()>Commons.SCREEN_HEIGHT) {
+            item = new Item(100, 150, 998);
         }
     }
     
