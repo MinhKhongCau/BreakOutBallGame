@@ -1,7 +1,11 @@
 package com;
 
 public class Breakout {
+    private Player player;
+    
     public static void main(String[] args) {
-        System.out.println("hello world!!!");
+       LoginForm login = new LoginForm();
+       login.setVisible(true);
+    	// new RankingTable().setVisible(true);;
     }
 }
