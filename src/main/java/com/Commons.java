@@ -1,6 +1,7 @@
 package com;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Toolkit;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -52,4 +53,9 @@ public interface Commons {
     // Commons of Ranking
     int RANK_WIDTH = TILE_SIZE*18;
     int RANK_HEIGHT = TILE_SIZE*36;
+    // Font in Commons
+    Font smallfont = new java.awt.Font("Segoe UI", Font.BOLD, 12);
+    Font mediumfont = new java.awt.Font("Segoe UI", Font.BOLD, 16);
+    Font lanrgefont = new java.awt.Font("Segoe UI", Font.BOLD, 20);
+    
 }

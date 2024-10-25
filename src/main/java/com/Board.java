@@ -67,14 +67,12 @@ public class Board extends JPanel implements Runnable{
         public InfoPanel(JLabel leftLabel, JLabel rightLabel) {
             this.leftLabel = leftLabel;
             this.rightLabel = rightLabel;
-            
-            Font font = new java.awt.Font("Segoe UI", Font.BOLD, 15);
-            
+                   
             // set UI label
             this.leftLabel.setForeground(new java.awt.Color(250, 242, 233));
-            this.leftLabel.setFont(font);
+            this.leftLabel.setFont(Commons.mediumfont);
             this.rightLabel.setForeground(new java.awt.Color(250, 242, 233));
-            this.rightLabel.setFont(font); 
+            this.rightLabel.setFont(Commons.mediumfont); 
             
             // set UI panel
             setBackground(new Color(54, 66, 66));
@@ -177,7 +175,7 @@ public class Board extends JPanel implements Runnable{
                     // repaint component
                     repaint(ball.getX()-ball.getWidth(),ball.getY()-ball.getHeight(),ball.getWidth()*2,ball.getHeight()*2);
                     repaint(0,paddle.getY(),Commons.SCREEN_WIDTH,paddle.getHeight()*2);   
-                    repaint(item.getX()-item.getWidth(),item.getY()-item.getHeight(),item.getWidth()*2,item.getHeight()*2);
+                    repaint(item.getX()-item.getWidth(),item.getY()-item.getHeight(),item.getWidth()*4,item.getHeight()*4);
 
                     delta-=msPerFrame;    // Reduce delta since we've processed one frame
                 }
