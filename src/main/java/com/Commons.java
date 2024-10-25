@@ -1,10 +1,6 @@
 package com;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Toolkit;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public interface Commons {
@@ -31,7 +27,7 @@ public interface Commons {
     // Commons in item dimention
     int ITEM_SIZE = TILE_SIZE-5;
     // Commons in ball dimention
-    int BALL_SPEED =150;
+    int BALL_SPEED = 500;
     int INIT_BALL_X = 100;
     int INIT_BALL_Y = 100;
     int BALL_SIZE = TILE_SIZE;
@@ -42,8 +38,7 @@ public interface Commons {
     // Common in spacing in component
     EmptyBorder TITLE_BORDER = new EmptyBorder(50, 50, 50, 50);
     EmptyBorder ITEM_BORDER = new EmptyBorder(8, 8, 8, 8);
-    Border INFO_BORDER = BorderFactory.createEmptyBorder(25, 25, 25, 25);
-    Border BOARD_BORDER = BorderFactory.createMatteBorder(100, 0, 1000, 0, new Color(250, 242, 233));
+    EmptyBorder PANEL_BORDER = new EmptyBorder(10,20,10,20);
     int INPUT_WIDTH = 100;
     // Commons of Windows toolkit
     Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -53,9 +48,4 @@ public interface Commons {
     // Commons of Ranking
     int RANK_WIDTH = TILE_SIZE*18;
     int RANK_HEIGHT = TILE_SIZE*36;
-    // Font in Commons
-    Font smallfont = new java.awt.Font("Segoe UI", Font.BOLD, 12);
-    Font mediumfont = new java.awt.Font("Segoe UI", Font.BOLD, 16);
-    Font lanrgefont = new java.awt.Font("Segoe UI", Font.BOLD, 20);
-    
 }
