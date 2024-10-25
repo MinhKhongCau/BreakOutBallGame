@@ -3,22 +3,21 @@ package com;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 public class Ball extends Sprite {
     private int width;
     private int height;
-    private int dir = 1;
+    private int dirX = 1;
+    private int dirY = 1;
     private int speed;
-
-    protected int dx; // vận tốc theo trục X
-    protected int dy; // vận tốc theo trục Y
 
     public Ball() {
         this.x = Commons.INIT_BALL_X;
         this.y = Commons.INIT_BALL_Y;
         this.width = Commons.BALL_SIZE;
         this.height = Commons.BALL_SIZE;
-        this.speed = Commons.BALL_SPEED - 400;
+        this.speed = Commons.BALL_SPEED - 350;
     }
 
     public Ball(int width, int height) {
@@ -44,22 +43,26 @@ public class Ball extends Sprite {
         this.height = height;
     }
 
-    public void setDir(int dir) {
-        this.dir = dir;
-    }
-
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
     public void move() {
         try {
-            this.x += (int) dir * speed * Commons.DELTA_TIME;
-            this.y += (int) dir * speed * Commons.DELTA_TIME;
+            this.x += (int) dirX * speed * Commons.DELTA_TIME;
+            this.y += (int) dirY * speed * Commons.DELTA_TIME;
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
+    }
+
+    public void reverseX() {
+        this.dirX = -this.dirX;
+    }
+
+    public void reverseY() {
+        this.dirY = -this.dirY;
     }
 
     public void draw(Graphics g) {
@@ -67,4 +70,10 @@ public class Ball extends Sprite {
         g2.setColor(Color.WHITE);
         g2.fillOval(this.x, this.y, this.width, this.height);
     }
+
+    @Override
+    public Rectangle getRect() {
+        return new Rectangle(x, y, width, height);
+    }
+
 }
