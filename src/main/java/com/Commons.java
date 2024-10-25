@@ -1,6 +1,8 @@
 package com;
 
 import java.awt.Toolkit;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public interface Commons {
@@ -19,15 +21,15 @@ public interface Commons {
     int INIT_PADDLE_Y = SCREEN_HEIGHT/10*8;
     int PADDLE_WIDTH = TILE_SIZE*8;
     int PADDLE_HEIGHT = TILE_SIZE*1;
- // Commons in brick dimention
+    // Commons in brick dimention
     int BRICK_WIDTH = TILE_SIZE*6;
     int BRICK_HEIGHT = TILE_SIZE*2;
     int BRICK_ROW = (SCREEN_WIDTH*3/4)/BRICK_WIDTH;
     int BRICK_COL = (SCREEN_HEIGHT/3)/BRICK_HEIGHT;
-//    int INIT_BRICK_X = 500;
-//    int INIT_BRICK_Y = 30;
-    
+    // Commons in item dimention
+    int ITEM_SIZE = TILE_SIZE-5;
     // Commons in ball dimention
+    int BALL_SPEED =500;
     int INIT_BALL_X = 100;
     int INIT_BALL_Y = 100;
     int BALL_SIZE = TILE_SIZE;
@@ -38,11 +40,14 @@ public interface Commons {
     // Common in spacing in component
     EmptyBorder TITLE_BORDER = new EmptyBorder(50, 50, 50, 50);
     EmptyBorder ITEM_BORDER = new EmptyBorder(8, 8, 8, 8);
-    EmptyBorder PANEL_BORDER = new EmptyBorder(10,20,10,20);
+    Border PANEL_BORDER = BorderFactory.createEmptyBorder(25, 25, 25, 25);
     int INPUT_WIDTH = 100;
     // Commons of Windows toolkit
     Toolkit toolkit = Toolkit.getDefaultToolkit();
     // Delta time
     int FPS = 120;
     double DELTA_TIME = (double) 1/FPS;
+    // Commons of Ranking
+    int RANK_WIDTH = TILE_SIZE*18;
+    int RANK_HEIGHT = TILE_SIZE*36;
 }

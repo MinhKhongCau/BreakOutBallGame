@@ -5,8 +5,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.Rectangle;
 
-public class Paddle extends Sprite{  
+public class Paddle extends Sprite {
     private int width;
     private int height;
 
@@ -21,38 +22,50 @@ public class Paddle extends Sprite{
         this.width = width;
         this.height = height;
     }
-    
+
     public int getWidth() {
         return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     public int getHeight() {
         return height;
     }
-    
+
     /**
      * This is function that will move paddle follow mouse position
+     * 
      * @param point mouse
-    */
+     */
     public void move(Point point) {
         try {
             double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
             int frameWidth = Commons.SCREEN_WIDTH;
-            int positionX = (int) point.getX() - (int) (screenWidth-frameWidth)/2 - this.width/2;
-            this.x = positionX;
-            
-        } catch (NumberFormatException e) { 
+            int positionX = (int) point.getX() - (int) (screenWidth - frameWidth) / 2 - this.width / 2;
+            if (positionX > 0 && positionX < frameWidth - this.width)
+                this.x = positionX;
+
+        } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-    } 
-    
+    }
+
     /**
      * This is function that will paint paddle
      */
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);
-        g2.fillRect(this.x, Commons.INIT_PADDLE_Y, Commons.PADDLE_WIDTH, Commons.PADDLE_HEIGHT);
-//        g2.dispose();
+        g2.fillRect(this.x, Commons.INIT_PADDLE_Y, width, height);
+        // g2.dispose();
     }
+
+    @Override
+    public Rectangle getRect() {
+        return new Rectangle(x, y, width, height);
+    }
+
 }

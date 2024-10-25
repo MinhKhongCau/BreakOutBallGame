@@ -7,21 +7,24 @@ import java.awt.Graphics2D;
 public class Item extends Sprite{
     private int width;
     private int height;
+    private int num;
     
-    public Item () {
-        this.x = Commons.INIT_BALL_X;
-        this.y = Commons.INIT_BALL_Y;
-        this.width = Commons.BALL_SIZE;
-        this.height = Commons.BALL_SIZE;
+    public Item (int x, int y, int num) {
+        this.x = x;
+        this.y = y;
+        this.num = num;
+        this.width = Commons.ITEM_SIZE;
+        this.height = Commons.ITEM_SIZE;
     }
-
-    public Item(int width, int height) {
-        this.x = Commons.INIT_BALL_X;
-        this.y = Commons.INIT_BALL_Y;
-        this.width = width;
-        this.height = height;
+    
+    public int getNum() {
+    	return num;
     }
-
+    
+    public void setNum(int num) {
+    	this.num = num;
+    }
+    
     public int getWidth() {
         return width;
     }
@@ -40,7 +43,7 @@ public class Item extends Sprite{
     
     public void move () {
         try {
-            int speed = 200;
+            int speed = 250;
             this.y += (int) speed*Commons.DELTA_TIME;
             
             
@@ -51,7 +54,21 @@ public class Item extends Sprite{
     
     public void draw (Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(new Color(255, 160, 122));
-        g2.fillOval(this.x, this.y, this.width, this.height);
+        if(num==3) {
+        	g2.setColor(Color.GREEN);
+            g2.fillOval(this.x, this.y, this.width, this.height);
+        }else if(num==6) {
+        	g2.setColor(Color.RED);
+            g2.fillOval(this.x, this.y, this.width, this.height);
+        }else if(num==9){
+        	g2.setColor(Color.ORANGE);
+            g2.fillOval(this.x, this.y, this.width, this.height);
+        }else if(num==12){
+        	g2.setColor(Color.CYAN);
+            g2.fillOval(this.x, this.y, this.width, this.height);
+        }else {
+        	g2.setColor(new Color(54,66,66));
+            g2.fillOval(this.x, this.y, this.width, this.height);
+        }
     }
 }

@@ -1,0 +1,118 @@
+[33mcommit 4699f007082dab34f90dc665f5ed2ef0fbaadddd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mminhn[m[33m, [m[1;31morigin/minhtu[m[33m, [m[1;32mminhtu[m[33m)[m
+Author: minhtu <nguyenminh02tu@gmail.com>
+Date:   Mon Oct 21 19:29:55 2024 +0700
+
+    update
+
+[33mcommit 50689bec212ec4480c29d5e77a955933e012624b[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Mon Oct 14 22:41:26 2024 +0700
+
+    update login and connect database
+
+[33mcommit 4116c6f789133fc7732a40a19d0ad1854261d3f6[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Mon Oct 14 21:49:49 2024 +0700
+
+    update sql config
+
+[33mcommit aa50248696e43c3ea43f41c690b4ed996619f846[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Mon Oct 14 20:20:20 2024 +0700
+
+    commit merge
+
+[33mcommit 215d31e517a85a9dc0bee2863aede2297227992c[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Mon Oct 14 20:14:26 2024 +0700
+
+    update move ball with FPS
+
+[33mcommit bce376d3d07239818057e834eb1bdb9f6d30ca3c[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Sat Oct 5 12:01:22 2024 +0700
+
+    update move
+
+[33mcommit 912247335e42807f6d5dbc3b4ba208e2b6c35ff2[m
+Merge: 5777901 3d1c02d
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Sat Oct 5 10:37:51 2024 +0700
+
+    Merge branch 'main' into minhn
+
+[33mcommit 3d1c02d8e764f05e0d3b53803c97a9983e79fb75[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Sat Oct 5 10:32:34 2024 +0700
+
+    update move ball
+
+[33mcommit 7784a582f03717239fd905c047fb6690be4a08a3[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Sat Oct 5 08:21:35 2024 +0700
+
+    update ball
+
+[33mcommit 5777901f3773a8a22199878256b8d6c77cc81176[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Fri Oct 4 15:08:09 2024 +0700
+
+    commit status file
+
+[33mcommit 5e85650e708cb068edf9b3b2fbd9fe4b6a0a8413[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Fri Oct 4 14:59:54 2024 +0700
+
+    update board and common
+
+[33mcommit 9304204c4ea5f2fad5cc6b6a7712e23efcad7ba0[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Mon Sep 23 09:10:20 2024 +0700
+
+    update commons code
+
+[33mcommit 47d886fc76ba721c85e4700a3f91e6a75ece408a[m
+Merge: fdc5bea 3f9fb9f
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Sat Sep 21 17:25:30 2024 +0700
+
+    Merge branch 'main' into minhn
+
+[33mcommit 3f9fb9f30b5eb05966aa80b2c94e5fb604012103[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Sat Sep 21 17:19:51 2024 +0700
+
+    commit move paddle
+
+[33mcommit fdc5beabc09cbec0ea769d2f77ac78a53eb71206[m
+Merge: 086a698 ccb08d1
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Thu Sep 19 09:39:52 2024 +0700
+
+    commit merger
+
+[33mcommit 086a69810540793b293eedbb643e081b5a56b10a[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Thu Sep 19 09:32:29 2024 +0700
+
+    update login form
+
+[33mcommit ccb08d17b8c93cf2000f777bda69739353f9e379[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Thu Sep 19 08:36:41 2024 +0700
+
+    Revert "adđ new project"
+    
+    This reverts commit 719cbfe7d28f8ae032c29d4565c04eea00a4c933.
+
+[33mcommit 3279c1283f3615d7d56d1583b2e734e8e4ec1856[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Thu Sep 19 08:34:17 2024 +0700
+
+    commit add LoginFile
+
+[33mcommit 719cbfe7d28f8ae032c29d4565c04eea00a4c933[m[33m ([m[1;31morigin/tuananh[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mtuananh[m[33m, [m[1;32mmain[m[33m)[m
+Author: MinhKhongCau <minhngoquang6@gmail.com>
+Date:   Mon Sep 16 19:31:17 2024 +0700
+
+    adđ new project
