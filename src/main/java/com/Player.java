@@ -1,6 +1,6 @@
 package com;
 
-public class Player extends Person{
+public class Player extends Person {
     Integer score;
     Integer life;
 
@@ -11,7 +11,7 @@ public class Player extends Person{
     }
 
     public Player(String name, Integer score, Integer life) {
-        super("A01",name);
+        super("A01", name);
         this.score = score;
         this.life = life;
     }
