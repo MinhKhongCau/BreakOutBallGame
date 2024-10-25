@@ -1,4 +1,5 @@
 com\LoginForm.class
+com\Board$InfoPanel.class
 com\Sprite.class
 com\Person.class
 com\LoginForm$3.class

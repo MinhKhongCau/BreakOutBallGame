@@ -14,7 +14,6 @@ import javax.swing.*;
 
 import DatabaseConfig.ConnectionConfig;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.sql.SQLException;
@@ -28,10 +27,8 @@ public class Board extends JPanel implements Runnable{
     private int amount_brick=0;
     private Player player;
     private Item item;
-    private JLabel labelName;
-    private JLabel labelFPS;
-    private JLabel labelLife;
-    private JLabel labelScore;
+    private InfoPanel topPanel;
+    private InfoPanel bottomPanel;
     
     public Board() {
         initComponent();
@@ -44,45 +41,65 @@ public class Board extends JPanel implements Runnable{
         brick = new Brick[Commons.BRICK_ROW*Commons.BRICK_COL];
         createBrick(brick);
         
-        int frameWidth = Commons.SCREEN_WIDTH, frameHeight = Commons.SCREEN_HEIGHT;
+        int panelWidth = Commons.SCREEN_WIDTH, panelHeight = Commons.SCREEN_HEIGHT;
         // init screen with scale 16/9
-        this.setSize(frameWidth,frameHeight);
+        this.setSize(panelWidth,panelHeight);
         this.setBackground(new Color(54, 66, 66));
         this.setLayout(new BorderLayout());
+                
+        JLabel labelName = new JLabel("Name: Unknown");
+        JLabel labelFPS = new JLabel(String.format("FPS: %d", Commons.FPS));
         
-        Font font = new java.awt.Font("Segoe UI", Font.BOLD, 15);
-        
-        labelName = new JLabel("Name: Unknown");
-        labelName.setForeground(new java.awt.Color(250, 242, 233));
-        labelName.setFont(font);
-        
-        labelFPS = new JLabel(String.format("FPS: %d", Commons.FPS));
-        labelFPS.setForeground(new java.awt.Color(250, 242, 233));
-        labelFPS.setFont(font);
-        
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(new Color(54, 66, 66));
-        topPanel.setBorder(Commons.PANEL_BORDER);
-        topPanel.add(labelName, BorderLayout.WEST);
-        topPanel.add(labelFPS, BorderLayout.EAST);
-        
+        topPanel = new InfoPanel(labelName,labelFPS);
         this.add(topPanel, BorderLayout.NORTH);
         
-        labelScore = new JLabel(String.format("Score: %d", 0));
-        labelScore.setForeground(new java.awt.Color(250, 242, 233));
-        labelScore.setFont(font);
+        JLabel labelScore = new JLabel(String.format("Score: %d", 0));
+        JLabel labelLife = new JLabel(String.format("Life: %d", 0));
         
-        labelLife = new JLabel(String.format("Life: %d", 0));
-        labelLife.setForeground(new java.awt.Color(250, 242, 233));
-        labelLife.setFont(font);
-        
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBackground(new Color(54, 66, 66));
-        bottomPanel.setBorder(Commons.PANEL_BORDER);
-        bottomPanel.add(labelLife,BorderLayout.WEST);
-        bottomPanel.add(labelScore,BorderLayout.EAST);
-        
+        bottomPanel = new InfoPanel(labelLife,labelScore);
         this.add(bottomPanel,BorderLayout.SOUTH);
+    }
+    
+    private class InfoPanel extends JPanel{
+        private JLabel leftLabel;
+        private JLabel rightLabel;
+
+        public InfoPanel(JLabel leftLabel, JLabel rightLabel) {
+            this.leftLabel = leftLabel;
+            this.rightLabel = rightLabel;
+            
+            Font font = new java.awt.Font("Segoe UI", Font.BOLD, 15);
+            
+            // set UI label
+            this.leftLabel.setForeground(new java.awt.Color(250, 242, 233));
+            this.leftLabel.setFont(font);
+            this.rightLabel.setForeground(new java.awt.Color(250, 242, 233));
+            this.rightLabel.setFont(font); 
+            
+            // set UI panel
+            setBackground(new Color(54, 66, 66));
+            setBorder(Commons.INFO_BORDER);
+            setLayout(new BorderLayout());
+            setOpaque(false);
+            add(this.leftLabel,BorderLayout.WEST);
+            add(this.rightLabel,BorderLayout.EAST);
+        }
+
+        public void setLeftLabel(String title) {
+            this.leftLabel.setText(title);
+        }
+
+        public void setRightLabel(String title) {
+            this.rightLabel.setText(title);
+        }
+
+        public JLabel getLeftLabel() {
+            return leftLabel;
+        }
+
+        public JLabel getRightLabel() {
+            return rightLabel;
+        }
     }
     
     private void createBrick(Brick[] brick) {
@@ -90,7 +107,7 @@ public class Board extends JPanel implements Runnable{
     		for(int j=0; j<Commons.BRICK_COL; j++) {
     			brick[amount_brick] = new Brick();
     			brick[amount_brick].x = i*Commons.BRICK_WIDTH+155;
-    			brick[amount_brick].y = j*Commons.BRICK_HEIGHT+80;
+    			brick[amount_brick].y = j*Commons.BRICK_HEIGHT+130;
     			amount_brick+=1;
     		}
     	}
@@ -144,7 +161,7 @@ public class Board extends JPanel implements Runnable{
         try {
             double msPerFrame = 1000 / Commons.FPS;
             long lastTime = System.currentTimeMillis();  // Time of the previous frame
-            double delta = 0;  // Tracks how much time has passed
+            double delta;  // Tracks how much time has passed
             long timer = System.currentTimeMillis();
             int frames = 0;
             
@@ -170,7 +187,7 @@ public class Board extends JPanel implements Runnable{
 
                 // Optional: Print FPS every second for debugging
                 if (System.currentTimeMillis() - timer > 1000) {
-                    labelFPS.setText(String.format("FPS: %d", frames));
+                    topPanel.setRightLabel(String.format("FPS: %d", frames));
                     frames = 0;
                     timer += 1000;
                 }
@@ -187,9 +204,9 @@ public class Board extends JPanel implements Runnable{
     }
 
     private void update() {
-        labelName.setText(String.format("Name: %s", player.getName()));
-        labelLife.setText(String.format("Life: %d", player.getLife()));
-        labelScore.setText(String.format("Score: %d", player.getScore()));
+        topPanel.setLeftLabel(String.format("Name: %s", player.getName()));
+        bottomPanel.setLeftLabel(String.format("Life: %d", player.getLife()));
+        bottomPanel.setRightLabel(String.format("Score: %d", player.getScore()));
         // get mouse position
         Point point = MouseInfo.getPointerInfo().getLocation();
         // set position paddle

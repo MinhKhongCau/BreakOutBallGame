@@ -1,5 +1,6 @@
 package com;
 
+import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -40,12 +41,13 @@ public interface Commons {
     // Common in spacing in component
     EmptyBorder TITLE_BORDER = new EmptyBorder(50, 50, 50, 50);
     EmptyBorder ITEM_BORDER = new EmptyBorder(8, 8, 8, 8);
-    Border PANEL_BORDER = BorderFactory.createEmptyBorder(25, 25, 25, 25);
+    Border INFO_BORDER = BorderFactory.createEmptyBorder(25, 25, 25, 25);
+    Border BOARD_BORDER = BorderFactory.createMatteBorder(100, 0, 1000, 0, new Color(250, 242, 233));
     int INPUT_WIDTH = 100;
     // Commons of Windows toolkit
     Toolkit toolkit = Toolkit.getDefaultToolkit();
     // Delta time
-    int FPS = 60;
+    int FPS = 30;
     double DELTA_TIME = (double) 1/FPS;
     // Commons of Ranking
     int RANK_WIDTH = TILE_SIZE*18;

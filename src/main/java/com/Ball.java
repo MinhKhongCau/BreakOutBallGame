@@ -15,7 +15,7 @@ public class Ball extends Sprite{
         this.y = Commons.INIT_BALL_Y;
         this.width = Commons.BALL_SIZE;
         this.height = Commons.BALL_SIZE;
-        this.speed = Commons.BALL_SPEED-400;
+        this.speed = Commons.BALL_SPEED;
     }
 
     public Ball(int width, int height) {
