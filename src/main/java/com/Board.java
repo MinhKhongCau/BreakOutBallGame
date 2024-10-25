@@ -342,7 +342,7 @@ public class Board extends JPanel implements Runnable {
             int value = generator.nextInt(21)+1;
            
             if(value%3==0) {
-	            item2 = new Item(x, y, 18);
+	            item2 = new Item(x, y, value);
             }
         }
     }
