@@ -25,7 +25,9 @@ public class Board extends JPanel implements Runnable {
     private Brick[] brick;
     private int amount_brick = 0;
     private Player player;
-    private Item item;
+    private Item item1;
+    private Item item2;
+    private int item_status = 0;
     private InfoPanel topPanel;
     private InfoPanel bottomPanel;
     private int FPS = Commons.FPS;
@@ -37,7 +39,8 @@ public class Board extends JPanel implements Runnable {
     private void initComponent() {
         paddle = new Paddle();
         ball = new Ball();
-        item = null;
+        item1 = null;
+        item2 = null;
         brick = new Brick[Commons.BRICK_ROW * Commons.BRICK_COL];
         createBrick(brick);
 
@@ -134,8 +137,10 @@ public class Board extends JPanel implements Runnable {
         // Draw the paddle, ball, item, and bricks
         paddle.draw(g);
         ball.draw(g);
-        if(item!=null)
-        	item.draw(g);
+        if(item1!=null)
+        	item1.draw(g);
+        if(item2!=null)
+        	item2.draw(g);
 
         // Draw the active bricks
         for (int i = 0; i < amount_brick; i++) {
@@ -211,18 +216,33 @@ public class Board extends JPanel implements Runnable {
 
         checkCollisions();
 
-
-        if (item != null) {
-            item.move();
-            if (item.getY() > paddle.getY()
-                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+        // Create item1
+        if (item1 != null) {
+            item1.move();
+            if (item1.getY() > paddle.getY()
+                && (item1.getX() >= paddle.getX() && item1.getX() <= paddle.getX() +
                         paddle.getWidth())) {
-            	 touchItem(item);
-            	 item = null;
+            	 touchItem(item1);
+            	 item1 = null;
              }
 
-             if (item != null && item.getY() > Commons.SCREEN_HEIGHT) {
-            	 item = null;
+             if (item1 != null && item1.getY() > Commons.SCREEN_HEIGHT) {
+            	 item1 = null;
+             }
+        }
+        
+        // Create item2
+        if (item2 != null) {
+            item2.move();
+            if (item2.getY() > paddle.getY()
+                && (item2.getX() >= paddle.getX() && item2.getX() <= paddle.getX() +
+                        paddle.getWidth())) {
+            	 touchItem(item2);
+            	 item2 = null;
+             }
+
+             if (item2 != null && item2.getY() > Commons.SCREEN_HEIGHT) {
+            	 item2 = null;
              }
         }
     }
@@ -238,15 +258,27 @@ public class Board extends JPanel implements Runnable {
         }
 
         // Ball and bricks collision
-        for (int i = 0; i < amount_brick; i++) {
-            if (brick[i].getStatus() == 1 &&
-                    ball.getRect().intersects(brick[i].getRect())) {
-                ball.reverseY(); // Change direction on collision
-                brick[i].brick_break(); // Break the brick
-                dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2, brick[i].getY()+Commons.BRICK_HEIGHT/2);
-                player.setScore(player.getScore() + 10); // Increase score
-                // break; // Exit loop after collision
-            }
+        if(item_status==1) {
+	        for (int i = 0; i < amount_brick; i++) {
+	            if (brick[i].getStatus() == 1 &&
+	                    ball.getRect().intersects(brick[i].getRect())) {
+	                brick[i].brick_break(); // Break the brick
+	                dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2, brick[i].getY()+Commons.BRICK_HEIGHT/2);
+	                player.setScore(player.getScore() + 10); // Increase score
+	                // break; // Exit loop after collision
+	            }
+	        }
+        }else {
+        	for (int i = 0; i < amount_brick; i++) {
+	            if (brick[i].getStatus() == 1 &&
+	                    ball.getRect().intersects(brick[i].getRect())) {
+	                ball.reverseY(); // Change direction on collision
+	                brick[i].brick_break(); // Break the brick
+	                dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2, brick[i].getY()+Commons.BRICK_HEIGHT/2);
+	                player.setScore(player.getScore() + 10); // Increase score
+	                // break; // Exit loop after collision
+	            }
+	        }
         }
 
         // Ball and wall collision
@@ -297,14 +329,21 @@ public class Board extends JPanel implements Runnable {
     }
 
     public void dropItem(int x, int y) {
-        if (item == null) {
+        if (item1 == null) {
              Random generator = new Random();
-             int value = generator.nextInt(15)+1;
+             int value = generator.nextInt(21)+1;
             
              if(value%3==0) {
-	            item = new Item(x, y, value);
+	            item1 = new Item(x, y, value);
              }
 
+        }else if(item2 == null) {
+        	Random generator = new Random();
+            int value = generator.nextInt(21)+1;
+           
+            if(value%3==0) {
+	            item2 = new Item(x, y, 18);
+            }
         }
     }
 
@@ -327,11 +366,16 @@ public class Board extends JPanel implements Runnable {
             case 12:
                 ball.setWidth(Commons.BALL_SIZE - 4);
                 ball.setHeight(Commons.BALL_SIZE - 4);
-                ball.setSpeed(ball.getSpeed() + 80);
+                ball.setSpeed(ball.getSpeed() + 50);
                 setBallDefault();
                 break;
-            case 15:player.life += 1 ;           
-            		break;
+            case 15:
+            	player.life += 1 ;           
+            	break;
+            case 18:
+            	item_status=1;
+            	setItemStatusDefault();
+            	break;
             default:
                 break;
         }
@@ -358,5 +402,14 @@ public class Board extends JPanel implements Runnable {
         };
         t.schedule(task, 5000);
     }
-
+    
+    public void setItemStatusDefault() {
+        Timer t = new Timer();
+        TimerTask task = new TimerTask() {
+            public void run() {
+                item_status=0;
+            }
+        };
+        t.schedule(task, 5000);
+    }
 }
