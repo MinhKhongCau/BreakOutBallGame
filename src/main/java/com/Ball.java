@@ -47,8 +47,13 @@ public class Ball extends Sprite {
         this.speed = speed;
     }
 
+    // public void setDir(int dir) {
+    // this.dir = dir;
+    // }
+
     public void move() {
         try {
+
             this.x += (int) dirX * speed * Commons.DELTA_TIME;
             this.y += (int) dirY * speed * Commons.DELTA_TIME;
 

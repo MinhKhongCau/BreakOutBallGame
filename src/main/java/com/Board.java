@@ -27,7 +27,7 @@ public class Board extends JPanel implements Runnable {
     private Brick[] brick;
     private int amount_brick = 0;
     private Player player;
-    // private Item item;
+    private Item item;
     private JLabel labelName;
     private JLabel labelFPS;
     private JLabel labelLife;
@@ -40,7 +40,7 @@ public class Board extends JPanel implements Runnable {
     private void initComponent() {
         paddle = new Paddle();
         ball = new Ball();
-        // item = new Item(100, 150, 998);
+        item = new Item(100, 150, 998);
         brick = new Brick[Commons.BRICK_ROW * Commons.BRICK_COL];
         createBrick(brick);
 
@@ -125,7 +125,7 @@ public class Board extends JPanel implements Runnable {
         // Draw the paddle, ball, item, and bricks
         paddle.draw(g);
         ball.draw(g);
-        // item.draw(g);
+        item.draw(g);
 
         // Draw the active bricks
         for (int i = 0; i < amount_brick; i++) {
@@ -164,9 +164,9 @@ public class Board extends JPanel implements Runnable {
                     repaint(ball.getX() - ball.getWidth() * 5, ball.getY() - ball.getHeight() * 5, ball.getWidth() * 5,
                             ball.getHeight() * 5);
                     repaint(0, paddle.getY(), Commons.SCREEN_WIDTH, paddle.getHeight() * 2);
-                    // repaint(item.getX() - item.getWidth(), item.getY() - item.getHeight(),
-                    // item.getWidth() * 2,
-                    // item.getHeight() * 2);
+                    repaint(item.getX() - item.getWidth(), item.getY() - item.getHeight(),
+                            item.getWidth() * 2,
+                            item.getHeight() * 2);
 
                     delta -= msPerFrame; // Reduce delta since we've processed one frame
                 }
@@ -203,37 +203,37 @@ public class Board extends JPanel implements Runnable {
 
         checkCollisions();
 
-        // if (ball.getY() == 200) {
-        // dropItem(155, 80);
-        // }
-        // if (item.getY() > paddle.getY()
-        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-        // paddle.getWidth())) {
-        // touchItem(item);
-        // item = new Item(100, 150, 998);
-        // }
+        if (ball.getY() == 200) {
+            dropItem(155, 80);
+        }
+        if (item.getY() > paddle.getY()
+                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+                        paddle.getWidth())) {
+            touchItem(item);
+            item = new Item(100, 150, 998);
+        }
 
-        // if (item.getY() > Commons.SCREEN_HEIGHT) {
-        // item = new Item(100, 150, 998);
-        // }
+        if (item.getY() > Commons.SCREEN_HEIGHT) {
+            item = new Item(100, 150, 998);
+        }
 
-        // if (item.getNum() != 998) {
-        // item.move();
-        // }
-        // if (ball.getY() > 200) {
-        // dropItem(155, 80);
-        // }
+        if (item.getNum() != 998) {
+            item.move();
+        }
+        if (ball.getY() > 200) {
+            dropItem(155, 80);
+        }
 
-        // if (item.getY() > paddle.getY()
-        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-        // paddle.getWidth())) {
-        // touchItem(item);
-        // item = new Item(100, 150, 998);
-        // }
+        if (item.getY() > paddle.getY()
+                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+                        paddle.getWidth())) {
+            touchItem(item);
+            item = new Item(100, 150, 998);
+        }
 
-        // if (item.getY() > Commons.SCREEN_HEIGHT) {
-        // item = new Item(100, 150, 998);
-        // }
+        if (item.getY() > Commons.SCREEN_HEIGHT) {
+            item = new Item(100, 150, 998);
+        }
     }
 
     private void checkCollisions() {
@@ -304,75 +304,75 @@ public class Board extends JPanel implements Runnable {
         }
     }
 
-    // public void dropItem(int x, int y) {
-    // if (item.getNum() == 998) {
-    // // Random generator = new Random();
-    // // int value = generator.nextInt(10)+1;
-    // //
-    // // if(value%3==0) {
-    // item = new Item(100, 100, 9);
-    // // item.setX(x);
-    // // item.setY(y);
-    // // item.setNum(3);
-    // // }
+    public void dropItem(int x, int y) {
+        if (item.getNum() == 998) {
+            Random generator = new Random();
+            int value = generator.nextInt(10) + 1;
 
-    // }
-    // }
+            if (value % 3 == 0) {
+                item = new Item(100, 100, 9);
+                item.setX(x);
+                item.setY(y);
+                item.setNum(3);
+            }
 
-    // public void touchItem(Item i) {
-    // switch (i.getNum()) {
-    // case 3:
-    // paddle.setWidth(Commons.PADDLE_WIDTH + 200);
-    // setPaddleDefault();
-    // break;
-    // case 6:
-    // paddle.setWidth(Commons.PADDLE_WIDTH - 60);
-    // setPaddleDefault();
-    // break;
-    // case 9:
-    // ball.setWidth(Commons.BALL_SIZE + 5);
-    // ball.setHeight(Commons.BALL_SIZE + 5);
-    // ball.setSpeed(Commons.BALL_SPEED - 100);
-    // setBallDefault();
-    // break;
-    // case 12:
-    // ball.setWidth(Commons.BALL_SIZE - 3);
-    // ball.setHeight(Commons.BALL_SIZE - 3);
-    // ball.setSpeed(Commons.BALL_SPEED + 100);
-    // setBallDefault();
-    // break;
-    // // case 15:
-    // // if (ball.getY() == paddle.getY()) {
-    // // ball.setDir(-1);
-    // // }
-    // // setDefaultShield();
-    // // break;
-    // default:
-    // break;
-    // }
-    // }
+        }
+    }
 
-    // public void setPaddleDefault() {
-    // Timer t = new Timer();
-    // TimerTask task = new TimerTask() {
-    // public void run() {
-    // paddle.setWidth(Commons.PADDLE_WIDTH);
-    // }
-    // };
-    // t.schedule(task, 2000);
-    // }
+    public void touchItem(Item i) {
+        switch (i.getNum()) {
+            case 3:
+                paddle.setWidth(Commons.PADDLE_WIDTH + 200);
+                setPaddleDefault();
+                break;
+            case 6:
+                paddle.setWidth(Commons.PADDLE_WIDTH - 60);
+                setPaddleDefault();
+                break;
+            case 9:
+                ball.setWidth(Commons.BALL_SIZE + 5);
+                ball.setHeight(Commons.BALL_SIZE + 5);
+                ball.setSpeed(Commons.BALL_SPEED - 100);
+                setBallDefault();
+                break;
+            case 12:
+                ball.setWidth(Commons.BALL_SIZE - 3);
+                ball.setHeight(Commons.BALL_SIZE - 3);
+                ball.setSpeed(Commons.BALL_SPEED + 100);
+                setBallDefault();
+                break;
+            // case 15:
+            // if (ball.getY() == paddle.getY()) {
+            // ball.setDir(-1);
+            // }
+            // setDefaultShield();
+            // break;
+            default:
+                break;
+        }
+    }
 
-    // public void setBallDefault() {
-    // Timer t = new Timer();
-    // TimerTask task = new TimerTask() {
-    // public void run() {
-    // ball.setWidth(Commons.BALL_SIZE);
-    // ball.setHeight(Commons.BALL_SIZE);
-    // ball.setSpeed(500);
-    // }
-    // };
-    // t.schedule(task, 2000);
-    // }
+    public void setPaddleDefault() {
+        Timer t = new Timer();
+        TimerTask task = new TimerTask() {
+            public void run() {
+                paddle.setWidth(Commons.PADDLE_WIDTH);
+            }
+        };
+        t.schedule(task, 2000);
+    }
+
+    public void setBallDefault() {
+        Timer t = new Timer();
+        TimerTask task = new TimerTask() {
+            public void run() {
+                ball.setWidth(Commons.BALL_SIZE);
+                ball.setHeight(Commons.BALL_SIZE);
+                ball.setSpeed(500);
+            }
+        };
+        t.schedule(task, 2000);
+    }
 
     // public void setDefaultShield() {
     // Timer t = new Timer();
