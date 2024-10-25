@@ -37,7 +37,7 @@ public class Board extends JPanel implements Runnable {
     private void initComponent() {
         paddle = new Paddle();
         ball = new Ball();
-        // item = new Item(100, 150, 998);
+        item = null;
         brick = new Brick[Commons.BRICK_ROW * Commons.BRICK_COL];
         createBrick(brick);
 
@@ -93,11 +93,13 @@ public class Board extends JPanel implements Runnable {
     }
 
     private void createBrick(Brick[] brick) {
+    	int margin_side = (Commons.SCREEN_WIDTH - (Commons.BRICK_WIDTH*Commons.BRICK_ROW))/2;
+    	int margin_top = Commons.SCREEN_HEIGHT/8 ;
         for (int i = 0; i < Commons.BRICK_ROW; i++) {
             for (int j = 0; j < Commons.BRICK_COL; j++) {
                 brick[amount_brick] = new Brick();
-                brick[amount_brick].x = i * Commons.BRICK_WIDTH + 155;
-                brick[amount_brick].y = j * Commons.BRICK_HEIGHT + 80;
+                brick[amount_brick].x = i * Commons.BRICK_WIDTH + margin_side;
+                brick[amount_brick].y = j * Commons.BRICK_HEIGHT + margin_top;
                 amount_brick += 1;
             }
         }
@@ -132,7 +134,8 @@ public class Board extends JPanel implements Runnable {
         // Draw the paddle, ball, item, and bricks
         paddle.draw(g);
         ball.draw(g);
-        // item.draw(g);
+        if(item!=null)
+        	item.draw(g);
 
         // Draw the active bricks
         for (int i = 0; i < amount_brick; i++) {
@@ -208,37 +211,20 @@ public class Board extends JPanel implements Runnable {
 
         checkCollisions();
 
-//        if (ball.getY() == 200) {
-//            dropItem(155, 80);
-//        }
-//        if (item.getY() > paddle.getY()
-//                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-//                        paddle.getWidth())) {
-//            touchItem(item);
-//            item = new Item(100, 150, 998);
-//        }
-//
-//        if (item.getY() > Commons.SCREEN_HEIGHT) {
-//            item = new Item(100, 150, 998);
-//        }
-//
-//        if (item.getNum() != 998) {
-//            item.move();
-//        }
-//        if (ball.getY() > 200) {
-//            dropItem(155, 80);
-//        }
-//
-//        if (item.getY() > paddle.getY()
-//                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-//                        paddle.getWidth())) {
-//            touchItem(item);
-//            item = new Item(100, 150, 998);
-//        }
-//
-//        if (item.getY() > Commons.SCREEN_HEIGHT) {
-//            item = new Item(100, 150, 998);
-//        }
+
+        if (item != null) {
+            item.move();
+            if (item.getY() > paddle.getY()
+                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+                        paddle.getWidth())) {
+            	 touchItem(item);
+            	 item = null;
+             }
+
+             if (item != null && item.getY() > Commons.SCREEN_HEIGHT) {
+            	 item = null;
+             }
+        }
     }
 
     private void checkCollisions() {
@@ -257,6 +243,7 @@ public class Board extends JPanel implements Runnable {
                     ball.getRect().intersects(brick[i].getRect())) {
                 ball.reverseY(); // Change direction on collision
                 brick[i].brick_break(); // Break the brick
+                dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2, brick[i].getY()+Commons.BRICK_HEIGHT/2);
                 player.setScore(player.getScore() + 10); // Increase score
                 // break; // Exit loop after collision
             }
@@ -310,16 +297,13 @@ public class Board extends JPanel implements Runnable {
     }
 
     public void dropItem(int x, int y) {
-        if (item.getNum() == 998) {
-            // Random generator = new Random();
-            // int value = generator.nextInt(10)+1;
-            //
-            // if(value%3==0) {
-            item = new Item(100, 100, 9);
-            // item.setX(x);
-            // item.setY(y);
-            // item.setNum(3);
-            // }
+        if (item == null) {
+             Random generator = new Random();
+             int value = generator.nextInt(15)+1;
+            
+             if(value%3==0) {
+	            item = new Item(x, y, value);
+             }
 
         }
     }
@@ -327,7 +311,7 @@ public class Board extends JPanel implements Runnable {
     public void touchItem(Item i) {
         switch (i.getNum()) {
             case 3:
-                paddle.setWidth(Commons.PADDLE_WIDTH + 200);
+                paddle.setWidth(Commons.PADDLE_WIDTH + 150);
                 setPaddleDefault();
                 break;
             case 6:
@@ -335,23 +319,19 @@ public class Board extends JPanel implements Runnable {
                 setPaddleDefault();
                 break;
             case 9:
-                ball.setWidth(Commons.BALL_SIZE + 5);
-                ball.setHeight(Commons.BALL_SIZE + 5);
-                ball.setSpeed(Commons.BALL_SPEED - 100);
+                ball.setWidth(Commons.BALL_SIZE + 6);
+                ball.setHeight(Commons.BALL_SIZE + 6);
+                ball.setSpeed(ball.getSpeed()-50);
                 setBallDefault();
                 break;
             case 12:
-                ball.setWidth(Commons.BALL_SIZE - 3);
-                ball.setHeight(Commons.BALL_SIZE - 3);
-                ball.setSpeed(Commons.BALL_SPEED + 100);
+                ball.setWidth(Commons.BALL_SIZE - 4);
+                ball.setHeight(Commons.BALL_SIZE - 4);
+                ball.setSpeed(ball.getSpeed() + 80);
                 setBallDefault();
                 break;
-            // case 15:
-            // if (ball.getY() == paddle.getY()) {
-            // ball.setDir(-1);
-            // }
-            // setDefaultShield();
-            // break;
+            case 15:player.life += 1 ;           
+            		break;
             default:
                 break;
         }
@@ -364,7 +344,7 @@ public class Board extends JPanel implements Runnable {
                 paddle.setWidth(Commons.PADDLE_WIDTH);
             }
         };
-        t.schedule(task, 2000);
+        t.schedule(task, 5000);
     }
 
     public void setBallDefault() {
@@ -373,21 +353,10 @@ public class Board extends JPanel implements Runnable {
             public void run() {
                 ball.setWidth(Commons.BALL_SIZE);
                 ball.setHeight(Commons.BALL_SIZE);
-                ball.setSpeed(500);
+                ball.setSpeed(Commons.BALL_SPEED);
             }
         };
-        t.schedule(task, 2000);
+        t.schedule(task, 5000);
     }
 
-    // public void setDefaultShield() {
-    //     Timer t = new Timer();
-    //     TimerTask task = new TimerTask() {
-    //         public void run() {
-    //             if (ball.getY() == paddle.getY()) {
-    //                 ball.setDir(1);
-    //             }
-    //         }
-    //     };
-    //     t.schedule(task, 10000);
-    // }
 }
