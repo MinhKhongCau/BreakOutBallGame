@@ -43,9 +43,10 @@ public class Item extends Sprite {
 
     public void move() {
         try {
-            int speed = 250;
-            this.y += (int) speed * Commons.DELTA_TIME;
-
+            int speed = 200;
+            this.y += (int) speed*Commons.DELTA_TIME;
+            
+            
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
@@ -53,21 +54,33 @@ public class Item extends Sprite {
 
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        if (num == 3) {
-            g2.setColor(Color.GREEN);
-            g2.fillOval(this.x, this.y, this.width, this.height);
-        } else if (num == 6) {
-            g2.setColor(Color.RED);
-            g2.fillOval(this.x, this.y, this.width, this.height);
-        } else if (num == 9) {
-            g2.setColor(Color.ORANGE);
-            g2.fillOval(this.x, this.y, this.width, this.height);
-        } else if (num == 12) {
-            g2.setColor(Color.CYAN);
-            g2.fillOval(this.x, this.y, this.width, this.height);
-        } else {
-            g2.setColor(new Color(54, 66, 66));
-            g2.fillOval(this.x, this.y, this.width, this.height);
+        switch(num) {
+        	case 3:
+	        	g2.setColor(Color.GREEN);
+	            g2.fillOval(this.x, this.y, this.width, this.height);
+	            break;
+        	case 6:
+	        	g2.setColor(Color.RED);
+	            g2.fillOval(this.x, this.y, this.width, this.height);
+	            break;
+        	case 9:
+	        	g2.setColor(Color.ORANGE);
+	            g2.fillOval(this.x, this.y, this.width, this.height);
+	            break;
+        	case 12:
+	        	g2.setColor(Color.CYAN);
+	            g2.fillOval(this.x, this.y, this.width, this.height);
+	            break;
+        	case 15:        		
+	        	g2.setColor(Color.PINK);
+	            g2.fillOval(this.x, this.y, this.width, this.height);
+	            break;
+        	case 18:
+	        	g2.setColor(Color.MAGENTA);
+	            g2.fillOval(this.x, this.y, this.width, this.height);
+	            break;
+	        default:
+	            break;
         }
     }
 }
