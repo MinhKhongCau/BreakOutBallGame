@@ -232,7 +232,7 @@ public class Board extends JPanel implements Runnable {
             	 item1 = null;
              }
 
-             if (item1 != null && item1.getY() > Commons.SCREEN_HEIGHT) {
+             if (item1 != null && (item1.getY() + item1.getHeight() >= Commons.SCREEN_HEIGHT)) {
             	 item1 = null;
              }
         }
@@ -247,7 +247,7 @@ public class Board extends JPanel implements Runnable {
             	 item2 = null;
              }
 
-             if (item2 != null && item2.getY() > Commons.SCREEN_HEIGHT) {
+             if (item2 != null && (item2.getY() + item2.getHeight() >= Commons.SCREEN_HEIGHT)) {
             	 item2 = null;
              }
         }
