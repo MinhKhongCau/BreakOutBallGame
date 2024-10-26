@@ -42,8 +42,6 @@ public class Board extends JPanel implements Runnable {
     private void initComponent() {
         paddle = new Paddle();
         ball = new Ball();
-        item1 = null;
-        item2 = null;
         brick = new Brick[Commons.BRICK_ROW * Commons.BRICK_COL];
         createBrick(brick);
 
@@ -228,31 +226,33 @@ public class Board extends JPanel implements Runnable {
         // Create item1
         if (item1 != null) {
             item1.move();
-            if (item1.getY() > paddle.getY()
-                && (item1.getX() >= paddle.getX() && item1.getX() <= paddle.getX() +
-                        paddle.getWidth())) {
-            	 touchItem(item1);
+            if (item1.getRect().intersects(paddle.getRect())) {
+                if (item1.getY() + item1.getHeight() >= paddle.getY()
+                        && item1.getY() + item1.getHeight() <= paddle.getY() + paddle.getHeight() / 2) {
+                	touchItem(item1);
+                    item1 = null;
+                }
+            }
+            
+            if (item1 != null && (item1.getY() + item1.getHeight() >= Commons.SCREEN_HEIGHT)) {
             	 item1 = null;
-             }
-
-             if (item1 != null && (item1.getY() + item1.getHeight() >= Commons.SCREEN_HEIGHT)) {
-            	 item1 = null;
-             }
+            }
         }
         
         // Create item2
         if (item2 != null) {
             item2.move();
-            if (item2.getY() > paddle.getY()
-                && (item2.getX() >= paddle.getX() && item2.getX() <= paddle.getX() +
-                        paddle.getWidth())) {
-            	 touchItem(item2);
-            	 item2 = null;
-             }
+            if (item2.getRect().intersects(paddle.getRect())) {
+                if (item2.getY() + item2.getHeight() >= paddle.getY()
+                        && item2.getY() + item2.getHeight() <= paddle.getY() + paddle.getHeight() / 2) {
+                	touchItem(item2);
+                    item2 = null;
+                }
+            }
 
-             if (item2 != null && (item2.getY() + item2.getHeight() >= Commons.SCREEN_HEIGHT)) {
+            if (item2 != null && (item2.getY() + item2.getHeight() >= Commons.SCREEN_HEIGHT)) {
             	 item2 = null;
-             }
+            }
         }
     }
 
@@ -357,23 +357,27 @@ public class Board extends JPanel implements Runnable {
     public void touchItem(Item i) {    	                      
         switch (i.getNum()) {
             case 3:
+            	// Long paddle
                 paddle.setWidth(Commons.PADDLE_WIDTH + 150);
                 setDefaultPaddle();
                 break;
                 
             case 6:
+            	// Short paddle
                 paddle.setWidth(Commons.PADDLE_WIDTH - 60);
                 setDefaultPaddle();
                 break;
                 
             case 9:
-                ball.setWidth(Commons.BALL_SIZE + 6);
-                ball.setHeight(Commons.BALL_SIZE + 6);
+            	// Big + slow ball
+                ball.setWidth(Commons.BALL_SIZE + 8);
+                ball.setHeight(Commons.BALL_SIZE + 8);
                 ball.setSpeed(ball.getSpeed()-50);
                 setDefaultBallSize();
                 break;
                 
             case 12:
+            	// Small + quick ball
                 ball.setWidth(Commons.BALL_SIZE - 4);
                 ball.setHeight(Commons.BALL_SIZE - 4);
                 ball.setSpeed(ball.getSpeed() + 50);
@@ -381,10 +385,12 @@ public class Board extends JPanel implements Runnable {
                 break;
                 
             case 15:
+            	// +1 life
             	player.life += 1 ;           
             	break;
             	
             case 18:
+            	// Power ball
             	item_status=1;
             	setDefaultBall();
             	break;
@@ -429,6 +435,7 @@ public class Board extends JPanel implements Runnable {
         	defaultBallSize.schedule(task2, 5000);
         }
     }
+    
     public void setDefaultBall() {
     	TimerTask task3 = new TimerTask() {
             public void run() {
