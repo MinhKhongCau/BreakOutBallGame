@@ -16,10 +16,11 @@ import javax.swing.*;
 import DatabaseConfig.ConnectionConfig;
 import java.awt.BorderLayout;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Board extends JPanel implements Runnable {
+public class Board extends JPanel implements Runnable, Login.StartGameListener {
     private Thread clock;
     private Paddle paddle;
     private Ball ball;
@@ -29,10 +30,14 @@ public class Board extends JPanel implements Runnable {
     private Item item;
     private InfoPanel topPanel;
     private InfoPanel bottomPanel;
+    private Login login;
     private int FPS = Commons.FPS;
 
     public Board() {
         initComponent();
+        login = new Login();
+        login.prepareGame(this);
+        this.add(login);
     }
 
     private void initComponent() {
@@ -59,6 +64,12 @@ public class Board extends JPanel implements Runnable {
 
         bottomPanel = new InfoPanel(labelLife, labelScore);
         this.add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    public void startGame(String playerName) {
+        player = new Player(playerName, 0, 3);
+        startedGame(player);
+        this.remove(login);
     }
 
     private class InfoPanel extends JPanel {
