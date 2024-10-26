@@ -1,6 +1,7 @@
 com\Brick.class
 com\Item.class
 com\Sprite.class
+com\Board$4.class
 com\Person.class
 com\Ball.class
 com\Paddle.class

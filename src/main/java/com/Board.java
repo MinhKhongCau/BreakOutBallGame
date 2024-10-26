@@ -14,20 +14,26 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import DatabaseConfig.ConnectionConfig;
+import SubGame.InfoPanel;
+import SubGame.PrepareGame;
 import java.awt.BorderLayout;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Board extends JPanel implements Runnable, Login.StartGameListener {
+
     private Thread clock;
     private Paddle paddle;
     private Ball ball;
     private Brick[] brick;
     private int amount_brick = 0;
     private Player player;
-    private Item item;
+    private Item item1;
+    private Item item2;
+    private int item_status = 0;
     private InfoPanel topPanel;
     private InfoPanel bottomPanel;
     private Login login;
@@ -43,14 +49,15 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
     private void initComponent() {
         paddle = new Paddle();
         ball = new Ball();
-        // item = new Item(100, 150, 998);
+        item1 = null;
+        item2 = null;
         brick = new Brick[Commons.BRICK_ROW * Commons.BRICK_COL];
         createBrick(brick);
 
         int panelWidth = Commons.SCREEN_WIDTH, panelHeight = Commons.SCREEN_HEIGHT;
         // init screen with scale 16/9
         this.setSize(panelWidth, panelHeight);
-        this.setBackground(new Color(54, 66, 66));
+        this.setBackground(Commons.BACKGROUND_COLOR);
         this.setLayout(new BorderLayout());
 
         JLabel labelName = new JLabel("Name: Unknown");
@@ -66,57 +73,38 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
         this.add(bottomPanel, BorderLayout.SOUTH);
     }
 
+    @Override
     public void startGame(String playerName) {
-        player = new Player(playerName, 0, 3);
-        startedGame(player);
+        this.player = new Player(playerName, 0, 3);
         this.remove(login);
-    }
 
-    private class InfoPanel extends JPanel {
-        private JLabel leftLabel;
-        private JLabel rightLabel;
+        PrepareGame prepare = new PrepareGame();
+        this.add(prepare, BorderLayout.EAST);
+        prepare.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Board.this.remove(prepare);
+                startedGame();
+            }
+        });
+        this.repaint();
 
-        public InfoPanel(JLabel leftLabel, JLabel rightLabel) {
-            this.leftLabel = leftLabel;
-            this.rightLabel = rightLabel;
-
-            // set UI label
-            this.leftLabel.setForeground(new java.awt.Color(250, 242, 233));
-            this.leftLabel.setFont(Commons.mediumfont);
-            this.rightLabel.setForeground(new java.awt.Color(250, 242, 233));
-            this.rightLabel.setFont(Commons.mediumfont);
-
-            // set UI panel
-            setBackground(new Color(54, 66, 66));
-            setBorder(Commons.INFO_BORDER);
-            setLayout(new BorderLayout());
-            setOpaque(false);
-            add(this.leftLabel, BorderLayout.WEST);
-            add(this.rightLabel, BorderLayout.EAST);
-        }
-
-        public void setLeftLabel(String title) {
-            this.leftLabel.setText(title);
-        }
-
-        public void setRightLabel(String title) {
-            this.rightLabel.setText(title);
-        }
     }
 
     private void createBrick(Brick[] brick) {
+        int margin_side = (Commons.SCREEN_WIDTH - (Commons.BRICK_WIDTH * Commons.BRICK_ROW)) / 2;
+        int margin_top = Commons.SCREEN_HEIGHT / 8;
         for (int i = 0; i < Commons.BRICK_ROW; i++) {
             for (int j = 0; j < Commons.BRICK_COL; j++) {
                 brick[amount_brick] = new Brick();
-                brick[amount_brick].x = i * Commons.BRICK_WIDTH + 155;
-                brick[amount_brick].y = j * Commons.BRICK_HEIGHT + 80;
+                brick[amount_brick].x = i * Commons.BRICK_WIDTH + margin_side;
+                brick[amount_brick].y = j * Commons.BRICK_HEIGHT + margin_top;
                 amount_brick += 1;
             }
         }
     }
 
-    public void startedGame(Player player) {
-        this.player = player;
+    public void startedGame() {
         clock = new Thread(this);
         clock.start();
     }
@@ -144,7 +132,10 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
         // Draw the paddle, ball, item, and bricks
         paddle.draw(g);
         ball.draw(g);
-        // item.draw(g);
+        if (item1 != null)
+            item1.draw(g);
+        if (item2 != null)
+            item2.draw(g);
 
         // Draw the active bricks
         for (int i = 0; i < amount_brick; i++) {
@@ -180,10 +171,16 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
                     repaint(ball.getX() - ball.getWidth() * 5, ball.getY() - ball.getHeight() * 5, ball.getWidth() * 5,
                             ball.getHeight() * 5);
                     repaint(0, paddle.getY(), Commons.SCREEN_WIDTH, paddle.getHeight() * 2);
-                    // repaint(item.getX() - item.getWidth(), item.getY() - item.getHeight(),
-                    // item.getWidth() * 2,
-                    // item.getHeight() * 2);
-
+                    if (item1 != null) {
+                        repaint(item1.getX() - item1.getWidth(), item1.getY() - item1.getHeight(),
+                                item1.getWidth() * 2,
+                                item1.getHeight() * 2);
+                    }
+                    if (item2 != null) {
+                        repaint(item2.getX() - item2.getWidth(), item2.getY() - item2.getHeight(),
+                                item2.getWidth() * 2,
+                                item2.getHeight() * 2);
+                    }
                     delta -= msPerFrame; // Reduce delta since we've processed one frame
                 }
                 clock.sleep((long) msPerFrame);
@@ -220,37 +217,35 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
 
         checkCollisions();
 
-        // if (ball.getY() == 200) {
-        // dropItem(155, 80);
-        // }
-        // if (item.getY() > paddle.getY()
-        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-        // paddle.getWidth())) {
-        // touchItem(item);
-        // item = new Item(100, 150, 998);
-        // }
-        //
-        // if (item.getY() > Commons.SCREEN_HEIGHT) {
-        // item = new Item(100, 150, 998);
-        // }
-        //
-        // if (item.getNum() != 998) {
-        // item.move();
-        // }
-        // if (ball.getY() > 200) {
-        // dropItem(155, 80);
-        // }
-        //
-        // if (item.getY() > paddle.getY()
-        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-        // paddle.getWidth())) {
-        // touchItem(item);
-        // item = new Item(100, 150, 998);
-        // }
-        //
-        // if (item.getY() > Commons.SCREEN_HEIGHT) {
-        // item = new Item(100, 150, 998);
-        // }
+        // Create item1
+        if (item1 != null) {
+            item1.move();
+            if (item1.getY() > paddle.getY()
+                    && (item1.getX() >= paddle.getX() && item1.getX() <= paddle.getX() +
+                            paddle.getWidth())) {
+                touchItem(item1);
+                item1 = null;
+            }
+
+            if (item1 != null && (item1.getY() + item1.getHeight() >= Commons.SCREEN_HEIGHT)) {
+                item1 = null;
+            }
+        }
+
+        // Create item2
+        if (item2 != null) {
+            item2.move();
+            if (item2.getY() > paddle.getY()
+                    && (item2.getX() >= paddle.getX() && item2.getX() <= paddle.getX() +
+                            paddle.getWidth())) {
+                touchItem(item2);
+                item2 = null;
+            }
+
+            if (item2 != null && (item2.getY() + item2.getHeight() >= Commons.SCREEN_HEIGHT)) {
+                item2 = null;
+            }
+        }
     }
 
     private void checkCollisions() {
@@ -262,6 +257,52 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
 
         // Ball and paddle collision
         if (ball.getRect().intersects(paddle.getRect())) {
+            if (ball.getY() + ball.getHeight() >= paddle.getY()
+                    && ball.getY() + ball.getHeight() <= paddle.getY() + paddle.getHeight() / 2) {
+                ball.reverseY();
+                ball.setY(paddle.getY() - ball.getHeight());
+            }
+        }
+
+        // Ball and bricks collision
+        if (item_status == 1) {
+            for (int i = 0; i < amount_brick; i++) {
+                if (brick[i].getStatus() == 1 &&
+                        ball.getRect().intersects(brick[i].getRect())) {
+                    brick[i].brick_break(); // Break the brick
+                    // dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2,
+                    // brick[i].getY()+Commons.BRICK_HEIGHT/2);
+                    player.setScore(player.getScore() + 10); // Increase score
+                    // break; // Exit loop after collision
+                }
+            }
+        } else {
+            for (int i = 0; i < amount_brick; i++) {
+                if (brick[i].getStatus() == 1 &&
+                        ball.getRect().intersects(brick[i].getRect())) {
+                    ball.reverseY(); // Change direction on collision
+                    brick[i].brick_break(); // Break the brick
+                    // dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2,
+                    // brick[i].getY()+Commons.BRICK_HEIGHT/2);
+                    player.setScore(player.getScore() + 10); // Increase score
+                    // break; // Exit loop after collision
+                }
+            }
+        }
+
+        // Ball and wall collision
+        // Ball and lefl wall collision
+        if (ball.getX() <= 0) {
+            ball.reverseX();
+            ball.setX(0);
+        }
+        // Ball and right wall collision
+        if (ball.getX() + ball.getWidth() >= Commons.SCREEN_WIDTH) {
+            ball.reverseX();
+            ball.setX(Commons.SCREEN_WIDTH - ball.getWidth());
+        }
+        // Ball and top wall collision
+        if (ball.getY() <= 0) {
             ball.reverseY();
             ball.setY(paddle.getY() - ball.getHeight());
             collisionHandled = true;
@@ -372,24 +413,28 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
     }
 
     public void dropItem(int x, int y) {
-        if (item.getNum() == 998) {
-            // Random generator = new Random();
-            // int value = generator.nextInt(10)+1;
-            //
-            // if(value%3==0) {
-            item = new Item(100, 100, 9);
-            // item.setX(x);
-            // item.setY(y);
-            // item.setNum(3);
-            // }
+        if (item1 == null) {
+            Random generator = new Random();
+            int value = generator.nextInt(21) + 1;
 
+            if (value % 3 == 0) {
+                item1 = new Item(x, y, value);
+            }
+
+        } else if (item2 == null) {
+            Random generator = new Random();
+            int value = generator.nextInt(21) + 1;
+
+            if (value % 3 == 0) {
+                item2 = new Item(x, y, value);
+            }
         }
     }
 
     public void touchItem(Item i) {
         switch (i.getNum()) {
             case 3:
-                paddle.setWidth(Commons.PADDLE_WIDTH + 200);
+                paddle.setWidth(Commons.PADDLE_WIDTH + 150);
                 setPaddleDefault();
                 break;
             case 6:
@@ -397,23 +442,24 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
                 setPaddleDefault();
                 break;
             case 9:
-                ball.setWidth(Commons.BALL_SIZE + 5);
-                ball.setHeight(Commons.BALL_SIZE + 5);
-                ball.setSpeed(Commons.BALL_SPEED - 100);
+                ball.setWidth(Commons.BALL_SIZE + 6);
+                ball.setHeight(Commons.BALL_SIZE + 6);
+                ball.setSpeed(ball.getSpeed() - 50);
                 setBallDefault();
                 break;
             case 12:
-                ball.setWidth(Commons.BALL_SIZE - 3);
-                ball.setHeight(Commons.BALL_SIZE - 3);
-                ball.setSpeed(Commons.BALL_SPEED + 100);
+                ball.setWidth(Commons.BALL_SIZE - 4);
+                ball.setHeight(Commons.BALL_SIZE - 4);
+                ball.setSpeed(ball.getSpeed() + 50);
                 setBallDefault();
                 break;
-            // case 15:
-            // if (ball.getY() == paddle.getY()) {
-            // ball.setDir(-1);
-            // }
-            // setDefaultShield();
-            // break;
+            case 15:
+                player.life += 1;
+                break;
+            case 18:
+                item_status = 1;
+                setItemStatusDefault();
+                break;
             default:
                 break;
         }
@@ -426,7 +472,7 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
                 paddle.setWidth(Commons.PADDLE_WIDTH);
             }
         };
-        t.schedule(task, 2000);
+        t.schedule(task, 5000);
     }
 
     public void setBallDefault() {
@@ -435,21 +481,19 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
             public void run() {
                 ball.setWidth(Commons.BALL_SIZE);
                 ball.setHeight(Commons.BALL_SIZE);
-                ball.setSpeed(500);
+                ball.setSpeed(Commons.BALL_SPEED);
             }
         };
-        t.schedule(task, 2000);
+        t.schedule(task, 5000);
     }
 
-    // public void setDefaultShield() {
-    // Timer t = new Timer();
-    // TimerTask task = new TimerTask() {
-    // public void run() {
-    // if (ball.getY() == paddle.getY()) {
-    // ball.setDir(1);
-    // }
-    // }
-    // };
-    // t.schedule(task, 10000);
-    // }
+    public void setItemStatusDefault() {
+        Timer t = new Timer();
+        TimerTask task = new TimerTask() {
+            public void run() {
+                item_status = 0;
+            }
+        };
+        t.schedule(task, 5000);
+    }
 }
