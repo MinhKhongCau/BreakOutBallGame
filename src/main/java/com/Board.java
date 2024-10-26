@@ -2,6 +2,7 @@ package com;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.sql.Connection;
@@ -14,8 +15,6 @@ import javax.swing.*;
 
 import DatabaseConfig.ConnectionConfig;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,10 +27,9 @@ public class Board extends JPanel implements Runnable {
     private int amount_brick = 0;
     private Player player;
     private Item item;
-    private JLabel labelName;
-    private JLabel labelFPS;
-    private JLabel labelLife;
-    private JLabel labelScore;
+    private InfoPanel topPanel;
+    private InfoPanel bottomPanel;
+    private int FPS = Commons.FPS;
 
     public Board() {
         initComponent();
@@ -44,45 +42,55 @@ public class Board extends JPanel implements Runnable {
         brick = new Brick[Commons.BRICK_ROW * Commons.BRICK_COL];
         createBrick(brick);
 
-        int frameWidth = Commons.SCREEN_WIDTH, frameHeight = Commons.SCREEN_HEIGHT;
+        int panelWidth = Commons.SCREEN_WIDTH, panelHeight = Commons.SCREEN_HEIGHT;
         // init screen with scale 16/9
-        this.setSize(frameWidth, frameHeight);
+        this.setSize(panelWidth, panelHeight);
         this.setBackground(new Color(54, 66, 66));
         this.setLayout(new BorderLayout());
 
-        Font font = new java.awt.Font("Segoe UI", Font.BOLD, 15);
+        JLabel labelName = new JLabel("Name: Unknown");
+        JLabel labelFPS = new JLabel(String.format("FPS: %d", Commons.FPS));
 
-        labelName = new JLabel("Name: Unknown");
-        labelName.setForeground(new java.awt.Color(250, 242, 233));
-        labelName.setFont(font);
-
-        labelFPS = new JLabel(String.format("FPS: %d", Commons.FPS));
-        labelFPS.setForeground(new java.awt.Color(250, 242, 233));
-        labelFPS.setFont(font);
-
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(new Color(54, 66, 66));
-        topPanel.setBorder(Commons.PANEL_BORDER);
-        topPanel.add(labelName, BorderLayout.WEST);
-        topPanel.add(labelFPS, BorderLayout.EAST);
-
+        topPanel = new InfoPanel(labelName, labelFPS);
         this.add(topPanel, BorderLayout.NORTH);
 
-        labelScore = new JLabel(String.format("Score: %d", 0));
-        labelScore.setForeground(new java.awt.Color(250, 242, 233));
-        labelScore.setFont(font);
+        JLabel labelScore = new JLabel(String.format("Score: %d", 0));
+        JLabel labelLife = new JLabel(String.format("Life: %d", 0));
 
-        labelLife = new JLabel(String.format("Life: %d", 0));
-        labelLife.setForeground(new java.awt.Color(250, 242, 233));
-        labelLife.setFont(font);
-
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBackground(new Color(54, 66, 66));
-        bottomPanel.setBorder(Commons.PANEL_BORDER);
-        bottomPanel.add(labelLife, BorderLayout.WEST);
-        bottomPanel.add(labelScore, BorderLayout.EAST);
-
+        bottomPanel = new InfoPanel(labelLife, labelScore);
         this.add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    private class InfoPanel extends JPanel {
+        private JLabel leftLabel;
+        private JLabel rightLabel;
+
+        public InfoPanel(JLabel leftLabel, JLabel rightLabel) {
+            this.leftLabel = leftLabel;
+            this.rightLabel = rightLabel;
+
+            // set UI label
+            this.leftLabel.setForeground(new java.awt.Color(250, 242, 233));
+            this.leftLabel.setFont(Commons.mediumfont);
+            this.rightLabel.setForeground(new java.awt.Color(250, 242, 233));
+            this.rightLabel.setFont(Commons.mediumfont);
+
+            // set UI panel
+            setBackground(new Color(54, 66, 66));
+            setBorder(Commons.INFO_BORDER);
+            setLayout(new BorderLayout());
+            setOpaque(false);
+            add(this.leftLabel, BorderLayout.WEST);
+            add(this.rightLabel, BorderLayout.EAST);
+        }
+
+        public void setLeftLabel(String title) {
+            this.leftLabel.setText(title);
+        }
+
+        public void setRightLabel(String title) {
+            this.rightLabel.setText(title);
+        }
     }
 
     private void createBrick(Brick[] brick) {
@@ -143,7 +151,7 @@ public class Board extends JPanel implements Runnable {
         try {
             double msPerFrame = 1000 / Commons.FPS;
             long lastTime = System.currentTimeMillis(); // Time of the previous frame
-            double delta = 0; // Tracks how much time has passed
+            double delta; // Tracks how much time has passed
             long timer = System.currentTimeMillis();
             int frames = 0;
 
@@ -157,9 +165,6 @@ public class Board extends JPanel implements Runnable {
                     // update coponent
                     update();
                     // If the player runs out of lives, save the result and stop the game.
-                    // if (player.getLife() <= 0) {
-                    // savePerformance();
-                    // }
                     // repaint component
                     repaint(ball.getX() - ball.getWidth() * 5, ball.getY() - ball.getHeight() * 5, ball.getWidth() * 5,
                             ball.getHeight() * 5);
@@ -176,11 +181,12 @@ public class Board extends JPanel implements Runnable {
 
                 // Optional: Print FPS every second for debugging
                 if (System.currentTimeMillis() - timer > 1000) {
-                    labelFPS.setText(String.format("FPS: %d", frames));
+                    topPanel.setRightLabel(String.format("FPS: %d", frames));
                     frames = 0;
                     timer += 1000;
                 }
 
+                // If the player runs out of lives, save the result and stop the game.
                 // if (player.getLife() == 0) {
                 // savePerformance();
                 // }
@@ -192,9 +198,9 @@ public class Board extends JPanel implements Runnable {
     }
 
     private void update() {
-        labelName.setText(String.format("Name: %s", player.getName()));
-        labelLife.setText(String.format("Life: %d", player.getLife()));
-        labelScore.setText(String.format("Score: %d", player.getScore()));
+        topPanel.setLeftLabel(String.format("Name: %s", player.getName()));
+        bottomPanel.setLeftLabel(String.format("Life: %d", player.getLife()));
+        bottomPanel.setRightLabel(String.format("Score: %d", player.getScore()));
         // get mouse position
         Point point = MouseInfo.getPointerInfo().getLocation();
         // set position paddle
@@ -203,89 +209,139 @@ public class Board extends JPanel implements Runnable {
 
         checkCollisions();
 
-        if (ball.getY() == 200) {
-            dropItem(155, 80);
-        }
-        if (item.getY() > paddle.getY()
-                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-                        paddle.getWidth())) {
-            touchItem(item);
-            item = new Item(100, 150, 998);
-        }
-
-        if (item.getY() > Commons.SCREEN_HEIGHT) {
-            item = new Item(100, 150, 998);
-        }
-
-        if (item.getNum() != 998) {
-            item.move();
-        }
-        if (ball.getY() > 200) {
-            dropItem(155, 80);
-        }
-
-        if (item.getY() > paddle.getY()
-                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-                        paddle.getWidth())) {
-            touchItem(item);
-            item = new Item(100, 150, 998);
-        }
-
-        if (item.getY() > Commons.SCREEN_HEIGHT) {
-            item = new Item(100, 150, 998);
-        }
+        // if (ball.getY() == 200) {
+        // dropItem(155, 80);
+        // }
+        // if (item.getY() > paddle.getY()
+        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+        // paddle.getWidth())) {
+        // touchItem(item);
+        // item = new Item(100, 150, 998);
+        // }
+        //
+        // if (item.getY() > Commons.SCREEN_HEIGHT) {
+        // item = new Item(100, 150, 998);
+        // }
+        //
+        // if (item.getNum() != 998) {
+        // item.move();
+        // }
+        // if (ball.getY() > 200) {
+        // dropItem(155, 80);
+        // }
+        //
+        // if (item.getY() > paddle.getY()
+        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+        // paddle.getWidth())) {
+        // touchItem(item);
+        // item = new Item(100, 150, 998);
+        // }
+        //
+        // if (item.getY() > Commons.SCREEN_HEIGHT) {
+        // item = new Item(100, 150, 998);
+        // }
     }
 
     private void checkCollisions() {
+        boolean collisionHandled = false;
+        int prevX = ball.getPrevX();
+        int prevY = ball.getPrevY();
+        int newX = ball.getX();
+        int newY = ball.getY();
+
         // Ball and paddle collision
         if (ball.getRect().intersects(paddle.getRect())) {
-            if (ball.getY() + ball.getHeight() >= paddle.getY()
-                    && ball.getY() + ball.getHeight() <= paddle.getY() + paddle.getHeight() / 2) {
-                ball.reverseY();
-                ball.setY(paddle.getY() - ball.getHeight());
-            }
-        }
-
-        // Ball and bricks collision
-        for (int i = 0; i < amount_brick; i++) {
-            if (brick[i].getStatus() == 1 &&
-                    ball.getRect().intersects(brick[i].getRect())) {
-                ball.reverseY(); // Change direction on collision
-                brick[i].brick_break(); // Break the brick
-                player.setScore(player.getScore() + 10); // Increase score
-                // break; // Exit loop after collision
-            }
-        }
-
-        // Ball and wall collision
-        // Ball and lefl wall collision
-        if (ball.getX() <= 0) {
-            ball.reverseX();
-            ball.setX(0);
-        }
-        // Ball and right wall collision
-        if (ball.getX() + ball.getWidth() >= Commons.SCREEN_WIDTH) {
-            ball.reverseX();
-            ball.setX(Commons.SCREEN_WIDTH - ball.getWidth());
-        }
-        // Ball and top wall collision
-        if (ball.getY() <= 0) {
             ball.reverseY();
-            ball.setY(0);
+            ball.setY(paddle.getY() - ball.getHeight());
+            collisionHandled = true;
+        }
+
+        // Ball and Bricks collison
+        for (int i = 0; i < amount_brick; i++) {
+            if (brick[i].getStatus() == 1) {
+                Rectangle brickRect = brick[i].getRect();
+                if (intersects(prevX, prevY, newX, newY, brickRect)) {
+                    handlePreciseBrickCollision(brickRect);
+                    brick[i].brick_break();
+                    player.setScore(player.getScore() + 10);
+                    collisionHandled = true;
+                    break;
+                }
+            }
+        }
+
+        // Ball and Wall collision
+        if (!collisionHandled) {
+            if (newX <= 0) {
+                ball.reverseX();
+                ball.setX(0);
+            } else if (newX + ball.getWidth() >= Commons.SCREEN_WIDTH) {
+                ball.reverseX();
+                ball.setX(Commons.SCREEN_WIDTH - ball.getWidth());
+            }
+
+            if (newY <= 0) {
+                ball.reverseY();
+                ball.setY(0);
+            }
         }
 
         // Fail
-        if (ball.getY() + ball.getHeight() >= Commons.SCREEN_HEIGHT) {
+        if (newY + ball.getHeight() >= Commons.SCREEN_HEIGHT) {
             player.setLife(player.getLife() - 1);
             if (player.getLife() == 0) {
                 savePerformance();
             } else {
-                paddle.setX((Commons.SCREEN_WIDTH - paddle.getWidth()) / 2);
-
-                ball.setX(paddle.getX() + paddle.getWidth() / 2 - ball.getWidth() / 2);
-                ball.setY(paddle.getY() - ball.getHeight());
+                resetBallAndPaddle();
             }
         }
+    }
+
+    private boolean intersects(int prevX, int prevY, int newX, int newY, Rectangle brick) {
+        Rectangle path = new Rectangle(Math.min(prevX, newX), Math.min(prevY, newY),
+                Math.abs(newX - prevX) + ball.getWidth(), Math.abs(newY - prevY) + ball.getHeight());
+        return path.intersects(brick);
+    }
+
+    // Handle collisions with bricks accurately
+    private void handlePreciseBrickCollision(Rectangle brick) {
+        int brickLeft = brick.x;
+        int brickRight = brick.x + brick.width;
+        int brickTop = brick.y;
+        int brickBottom = brick.y + brick.height;
+
+        int ballLeft = ball.getX();
+        int ballRight = ball.getX() + ball.getWidth();
+        int ballTop = ball.getY();
+        int ballBottom = ball.getY() + ball.getHeight();
+
+        int overlapLeft = Math.abs(ballRight - brickLeft);
+        int overlapRight = Math.abs(ballLeft - brickRight);
+        int overlapTop = Math.abs(ballBottom - brickTop);
+        int overlapBottom = Math.abs(ballTop - brickBottom);
+
+        int minOverlap = Math.min(Math.min(overlapLeft, overlapRight), Math.min(overlapTop, overlapBottom));
+
+        if (minOverlap == overlapTop) {
+            ball.reverseY();
+            ball.setY(brickTop - ball.getHeight());
+        } else if (minOverlap == overlapBottom) {
+            ball.reverseY();
+            ball.setY(brickBottom);
+        } else if (minOverlap == overlapLeft) {
+            ball.reverseX();
+            ball.setX(brickLeft - ball.getWidth());
+        } else if (minOverlap == overlapRight) {
+            ball.reverseX();
+            ball.setX(brickRight);
+        }
+    }
+
+    // Reset ball and paddle position
+    private void resetBallAndPaddle() {
+        paddle.setX((Commons.SCREEN_WIDTH - paddle.getWidth()) / 2);
+        ball.setX(paddle.getX() + paddle.getWidth() / 2 - ball.getWidth() / 2);
+        ball.setY(paddle.getY() - ball.getHeight());
     }
 
     public void savePerformance() {
@@ -306,15 +362,15 @@ public class Board extends JPanel implements Runnable {
 
     public void dropItem(int x, int y) {
         if (item.getNum() == 998) {
-            Random generator = new Random();
-            int value = generator.nextInt(10) + 1;
-
-            if (value % 3 == 0) {
-                item = new Item(100, 100, 9);
-                item.setX(x);
-                item.setY(y);
-                item.setNum(3);
-            }
+            // Random generator = new Random();
+            // int value = generator.nextInt(10)+1;
+            //
+            // if(value%3==0) {
+            item = new Item(100, 100, 9);
+            // item.setX(x);
+            // item.setY(y);
+            // item.setNum(3);
+            // }
 
         }
     }
