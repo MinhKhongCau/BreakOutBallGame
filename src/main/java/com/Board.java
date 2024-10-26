@@ -209,37 +209,37 @@ public class Board extends JPanel implements Runnable {
 
         checkCollisions();
 
-        // if (ball.getY() == 200) {
-        // dropItem(155, 80);
-        // }
-        // if (item.getY() > paddle.getY()
-        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-        // paddle.getWidth())) {
-        // touchItem(item);
-        // item = new Item(100, 150, 998);
-        // }
-        //
-        // if (item.getY() > Commons.SCREEN_HEIGHT) {
-        // item = new Item(100, 150, 998);
-        // }
-        //
-        // if (item.getNum() != 998) {
-        // item.move();
-        // }
-        // if (ball.getY() > 200) {
-        // dropItem(155, 80);
-        // }
-        //
-        // if (item.getY() > paddle.getY()
-        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-        // paddle.getWidth())) {
-        // touchItem(item);
-        // item = new Item(100, 150, 998);
-        // }
-        //
-        // if (item.getY() > Commons.SCREEN_HEIGHT) {
-        // item = new Item(100, 150, 998);
-        // }
+        if (ball.getY() == 200) {
+            dropItem(155, 80);
+        }
+        if (item.getY() > paddle.getY()
+                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+                        paddle.getWidth())) {
+            touchItem(item);
+            item = new Item(100, 150, 998);
+        }
+
+        if (item.getY() > Commons.SCREEN_HEIGHT) {
+            item = new Item(100, 150, 998);
+        }
+
+        if (item.getNum() != 998) {
+            item.move();
+        }
+        if (ball.getY() > 200) {
+            dropItem(155, 80);
+        }
+
+        if (item.getY() > paddle.getY()
+                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+                        paddle.getWidth())) {
+            touchItem(item);
+            item = new Item(100, 150, 998);
+        }
+
+        if (item.getY() > Commons.SCREEN_HEIGHT) {
+            item = new Item(100, 150, 998);
+        }
     }
 
     private void checkCollisions() {
@@ -362,15 +362,15 @@ public class Board extends JPanel implements Runnable {
 
     public void dropItem(int x, int y) {
         if (item.getNum() == 998) {
-            // Random generator = new Random();
-            // int value = generator.nextInt(10)+1;
-            //
-            // if(value%3==0) {
-            item = new Item(100, 100, 9);
-            // item.setX(x);
-            // item.setY(y);
-            // item.setNum(3);
-            // }
+            Random generator = new Random();
+            int value = generator.nextInt(10) + 1;
+
+            if (value % 3 == 0) {
+                item = new Item(100, 100, 9);
+                item.setX(x);
+                item.setY(y);
+                item.setNum(3);
+            }
 
         }
     }
@@ -403,8 +403,8 @@ public class Board extends JPanel implements Runnable {
             // }
             // setDefaultShield();
             // break;
-            default:
-                break;
+            // default:
+            // break;
         }
     }
 

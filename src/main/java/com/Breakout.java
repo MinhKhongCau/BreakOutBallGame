@@ -1,7 +1,5 @@
 package com;
 
-import com.Player;
-
 public class Breakout {
     private Player player;
 
