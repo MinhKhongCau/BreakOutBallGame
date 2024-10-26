@@ -340,7 +340,7 @@ public class Board extends JPanel implements Runnable {
     public void dropItem(int x, int y) {
         if (item1 == null) {
              Random generator = new Random();
-             int value = generator.nextInt(21)+1;           
+             int value = generator.nextInt(21)+1; 
              if(value%3==0) {
 	            item1 = new Item(x, y, value);
              }
@@ -348,83 +348,36 @@ public class Board extends JPanel implements Runnable {
         }else if(item2 == null) {
         	Random generator = new Random();
             int value = generator.nextInt(21)+1;
-           
             if(value%3==0) {
 	            item2 = new Item(x, y, value);
             }
         }
     }
 
-    public void touchItem(Item i) {
-    	TimerTask task1 = new TimerTask() {
-            public void run() {
-                paddle.setWidth(Commons.PADDLE_WIDTH);
-            }
-        };
-        TimerTask task2 = new TimerTask() {
-            public void run() {
-            	ball.setWidth(Commons.BALL_SIZE);
-                ball.setHeight(Commons.BALL_SIZE);
-                ball.setSpeed(Commons.BALL_SPEED);
-            }
-        };
-        TimerTask task3 = new TimerTask() {
-            public void run() {
-            	item_status=0;
-            }
-        };
-        
+    public void touchItem(Item i) {    	                      
         switch (i.getNum()) {
             case 3:
                 paddle.setWidth(Commons.PADDLE_WIDTH + 150);
-                if(defaultPaddle==null) {
-                	defaultPaddle = new Timer();
-                	defaultPaddle.schedule(task1, 5000);
-                }else {
-                	defaultPaddle.cancel();
-                	defaultPaddle = new Timer();
-                	defaultPaddle.schedule(task1, 5000);
-                }
+                setDefaultPaddle();
                 break;
                 
             case 6:
                 paddle.setWidth(Commons.PADDLE_WIDTH - 60);
-                if(defaultPaddle==null) {
-                	defaultPaddle = new Timer();
-                	defaultPaddle.schedule(task1, 5000);
-                }else {
-                	defaultPaddle.cancel();
-                	defaultPaddle = new Timer();
-                	defaultPaddle.schedule(task1, 5000);
-                }
+                setDefaultPaddle();
                 break;
                 
             case 9:
                 ball.setWidth(Commons.BALL_SIZE + 6);
                 ball.setHeight(Commons.BALL_SIZE + 6);
                 ball.setSpeed(ball.getSpeed()-50);
-                if(defaultBallSize==null) {
-                	defaultBallSize = new Timer();
-                	defaultBallSize.schedule(task2, 5000);
-                }else {
-                	defaultBallSize.cancel();
-                	defaultBallSize = new Timer();
-                	defaultBallSize.schedule(task2, 5000);
-                }
+                setDefaultBallSize();
                 break;
                 
             case 12:
                 ball.setWidth(Commons.BALL_SIZE - 4);
                 ball.setHeight(Commons.BALL_SIZE - 4);
                 ball.setSpeed(ball.getSpeed() + 50);
-                if(defaultBallSize==null) {
-                	defaultBallSize = new Timer();
-                	defaultBallSize.schedule(task2, 5000);
-                }else {
-                	defaultBallSize.cancel();
-                	defaultBallSize = new Timer();
-                	defaultBallSize.schedule(task2, 5000);
-                }
+                setDefaultBallSize();
                 break;
                 
             case 15:
@@ -433,18 +386,63 @@ public class Board extends JPanel implements Runnable {
             	
             case 18:
             	item_status=1;
-            	if(defaultBall==null) {
-            		defaultBall = new Timer();
-            		defaultBall.schedule(task3, 5000);
-                }else {
-                	defaultBall.cancel();
-                	defaultBall = new Timer();
-                	defaultBall.schedule(task3, 5000);
-                }
+            	setDefaultBall();
             	break;
             	
             default:
                 break;
+        }
+    }
+    
+    public void setDefaultPaddle() {
+    	TimerTask task1 = new TimerTask() {
+            public void run() {
+                paddle.setWidth(Commons.PADDLE_WIDTH);
+            }
+        };
+        
+    	if(defaultPaddle==null) {
+        	defaultPaddle = new Timer();
+        	defaultPaddle.schedule(task1, 5000);
+        }else {
+        	defaultPaddle.cancel();
+        	defaultPaddle = new Timer();
+        	defaultPaddle.schedule(task1, 5000);
+        }
+    }
+    
+    public void setDefaultBallSize() {
+    	TimerTask task2 = new TimerTask() {
+            public void run() {
+            	ball.setWidth(Commons.BALL_SIZE);
+                ball.setHeight(Commons.BALL_SIZE);
+                ball.setSpeed(Commons.BALL_SPEED);
+            }
+        };
+        
+    	if(defaultBallSize==null) {
+        	defaultBallSize = new Timer();
+        	defaultBallSize.schedule(task2, 5000);
+        }else {
+        	defaultBallSize.cancel();
+        	defaultBallSize = new Timer();
+        	defaultBallSize.schedule(task2, 5000);
+        }
+    }
+    public void setDefaultBall() {
+    	TimerTask task3 = new TimerTask() {
+            public void run() {
+            	item_status=0;
+            }
+        };
+        
+    	if(defaultBall==null) {
+    		defaultBall = new Timer();
+    		defaultBall.schedule(task3, 5000);
+        }else {
+        	defaultBall.cancel();
+        	defaultBall = new Timer();
+        	defaultBall.schedule(task3, 5000);
         }
     }
 }
