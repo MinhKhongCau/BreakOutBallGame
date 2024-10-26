@@ -53,7 +53,7 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener {
         int panelWidth = Commons.SCREEN_WIDTH, panelHeight = Commons.SCREEN_HEIGHT;
         // init screen with scale 16/9
         this.setSize(panelWidth, panelHeight);
-        this.setBackground(new Color(54, 66, 66));
+        this.setBackground(Commons.BACKGROUND_COLOR);
         this.setLayout(new BorderLayout());
 
         JLabel labelName = new JLabel("Name: Unknown");
@@ -84,13 +84,13 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener {
             this.rightLabel = rightLabel;
 
             // set UI label
-            this.leftLabel.setForeground(new java.awt.Color(250, 242, 233));
-            this.leftLabel.setFont(Commons.mediumfont);
-            this.rightLabel.setForeground(new java.awt.Color(250, 242, 233));
-            this.rightLabel.setFont(Commons.mediumfont);
+            this.leftLabel.setForeground(Commons.COMPONENT_COLOR);
+            this.leftLabel.setFont(Commons.MEDIUM_FONT);
+            this.rightLabel.setForeground(Commons.COMPONENT_COLOR);
+            this.rightLabel.setFont(Commons.MEDIUM_FONT);
 
             // set UI panel
-            setBackground(new Color(54, 66, 66));
+            setBackground(Commons.BACKGROUND_COLOR);
             setBorder(Commons.INFO_BORDER);
             setLayout(new BorderLayout());
             setOpaque(false);
@@ -185,14 +185,19 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener {
                     update();
                     // If the player runs out of lives, save the result and stop the game.
                     // repaint component
-                    // repaint(ball.getX() - ball.getWidth() * 5, ball.getY() - ball.getHeight() * 5, ball.getWidth() * 5,
-                    //         ball.getHeight() * 5);
-                    // repaint(0, paddle.getY(), Commons.SCREEN_WIDTH, paddle.getHeight() * 2);
-                    // repaint(item.getX() - item.getWidth(), item.getY() - item.getHeight(),
-                    //         item.getWidth() * 2,
-                    //         item.getHeight() * 2);
-                    repaint();
-
+                    repaint(ball.getX() - ball.getWidth() * 5, ball.getY() - ball.getHeight() * 5, ball.getWidth() * 5,
+                            ball.getHeight() * 5);
+                    repaint(0, paddle.getY(), Commons.SCREEN_WIDTH, paddle.getHeight() * 2);
+                    if(item1!=null) {
+	                    repaint(item1.getX() - item1.getWidth(), item1.getY() - item1.getHeight(),
+	                            item1.getWidth() * 2,
+	                            item1.getHeight() * 2);
+                    }
+                    if(item2!=null) {
+	                    repaint(item2.getX() - item2.getWidth(), item2.getY() - item2.getHeight(),
+	                            item2.getWidth() * 2,
+	                            item2.getHeight() * 2);
+                    }
                     delta -= msPerFrame; // Reduce delta since we've processed one frame
                 }
                 clock.sleep((long) msPerFrame);
@@ -239,7 +244,7 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener {
             	 item1 = null;
              }
 
-             if (item1 != null && item1.getY() > Commons.SCREEN_HEIGHT) {
+             if (item1 != null && (item1.getY() + item1.getHeight() >= Commons.SCREEN_HEIGHT)) {
             	 item1 = null;
              }
         }
@@ -254,7 +259,7 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener {
             	 item2 = null;
              }
 
-             if (item2 != null && item2.getY() > Commons.SCREEN_HEIGHT) {
+             if (item2 != null && (item2.getY() + item2.getHeight() >= Commons.SCREEN_HEIGHT)) {
             	 item2 = null;
              }
         }

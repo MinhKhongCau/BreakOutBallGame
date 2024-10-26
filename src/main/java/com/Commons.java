@@ -55,8 +55,10 @@ public interface Commons {
     int RANK_WIDTH = TILE_SIZE * 18;
     int RANK_HEIGHT = TILE_SIZE * 36;
     // Font in Commons
-    Font smallfont = new java.awt.Font("Segoe UI", Font.BOLD, 12);
-    Font mediumfont = new java.awt.Font("Segoe UI", Font.BOLD, 16);
-    Font lanrgefont = new java.awt.Font("Segoe UI", Font.BOLD, 20);
-
+    Font SMALL_FONT = new java.awt.Font("Segoe UI", Font.BOLD, 12);
+    Font MEDIUM_FONT = new java.awt.Font("Segoe UI", Font.BOLD, 16);
+    Font LARGE_FONT = new java.awt.Font("Segoe UI", Font.BOLD, 20);
+    // Color in Game
+    Color BACKGROUND_COLOR = new Color(54, 66, 66);
+    Color COMPONENT_COLOR = new Color(250, 242, 233);
 }

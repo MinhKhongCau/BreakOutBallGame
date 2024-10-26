@@ -4,6 +4,7 @@
  */
 package com;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -28,8 +29,7 @@ public class Login extends JPanel{
     public Login() {
         
         setSize(400,300);
-        setBackground(new java.awt.Color(54, 66, 66));
-        setForeground(java.awt.Color.darkGray);
+        setBackground(Commons.BACKGROUND_COLOR);
         setLayout(new GridBagLayout());
         
         GridBagConstraints gbc = new GridBagConstraints();
@@ -43,9 +43,9 @@ public class Login extends JPanel{
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
         labelTitle = new JLabel();
-        labelTitle.setBackground(new java.awt.Color(153, 153, 153));
-        labelTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        labelTitle.setForeground(new java.awt.Color(250, 242, 233));
+        labelTitle.setBackground(Commons.BACKGROUND_COLOR);
+        labelTitle.setFont(Commons.LARGE_FONT); // NOI18N
+        labelTitle.setForeground(Commons.COMPONENT_COLOR);
         labelTitle.setText("BREAK OUT BALL GAME");
         add(labelTitle,gbc);
         
@@ -58,12 +58,12 @@ public class Login extends JPanel{
         gbc.anchor = GridBagConstraints.EAST;
         labelNickName = new JLabel("Nick name: ");
         labelNickName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        labelNickName.setForeground(new java.awt.Color(250, 242, 233));
+        labelNickName.setForeground(Commons.COMPONENT_COLOR);
         add(labelNickName,gbc);
         
         textNickName = new JTextField();
-        textNickName.setBackground(new java.awt.Color(54, 66, 66));
-        textNickName.setForeground(new java.awt.Color(250, 242, 233));
+        textNickName.setBackground(Commons.BACKGROUND_COLOR);
+        textNickName.setForeground(Commons.COMPONENT_COLOR);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -71,8 +71,8 @@ public class Login extends JPanel{
         
         buttonStart = new JButton();
         buttonStart.setText("Get started");
-        buttonStart.setBackground(new java.awt.Color(0, 102, 255));
-        buttonStart.setForeground(new java.awt.Color(250, 242, 233));
+        buttonStart.setBackground(new Color(0, 102, 255));
+        buttonStart.setForeground(Commons.COMPONENT_COLOR);
         buttonStart.setBorderPainted(false);
         buttonStart.addActionListener((ActionEvent evt) -> {
             buttonStartActionPerformed(evt);
