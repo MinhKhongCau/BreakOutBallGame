@@ -176,10 +176,16 @@ public class Board extends JPanel implements Runnable {
                     repaint(ball.getX() - ball.getWidth() * 5, ball.getY() - ball.getHeight() * 5, ball.getWidth() * 5,
                             ball.getHeight() * 5);
                     repaint(0, paddle.getY(), Commons.SCREEN_WIDTH, paddle.getHeight() * 2);
-//                    repaint(item.getX() - item.getWidth(), item.getY() - item.getHeight(),
-//                            item.getWidth() * 2,
-//                            item.getHeight() * 2);
-
+                    if(item1!=null) {
+	                    repaint(item1.getX() - item1.getWidth(), item1.getY() - item1.getHeight(),
+	                            item1.getWidth() * 2,
+	                            item1.getHeight() * 2);
+                    }
+                    if(item2!=null) {
+	                    repaint(item2.getX() - item2.getWidth(), item2.getY() - item2.getHeight(),
+	                            item2.getWidth() * 2,
+	                            item2.getHeight() * 2);
+                    }
                     delta -= msPerFrame; // Reduce delta since we've processed one frame
                 }
                 clock.sleep((long) msPerFrame);
