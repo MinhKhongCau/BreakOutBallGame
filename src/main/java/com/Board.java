@@ -14,13 +14,16 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import DatabaseConfig.ConnectionConfig;
+import SubGame.InfoPanel;
+import SubGame.PrepareGame;
 import java.awt.BorderLayout;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Board extends JPanel implements Runnable,Login.StartGameListener {
+public class Board extends JPanel implements Runnable,Login.StartGameListener{
     private Thread clock;
     private Paddle paddle;
     private Ball ball;
@@ -69,42 +72,22 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener {
         this.add(bottomPanel, BorderLayout.SOUTH);
     }
 
+    @Override
     public void startGame(String playerName) {
-        player = new Player(playerName, 0, 3);
-        startedGame(player);
+        this.player = new Player(playerName, 0, 3);
         this.remove(login);
-    }
-
-    private class InfoPanel extends JPanel {
-        private JLabel leftLabel;
-        private JLabel rightLabel;
-
-        public InfoPanel(JLabel leftLabel, JLabel rightLabel) {
-            this.leftLabel = leftLabel;
-            this.rightLabel = rightLabel;
-
-            // set UI label
-            this.leftLabel.setForeground(Commons.COMPONENT_COLOR);
-            this.leftLabel.setFont(Commons.MEDIUM_FONT);
-            this.rightLabel.setForeground(Commons.COMPONENT_COLOR);
-            this.rightLabel.setFont(Commons.MEDIUM_FONT);
-
-            // set UI panel
-            setBackground(Commons.BACKGROUND_COLOR);
-            setBorder(Commons.INFO_BORDER);
-            setLayout(new BorderLayout());
-            setOpaque(false);
-            add(this.leftLabel, BorderLayout.WEST);
-            add(this.rightLabel, BorderLayout.EAST);
-        }
-
-        public void setLeftLabel(String title) {
-            this.leftLabel.setText(title);
-        }
-
-        public void setRightLabel(String title) {
-            this.rightLabel.setText(title);
-        }
+        
+        PrepareGame prepare = new PrepareGame();
+        this.add(prepare, BorderLayout.EAST);
+        prepare.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Board.this.remove(prepare);
+                startedGame();
+            }
+        });
+        this.repaint();
+        
     }
 
     private void createBrick(Brick[] brick) {
@@ -120,8 +103,7 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener {
         }
     }
 
-    public void startedGame(Player player) {
-        this.player = player;
+    public void startedGame() {
         clock = new Thread(this);
         clock.start();
     }
@@ -287,18 +269,18 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener {
 	            if (brick[i].getStatus() == 1 &&
 	                    ball.getRect().intersects(brick[i].getRect())) {
 	                brick[i].brick_break(); // Break the brick
-	                dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2, brick[i].getY()+Commons.BRICK_HEIGHT/2);
+//	                dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2, brick[i].getY()+Commons.BRICK_HEIGHT/2);
 	                player.setScore(player.getScore() + 10); // Increase score
 	                // break; // Exit loop after collision
 	            }
 	        }
-        }else {
+        } else {
         	for (int i = 0; i < amount_brick; i++) {
 	            if (brick[i].getStatus() == 1 &&
 	                    ball.getRect().intersects(brick[i].getRect())) {
 	                ball.reverseY(); // Change direction on collision
 	                brick[i].brick_break(); // Break the brick
-	                dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2, brick[i].getY()+Commons.BRICK_HEIGHT/2);
+//	                dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2, brick[i].getY()+Commons.BRICK_HEIGHT/2);
 	                player.setScore(player.getScore() + 10); // Increase score
 	                // break; // Exit loop after collision
 	            }
@@ -429,14 +411,14 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener {
 
     public void dropItem(int x, int y) {
         if (item1 == null) {
-             Random generator = new Random();
-             int value = generator.nextInt(21)+1;
-            
-             if(value%3==0) {
-	            item1 = new Item(x, y, value);
-             }
+            Random generator = new Random();
+            int value = generator.nextInt(21)+1;
 
-        }else if(item2 == null) {
+            if(value%3==0) {
+                   item1 = new Item(x, y, value);
+            }
+
+        } else if(item2 == null) {
         	Random generator = new Random();
             int value = generator.nextInt(21)+1;
            

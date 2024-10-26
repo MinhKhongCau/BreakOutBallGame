@@ -96,8 +96,8 @@ public class Login extends JPanel{
     }
         
     public void prepareGame(StartGameListener start) {
-        this.start = start;
-    }
+       this.start = start;
+    } 
     
     public interface StartGameListener {
         void startGame(String playerName);

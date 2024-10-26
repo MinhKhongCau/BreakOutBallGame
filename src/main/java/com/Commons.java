@@ -20,7 +20,7 @@ public interface Commons {
     int SCREEN_WIDTH = TILE_SIZE * SCREEN_COL;
     int SCREEN_HEIGHT = TILE_SIZE * SCREEN_ROW;
     // Commons in paddle dimention
-    int INIT_PADDLE_X = 200;
+    int INIT_PADDLE_X = SCREEN_WIDTH/2;
     int INIT_PADDLE_Y = SCREEN_HEIGHT / 10 * 8;
     int PADDLE_WIDTH = TILE_SIZE * 8;
     int PADDLE_HEIGHT = TILE_SIZE * 1;
@@ -33,8 +33,8 @@ public interface Commons {
     int ITEM_SIZE = TILE_SIZE - 5;
     // Commons in ball dimention
     int BALL_SPEED = 250;
-    int INIT_BALL_X = 100;
-    int INIT_BALL_Y = 100;
+    int INIT_BALL_X = SCREEN_WIDTH/2;
+    int INIT_BALL_Y = SCREEN_HEIGHT/2;
     int BALL_SIZE = TILE_SIZE;
     int PERIOD = 10;
     // Commons in login form dimention
@@ -47,7 +47,7 @@ public interface Commons {
     Border BOARD_BORDER = BorderFactory.createMatteBorder(100, 0, 1000, 0, new Color(250, 242, 233));
     int INPUT_WIDTH = 100;
     // Commons of Windows toolkit
-    Toolkit toolkit = Toolkit.getDefaultToolkit();
+    Toolkit TOOL_KIT = Toolkit.getDefaultToolkit();
     // Delta time
     int FPS = 60;
     double DELTA_TIME = (double) 1 / FPS;
