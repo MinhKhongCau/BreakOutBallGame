@@ -1,10 +1,13 @@
-D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Board.java
 D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Commons.java
-D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Ball.java
 D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Player.java
-D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Paddle.java
 D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Breakout.java
-D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Sprite.java
+D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Item.java
 D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\DatabaseConfig\ConnectionConfig.java
+D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Board.java
+D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Ball.java
+D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Brick.java
+D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Paddle.java
+D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\RankingTable.java
+D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Sprite.java
 D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\Person.java
 D:\workspace\EclipseProject\BreakOutBallGame\src\main\java\com\LoginForm.java

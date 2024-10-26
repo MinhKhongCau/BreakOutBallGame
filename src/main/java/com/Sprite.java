@@ -4,11 +4,11 @@ import java.awt.image.BufferedImage;
 import java.awt.Rectangle;
 
 public class Sprite {
-    public int x;
-    public int y;
-    public int imageWidth;
-    public int imageHeight;
-    public BufferedImage image;
+    protected int x;
+    protected int y;
+    protected int imageWidth;
+    protected int imageHeight;
+    protected BufferedImage image;
 
     public BufferedImage getImage() {
         return image;
@@ -50,14 +50,15 @@ public class Sprite {
         this.x = x;
     }
 
-    Rectangle getRect() {
-
-        return new Rectangle(x, y,
-                image.getWidth(null), image.getHeight(null));
+    public Rectangle getRect() {
+        if (image == null) {
+            return new Rectangle(x, y, imageWidth, imageHeight);
+        }
+        return new Rectangle(x, y, image.getWidth(), image.getHeight());
     }
 
     void getImageDimensions() {
-        imageWidth = image.getWidth(null);
-        imageHeight = image.getHeight(null);
+        imageWidth = image.getWidth();
+        imageHeight = image.getHeight();
     }
 }
