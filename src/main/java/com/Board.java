@@ -2,6 +2,7 @@ package com;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.sql.Connection;
@@ -168,9 +169,9 @@ public class Board extends JPanel implements Runnable {
                     repaint(ball.getX() - ball.getWidth() * 5, ball.getY() - ball.getHeight() * 5, ball.getWidth() * 5,
                             ball.getHeight() * 5);
                     repaint(0, paddle.getY(), Commons.SCREEN_WIDTH, paddle.getHeight() * 2);
-//                    repaint(item.getX() - item.getWidth(), item.getY() - item.getHeight(),
-//                            item.getWidth() * 2,
-//                            item.getHeight() * 2);
+                    // repaint(item.getX() - item.getWidth(), item.getY() - item.getHeight(),
+                    // item.getWidth() * 2,
+                    // item.getHeight() * 2);
 
                     delta -= msPerFrame; // Reduce delta since we've processed one frame
                 }
@@ -208,89 +209,139 @@ public class Board extends JPanel implements Runnable {
 
         checkCollisions();
 
-//        if (ball.getY() == 200) {
-//            dropItem(155, 80);
-//        }
-//        if (item.getY() > paddle.getY()
-//                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-//                        paddle.getWidth())) {
-//            touchItem(item);
-//            item = new Item(100, 150, 998);
-//        }
-//
-//        if (item.getY() > Commons.SCREEN_HEIGHT) {
-//            item = new Item(100, 150, 998);
-//        }
-//
-//        if (item.getNum() != 998) {
-//            item.move();
-//        }
-//        if (ball.getY() > 200) {
-//            dropItem(155, 80);
-//        }
-//
-//        if (item.getY() > paddle.getY()
-//                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-//                        paddle.getWidth())) {
-//            touchItem(item);
-//            item = new Item(100, 150, 998);
-//        }
-//
-//        if (item.getY() > Commons.SCREEN_HEIGHT) {
-//            item = new Item(100, 150, 998);
-//        }
+        // if (ball.getY() == 200) {
+        // dropItem(155, 80);
+        // }
+        // if (item.getY() > paddle.getY()
+        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+        // paddle.getWidth())) {
+        // touchItem(item);
+        // item = new Item(100, 150, 998);
+        // }
+        //
+        // if (item.getY() > Commons.SCREEN_HEIGHT) {
+        // item = new Item(100, 150, 998);
+        // }
+        //
+        // if (item.getNum() != 998) {
+        // item.move();
+        // }
+        // if (ball.getY() > 200) {
+        // dropItem(155, 80);
+        // }
+        //
+        // if (item.getY() > paddle.getY()
+        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+        // paddle.getWidth())) {
+        // touchItem(item);
+        // item = new Item(100, 150, 998);
+        // }
+        //
+        // if (item.getY() > Commons.SCREEN_HEIGHT) {
+        // item = new Item(100, 150, 998);
+        // }
     }
 
     private void checkCollisions() {
+        boolean collisionHandled = false;
+        int prevX = ball.getPrevX();
+        int prevY = ball.getPrevY();
+        int newX = ball.getX();
+        int newY = ball.getY();
+
         // Ball and paddle collision
         if (ball.getRect().intersects(paddle.getRect())) {
-            if (ball.getY() + ball.getHeight() >= paddle.getY()
-                    && ball.getY() + ball.getHeight() <= paddle.getY() + paddle.getHeight() / 2) {
-                ball.reverseY();
-                ball.setY(paddle.getY() - ball.getHeight());
-            }
-        }
-
-        // Ball and bricks collision
-        for (int i = 0; i < amount_brick; i++) {
-            if (brick[i].getStatus() == 1 &&
-                    ball.getRect().intersects(brick[i].getRect())) {
-                ball.reverseY(); // Change direction on collision
-                brick[i].brick_break(); // Break the brick
-                player.setScore(player.getScore() + 10); // Increase score
-                // break; // Exit loop after collision
-            }
-        }
-
-        // Ball and wall collision
-        // Ball and lefl wall collision
-        if (ball.getX() <= 0) {
-            ball.reverseX();
-            ball.setX(0);
-        }
-        // Ball and right wall collision
-        if (ball.getX() + ball.getWidth() >= Commons.SCREEN_WIDTH) {
-            ball.reverseX();
-            ball.setX(Commons.SCREEN_WIDTH - ball.getWidth());
-        }
-        // Ball and top wall collision
-        if (ball.getY() <= 0) {
             ball.reverseY();
-            ball.setY(0);
+            ball.setY(paddle.getY() - ball.getHeight());
+            collisionHandled = true;
+        }
+
+        // Ball and Bricks collison
+        for (int i = 0; i < amount_brick; i++) {
+            if (brick[i].getStatus() == 1) {
+                Rectangle brickRect = brick[i].getRect();
+                if (intersects(prevX, prevY, newX, newY, brickRect)) {
+                    handlePreciseBrickCollision(brickRect);
+                    brick[i].brick_break();
+                    player.setScore(player.getScore() + 10);
+                    collisionHandled = true;
+                    break;
+                }
+            }
+        }
+
+        // Ball and Wall collision
+        if (!collisionHandled) {
+            if (newX <= 0) {
+                ball.reverseX();
+                ball.setX(0);
+            } else if (newX + ball.getWidth() >= Commons.SCREEN_WIDTH) {
+                ball.reverseX();
+                ball.setX(Commons.SCREEN_WIDTH - ball.getWidth());
+            }
+
+            if (newY <= 0) {
+                ball.reverseY();
+                ball.setY(0);
+            }
         }
 
         // Fail
-        if (ball.getY() + ball.getHeight() >= Commons.SCREEN_HEIGHT) {
+        if (newY + ball.getHeight() >= Commons.SCREEN_HEIGHT) {
             player.setLife(player.getLife() - 1);
             if (player.getLife() == 0) {
                 savePerformance();
             } else {
-                paddle.setX((Commons.SCREEN_WIDTH - paddle.getWidth()) / 2);
-
-                ball.setX(paddle.getX() + paddle.getWidth() / 2 - ball.getWidth() / 2);
-                ball.setY(paddle.getY() - ball.getHeight());
+                resetBallAndPaddle();
             }
         }
+    }
+
+    private boolean intersects(int prevX, int prevY, int newX, int newY, Rectangle brick) {
+        Rectangle path = new Rectangle(Math.min(prevX, newX), Math.min(prevY, newY),
+                Math.abs(newX - prevX) + ball.getWidth(), Math.abs(newY - prevY) + ball.getHeight());
+        return path.intersects(brick);
+    }
+
+    // Handle collisions with bricks accurately
+    private void handlePreciseBrickCollision(Rectangle brick) {
+        int brickLeft = brick.x;
+        int brickRight = brick.x + brick.width;
+        int brickTop = brick.y;
+        int brickBottom = brick.y + brick.height;
+
+        int ballLeft = ball.getX();
+        int ballRight = ball.getX() + ball.getWidth();
+        int ballTop = ball.getY();
+        int ballBottom = ball.getY() + ball.getHeight();
+
+        int overlapLeft = Math.abs(ballRight - brickLeft);
+        int overlapRight = Math.abs(ballLeft - brickRight);
+        int overlapTop = Math.abs(ballBottom - brickTop);
+        int overlapBottom = Math.abs(ballTop - brickBottom);
+
+        int minOverlap = Math.min(Math.min(overlapLeft, overlapRight), Math.min(overlapTop, overlapBottom));
+
+        if (minOverlap == overlapTop) {
+            ball.reverseY();
+            ball.setY(brickTop - ball.getHeight());
+        } else if (minOverlap == overlapBottom) {
+            ball.reverseY();
+            ball.setY(brickBottom);
+        } else if (minOverlap == overlapLeft) {
+            ball.reverseX();
+            ball.setX(brickLeft - ball.getWidth());
+        } else if (minOverlap == overlapRight) {
+            ball.reverseX();
+            ball.setX(brickRight);
+        }
+    }
+
+    // Reset ball and paddle position
+    private void resetBallAndPaddle() {
+        paddle.setX((Commons.SCREEN_WIDTH - paddle.getWidth()) / 2);
+        ball.setX(paddle.getX() + paddle.getWidth() / 2 - ball.getWidth() / 2);
+        ball.setY(paddle.getY() - ball.getHeight());
     }
 
     public void savePerformance() {
@@ -380,14 +431,14 @@ public class Board extends JPanel implements Runnable {
     }
 
     // public void setDefaultShield() {
-    //     Timer t = new Timer();
-    //     TimerTask task = new TimerTask() {
-    //         public void run() {
-    //             if (ball.getY() == paddle.getY()) {
-    //                 ball.setDir(1);
-    //             }
-    //         }
-    //     };
-    //     t.schedule(task, 10000);
+    // Timer t = new Timer();
+    // TimerTask task = new TimerTask() {
+    // public void run() {
+    // if (ball.getY() == paddle.getY()) {
+    // ball.setDir(1);
+    // }
+    // }
+    // };
+    // t.schedule(task, 10000);
     // }
 }

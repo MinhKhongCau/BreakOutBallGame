@@ -8,8 +8,11 @@ import java.awt.Rectangle;
 public class Ball extends Sprite {
     private int width;
     private int height;
-    private int dir = 3;
+    private int dir = 2;
     private int speed;
+
+    private int prevX;
+    private int prevY;
 
     public Ball() {
         this.x = Commons.INIT_BALL_X;
@@ -46,10 +49,24 @@ public class Ball extends Sprite {
         this.speed = speed;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public int getPrevX() {
+        return prevX;
+    }
+
+    public int getPrevY() {
+        return prevY;
+    }
+
     /**
      * Move function
      */
     public void move() {
+        prevX = this.x;
+        prevY = this.y;
         try {
             // dir = 1: up + right
             // dir = 2: down + right
@@ -83,8 +100,10 @@ public class Ball extends Sprite {
 
     public void reverseY() {
         // 1 -> 2 : 2 -> 1 : 3 -> 4 : 4 -> 3
-        if (dir % 2 == 0) dir -= 1;
-        else dir += 1;
+        if (dir % 2 == 0)
+            dir -= 1;
+        else
+            dir += 1;
     }
 
     public void draw(Graphics g) {
