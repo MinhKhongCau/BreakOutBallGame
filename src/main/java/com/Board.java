@@ -15,10 +15,11 @@ import javax.swing.*;
 import DatabaseConfig.ConnectionConfig;
 import java.awt.BorderLayout;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Board extends JPanel implements Runnable {
+public class Board extends JPanel implements Runnable,Login.StartGameListener {
     private Thread clock;
     private Paddle paddle;
     private Ball ball;
@@ -28,10 +29,14 @@ public class Board extends JPanel implements Runnable {
     private Item item;
     private InfoPanel topPanel;
     private InfoPanel bottomPanel;
+    private Login login;
     private int FPS = Commons.FPS;
 
     public Board() {
         initComponent();
+        login = new Login();
+        login.prepareGame(this);
+        this.add(login);
     }
 
     private void initComponent() {
@@ -58,6 +63,12 @@ public class Board extends JPanel implements Runnable {
 
         bottomPanel = new InfoPanel(labelLife, labelScore);
         this.add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    public void startGame(String playerName) {
+        player = new Player(playerName, 0, 3);
+        startedGame(player);
+        this.remove(login);
     }
 
     private class InfoPanel extends JPanel {
@@ -168,9 +179,9 @@ public class Board extends JPanel implements Runnable {
                     repaint(ball.getX() - ball.getWidth() * 5, ball.getY() - ball.getHeight() * 5, ball.getWidth() * 5,
                             ball.getHeight() * 5);
                     repaint(0, paddle.getY(), Commons.SCREEN_WIDTH, paddle.getHeight() * 2);
-//                    repaint(item.getX() - item.getWidth(), item.getY() - item.getHeight(),
-//                            item.getWidth() * 2,
-//                            item.getHeight() * 2);
+                    // repaint(item.getX() - item.getWidth(), item.getY() - item.getHeight(),
+                    // item.getWidth() * 2,
+                    // item.getHeight() * 2);
 
                     delta -= msPerFrame; // Reduce delta since we've processed one frame
                 }
@@ -208,37 +219,37 @@ public class Board extends JPanel implements Runnable {
 
         checkCollisions();
 
-//        if (ball.getY() == 200) {
-//            dropItem(155, 80);
-//        }
-//        if (item.getY() > paddle.getY()
-//                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-//                        paddle.getWidth())) {
-//            touchItem(item);
-//            item = new Item(100, 150, 998);
-//        }
-//
-//        if (item.getY() > Commons.SCREEN_HEIGHT) {
-//            item = new Item(100, 150, 998);
-//        }
-//
-//        if (item.getNum() != 998) {
-//            item.move();
-//        }
-//        if (ball.getY() > 200) {
-//            dropItem(155, 80);
-//        }
-//
-//        if (item.getY() > paddle.getY()
-//                && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
-//                        paddle.getWidth())) {
-//            touchItem(item);
-//            item = new Item(100, 150, 998);
-//        }
-//
-//        if (item.getY() > Commons.SCREEN_HEIGHT) {
-//            item = new Item(100, 150, 998);
-//        }
+        // if (ball.getY() == 200) {
+        // dropItem(155, 80);
+        // }
+        // if (item.getY() > paddle.getY()
+        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+        // paddle.getWidth())) {
+        // touchItem(item);
+        // item = new Item(100, 150, 998);
+        // }
+        //
+        // if (item.getY() > Commons.SCREEN_HEIGHT) {
+        // item = new Item(100, 150, 998);
+        // }
+        //
+        // if (item.getNum() != 998) {
+        // item.move();
+        // }
+        // if (ball.getY() > 200) {
+        // dropItem(155, 80);
+        // }
+        //
+        // if (item.getY() > paddle.getY()
+        // && (item.getX() >= paddle.getX() && item.getX() <= paddle.getX() +
+        // paddle.getWidth())) {
+        // touchItem(item);
+        // item = new Item(100, 150, 998);
+        // }
+        //
+        // if (item.getY() > Commons.SCREEN_HEIGHT) {
+        // item = new Item(100, 150, 998);
+        // }
     }
 
     private void checkCollisions() {
@@ -380,14 +391,14 @@ public class Board extends JPanel implements Runnable {
     }
 
     // public void setDefaultShield() {
-    //     Timer t = new Timer();
-    //     TimerTask task = new TimerTask() {
-    //         public void run() {
-    //             if (ball.getY() == paddle.getY()) {
-    //                 ball.setDir(1);
-    //             }
-    //         }
-    //     };
-    //     t.schedule(task, 10000);
+    // Timer t = new Timer();
+    // TimerTask task = new TimerTask() {
+    // public void run() {
+    // if (ball.getY() == paddle.getY()) {
+    // ball.setDir(1);
+    // }
+    // }
+    // };
+    // t.schedule(task, 10000);
     // }
 }
