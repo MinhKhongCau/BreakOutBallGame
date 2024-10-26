@@ -16,12 +16,12 @@ public class Person {
         this.id = "0000";
         this.name = "unknown";
     }
-    
+
     public Person(String id, String name) {
         this.id = id;
         this.name = name;
     }
-    
+
     public String getId() {
         return id;
     }
