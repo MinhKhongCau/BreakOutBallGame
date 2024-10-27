@@ -257,72 +257,56 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
 
         // Ball and paddle collision
         if (ball.getRect().intersects(paddle.getRect())) {
-            if (ball.getY() + ball.getHeight() >= paddle.getY()
-                    && ball.getY() + ball.getHeight() <= paddle.getY() + paddle.getHeight() / 2) {
-                ball.reverseY();
-                ball.setY(paddle.getY() - ball.getHeight());
-            }
-        }
-
-        // Ball and bricks collision
-        if (item_status == 1) {
-            for (int i = 0; i < amount_brick; i++) {
-                if (brick[i].getStatus() == 1 &&
-                        ball.getRect().intersects(brick[i].getRect())) {
-                    brick[i].brick_break(); // Break the brick
-                    // dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2,
-                    // brick[i].getY()+Commons.BRICK_HEIGHT/2);
-                    player.setScore(player.getScore() + 10); // Increase score
-                    // break; // Exit loop after collision
-                }
-            }
-        } else {
-            for (int i = 0; i < amount_brick; i++) {
-                if (brick[i].getStatus() == 1 &&
-                        ball.getRect().intersects(brick[i].getRect())) {
-                    ball.reverseY(); // Change direction on collision
-                    brick[i].brick_break(); // Break the brick
-                    // dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2,
-                    // brick[i].getY()+Commons.BRICK_HEIGHT/2);
-                    player.setScore(player.getScore() + 10); // Increase score
-                    // break; // Exit loop after collision
-                }
-            }
-        }
-
-        // Ball and wall collision
-        // Ball and lefl wall collision
-        if (ball.getX() <= 0) {
-            ball.reverseX();
-            ball.setX(0);
-        }
-        // Ball and right wall collision
-        if (ball.getX() + ball.getWidth() >= Commons.SCREEN_WIDTH) {
-            ball.reverseX();
-            ball.setX(Commons.SCREEN_WIDTH - ball.getWidth());
-        }
-        // Ball and top wall collision
-        if (ball.getY() <= 0) {
             ball.reverseY();
             ball.setY(paddle.getY() - ball.getHeight());
             collisionHandled = true;
         }
 
-        // Ball and Bricks collison
-        for (int i = 0; i < amount_brick; i++) {
-            if (brick[i].getStatus() == 1) {
-                Rectangle brickRect = brick[i].getRect();
-                if (intersects(prevX, prevY, newX, newY, brickRect)) {
-                    handlePreciseBrickCollision(brickRect);
-                    brick[i].brick_break();
-                    player.setScore(player.getScore() + 10);
-                    collisionHandled = true;
-                    break;
+        // for (int i = 0; i < amount_brick; i++) {
+        // if (brick[i].getStatus() == 1) {
+        // Rectangle brickRect = brick[i].getRect();
+        // if (intersects(prevX, prevY, newX, newY, brickRect)) {
+        // handlePreciseBrickCollision(brickRect); // Sử dụng thuật toán chính xác hơn
+        // brick[i].brick_break();
+        // // dropItem(brick[i].getX() + Commons.BRICK_WIDTH / 2);
+        // // brick[i].getY()+Commons.BRICK_HEIGHT/2);
+        // player.setScore(player.getScore() + 10);
+        // collisionHandled = true;
+        // break;
+        // }
+        // }
+        // }
+
+        // Ball and brick collision
+        if (item_status == 1) {
+            for (int i = 0; i < amount_brick; i++) {
+                if (brick[i].getStatus() == 1 && ball.getRect().intersects(brick[i].getRect())) {
+                    Rectangle brickRect = brick[i].getRect();
+                    if (intersects(prevX, prevY, newX, newY, brickRect)) {
+                        handlePreciseBrickCollision(brickRect);
+                        brick[i].brick_break(); // Break the brick
+                        dropItem(brick[i].getX() + Commons.BRICK_WIDTH / 2, brick[i].getY() + Commons.BRICK_HEIGHT / 2);
+                        player.setScore(player.getScore() + 10); // Increase score
+                        break; // Exit loop after collision
+                    }
+                }
+            }
+        } else {
+            for (int i = 0; i < amount_brick; i++) {
+                if (brick[i].getStatus() == 1 && ball.getRect().intersects(brick[i].getRect())) {
+                    Rectangle brickRect = brick[i].getRect();
+                    if (intersects(prevX, prevY, newX, newY, brickRect)) {
+                        handlePreciseBrickCollision(brickRect);
+                        brick[i].brick_break(); // Break the brick
+                        dropItem(brick[i].getX() + Commons.BRICK_WIDTH / 2, brick[i].getY() + Commons.BRICK_HEIGHT / 2);
+                        player.setScore(player.getScore() + 10); // Increase score
+                        break; // Exit loop after collision
+                    }
                 }
             }
         }
 
-        // Ball and Wall collision
+        // Va chạm với tường
         if (!collisionHandled) {
             if (newX <= 0) {
                 ball.reverseX();
@@ -349,13 +333,14 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
         }
     }
 
+    // Kiểm tra giao cắt giữa đường đi của bóng và viên gạch
     private boolean intersects(int prevX, int prevY, int newX, int newY, Rectangle brick) {
         Rectangle path = new Rectangle(Math.min(prevX, newX), Math.min(prevY, newY),
                 Math.abs(newX - prevX) + ball.getWidth(), Math.abs(newY - prevY) + ball.getHeight());
         return path.intersects(brick);
     }
 
-    // Handle collisions with bricks accurately
+    // Xử lý va chạm chính xác với gạch
     private void handlePreciseBrickCollision(Rectangle brick) {
         int brickLeft = brick.x;
         int brickRight = brick.x + brick.width;
@@ -367,11 +352,13 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
         int ballTop = ball.getY();
         int ballBottom = ball.getY() + ball.getHeight();
 
+        // Tính toán độ chồng lấp theo từng hướng
         int overlapLeft = Math.abs(ballRight - brickLeft);
         int overlapRight = Math.abs(ballLeft - brickRight);
         int overlapTop = Math.abs(ballBottom - brickTop);
         int overlapBottom = Math.abs(ballTop - brickBottom);
 
+        // Chọn hướng va chạm có độ chồng lấp nhỏ nhất
         int minOverlap = Math.min(Math.min(overlapLeft, overlapRight), Math.min(overlapTop, overlapBottom));
 
         if (minOverlap == overlapTop) {
@@ -389,7 +376,7 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
         }
     }
 
-    // Reset ball and paddle position
+    // Đặt lại vị trí của bóng và paddle sau khi mất mạng
     private void resetBallAndPaddle() {
         paddle.setX((Commons.SCREEN_WIDTH - paddle.getWidth()) / 2);
         ball.setX(paddle.getX() + paddle.getWidth() / 2 - ball.getWidth() / 2);
