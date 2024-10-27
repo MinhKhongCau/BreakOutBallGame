@@ -279,7 +279,7 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
 
         // Ball and brick collision
         if (item_status == 1) {
-        	// Bóng xuyên gạch
+        	// Bóng xuyên gạch 
             for (int i = 0; i < amount_brick; i++) {
                 if (brick[i].getStatus() == 1 && ball.getRect().intersects(brick[i].getRect())) {
                     Rectangle brickRect = brick[i].getRect();
