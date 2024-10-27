@@ -3,6 +3,7 @@ package com;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 public class Item extends Sprite {
     private int width;
@@ -82,5 +83,10 @@ public class Item extends Sprite {
 	        default:
 	            break;
         }
+    }
+    
+    @Override
+    public Rectangle getRect() {
+        return new Rectangle(x, y, width, height);
     }
 }

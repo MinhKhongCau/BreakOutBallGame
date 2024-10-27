@@ -1,29 +1,32 @@
 package com;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import DatabaseConfig.ConnectionConfig;
 import SubGame.InfoPanel;
 import SubGame.PrepareGame;
-import java.awt.BorderLayout;
-import java.awt.Graphics2D;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.SQLException;
-import java.sql.Statement;
 
-public class Board extends JPanel implements Runnable,Login.StartGameListener{
+public class Board extends JPanel implements Runnable, Login.StartGameListener {
+
     private Thread clock;
     private Paddle paddle;
     private Ball ball;
@@ -32,6 +35,9 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
     private Player player;
     private Item item1;
     private Item item2;
+    private Timer defaultPaddle;
+	private Timer defaultBallSize;
+	private Timer defaultBall;
     private int item_status = 0;
     private InfoPanel topPanel;
     private InfoPanel bottomPanel;
@@ -48,8 +54,6 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
     private void initComponent() {
         paddle = new Paddle();
         ball = new Ball();
-        item1 = null;
-        item2 = null;
         brick = new Brick[Commons.BRICK_ROW * Commons.BRICK_COL];
         createBrick(brick);
 
@@ -76,7 +80,7 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
     public void startGame(String playerName) {
         this.player = new Player(playerName, 0, 3);
         this.remove(login);
-        
+
         PrepareGame prepare = new PrepareGame();
         prepare.addMouseListener(new MouseAdapter() {
             @Override
@@ -96,8 +100,8 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
     }
 
     private void createBrick(Brick[] brick) {
-    	int margin_side = (Commons.SCREEN_WIDTH - (Commons.BRICK_WIDTH*Commons.BRICK_ROW))/2;
-    	int margin_top = Commons.SCREEN_HEIGHT/8 ;
+        int margin_side = (Commons.SCREEN_WIDTH - (Commons.BRICK_WIDTH * Commons.BRICK_ROW)) / 2;
+        int margin_top = Commons.SCREEN_HEIGHT / 8;
         for (int i = 0; i < Commons.BRICK_ROW; i++) {
             for (int j = 0; j < Commons.BRICK_COL; j++) {
                 brick[amount_brick] = new Brick();
@@ -136,10 +140,10 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
         // Draw the paddle, ball, item, and bricks
         paddle.draw(g);
         ball.draw(g);
-        if(item1!=null)
-        	item1.draw(g);
-        if(item2!=null)
-        	item2.draw(g);
+        if (item1 != null)
+            item1.draw(g);
+        if (item2 != null)
+            item2.draw(g);
 
         // Draw the active bricks
         for (int i = 0; i < amount_brick; i++) {
@@ -175,15 +179,15 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
                     repaint(ball.getX() - ball.getWidth() * 5, ball.getY() - ball.getHeight() * 5, ball.getWidth() * 5,
                             ball.getHeight() * 5);
                     repaint(0, paddle.getY(), Commons.SCREEN_WIDTH, paddle.getHeight() * 2);
-                    if(item1!=null) {
-	                    repaint(item1.getX() - item1.getWidth(), item1.getY() - item1.getHeight(),
-	                            item1.getWidth() * 2,
-	                            item1.getHeight() * 2);
+                    if (item1 != null) {
+                        repaint(item1.getX() - item1.getWidth(), item1.getY() - item1.getHeight(),
+                                item1.getWidth() * 2,
+                                item1.getHeight() * 2);
                     }
-                    if(item2!=null) {
-	                    repaint(item2.getX() - item2.getWidth(), item2.getY() - item2.getHeight(),
-	                            item2.getWidth() * 2,
-	                            item2.getHeight() * 2);
+                    if (item2 != null) {
+                        repaint(item2.getX() - item2.getWidth(), item2.getY() - item2.getHeight(),
+                                item2.getWidth() * 2,
+                                item2.getHeight() * 2);
                     }
                     delta -= msPerFrame; // Reduce delta since we've processed one frame
                 }
@@ -224,32 +228,29 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
         // Create item1
         if (item1 != null) {
             item1.move();
-            if (item1.getY() > paddle.getY()
-                && (item1.getX() >= paddle.getX() && item1.getX() <= paddle.getX() +
-                        paddle.getWidth())) {
-            	 touchItem(item1);
+            if (item1.getRect().intersects(paddle.getRect())) {
+                touchItem(item1);
+                item1 = null;
+            }
+            
+            if (item1 != null && (item1.getY() + item1.getHeight() >= Commons.SCREEN_HEIGHT)) {
             	 item1 = null;
-             }
-
-             if (item1 != null && (item1.getY() + item1.getHeight() >= Commons.SCREEN_HEIGHT)) {
-            	 item1 = null;
-             }
+            }
         }
-        
+
         // Create item2
         if (item2 != null) {
             item2.move();
-            if (item2.getY() > paddle.getY()
-                && (item2.getX() >= paddle.getX() && item2.getX() <= paddle.getX() +
-                        paddle.getWidth())) {
-            	 touchItem(item2);
-            	 item2 = null;
-             }
+            if (item2.getRect().intersects(paddle.getRect())) {
+                touchItem(item2);
+                item2 = null;
+            }
 
-             if (item2 != null && (item2.getY() + item2.getHeight() >= Commons.SCREEN_HEIGHT)) {
+            if (item2 != null && (item2.getY() + item2.getHeight() >= Commons.SCREEN_HEIGHT)) {
             	 item2 = null;
-             }
+            }
         }
+        
     }
 
     private void checkCollisions() {
@@ -261,70 +262,56 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
 
         // Ball and paddle collision
         if (ball.getRect().intersects(paddle.getRect())) {
-            if (ball.getY() + ball.getHeight() >= paddle.getY()
-                    && ball.getY() + ball.getHeight() <= paddle.getY() + paddle.getHeight() / 2) {
-                ball.reverseY();
-                ball.setY(paddle.getY() - ball.getHeight());
-            }
-        }
-
-        // Ball and bricks collision
-        if(item_status==1) {
-	        for (int i = 0; i < amount_brick; i++) {
-	            if (brick[i].getStatus() == 1 &&
-	                    ball.getRect().intersects(brick[i].getRect())) {
-	                brick[i].brick_break(); // Break the brick
-//	                dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2, brick[i].getY()+Commons.BRICK_HEIGHT/2);
-	                player.setScore(player.getScore() + 10); // Increase score
-	                // break; // Exit loop after collision
-	            }
-	        }
-        } else {
-        	for (int i = 0; i < amount_brick; i++) {
-	            if (brick[i].getStatus() == 1 &&
-	                    ball.getRect().intersects(brick[i].getRect())) {
-	                ball.reverseY(); // Change direction on collision
-	                brick[i].brick_break(); // Break the brick
-//	                dropItem(brick[i].getX()+Commons.BRICK_WIDTH/2, brick[i].getY()+Commons.BRICK_HEIGHT/2);
-	                player.setScore(player.getScore() + 10); // Increase score
-	                // break; // Exit loop after collision
-	            }
-	        }
-        }
-
-        // Ball and wall collision
-        // Ball and lefl wall collision
-        if (ball.getX() <= 0) {
-            ball.reverseX();
-            ball.setX(0);
-        }
-        // Ball and right wall collision
-        if (ball.getX() + ball.getWidth() >= Commons.SCREEN_WIDTH) {
-            ball.reverseX();
-            ball.setX(Commons.SCREEN_WIDTH - ball.getWidth());
-        }
-        // Ball and top wall collision
-        if (ball.getY() <= 0) {
             ball.reverseY();
             ball.setY(paddle.getY() - ball.getHeight());
             collisionHandled = true;
         }
 
-        // Ball and Bricks collison
-        for (int i = 0; i < amount_brick; i++) {
-            if (brick[i].getStatus() == 1) {
-                Rectangle brickRect = brick[i].getRect();
-                if (intersects(prevX, prevY, newX, newY, brickRect)) {
-                    handlePreciseBrickCollision(brickRect);
-                    brick[i].brick_break();
-                    player.setScore(player.getScore() + 10);
-                    collisionHandled = true;
-                    break;
+        // for (int i = 0; i < amount_brick; i++) {
+        // if (brick[i].getStatus() == 1) {
+        // Rectangle brickRect = brick[i].getRect();
+        // if (intersects(prevX, prevY, newX, newY, brickRect)) {
+        // handlePreciseBrickCollision(brickRect); // Sử dụng thuật toán chính xác hơn
+        // brick[i].brick_break();
+        // // dropItem(brick[i].getX() + Commons.BRICK_WIDTH / 2);
+        // // brick[i].getY()+Commons.BRICK_HEIGHT/2);
+        // player.setScore(player.getScore() + 10);
+        // collisionHandled = true;
+        // break;
+        // }
+        // }
+        // }
+
+        // Ball and brick collision
+        if (item_status == 1) {
+        	// Bóng xuyên gạch 
+            for (int i = 0; i < amount_brick; i++) {
+                if (brick[i].getStatus() == 1 && ball.getRect().intersects(brick[i].getRect())) {
+                    Rectangle brickRect = brick[i].getRect();
+                    if (intersects(prevX, prevY, newX, newY, brickRect)) {
+                        brick[i].brick_break(); // Break the brick
+                        dropItem(brick[i].getX() + Commons.BRICK_WIDTH / 2, brick[i].getY() + Commons.BRICK_HEIGHT / 2);
+                        player.setScore(player.getScore() + 10); // Increase score
+                        break; // Exit loop after collision
+                    }
+                }
+            }
+        } else {
+            for (int i = 0; i < amount_brick; i++) {
+                if (brick[i].getStatus() == 1 && ball.getRect().intersects(brick[i].getRect())) {
+                    Rectangle brickRect = brick[i].getRect();
+                    if (intersects(prevX, prevY, newX, newY, brickRect)) {
+                        handlePreciseBrickCollision(brickRect);
+                        brick[i].brick_break(); // Break the brick
+                        dropItem(brick[i].getX() + Commons.BRICK_WIDTH / 2, brick[i].getY() + Commons.BRICK_HEIGHT / 2);
+                        player.setScore(player.getScore() + 10); // Increase score
+                        break; // Exit loop after collision
+                    }
                 }
             }
         }
 
-        // Ball and Wall collision
+        // Va chạm với tường
         if (!collisionHandled) {
             if (newX <= 0) {
                 ball.reverseX();
@@ -351,13 +338,14 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
         }
     }
 
+    // Kiểm tra giao cắt giữa đường đi của bóng và viên gạch
     private boolean intersects(int prevX, int prevY, int newX, int newY, Rectangle brick) {
         Rectangle path = new Rectangle(Math.min(prevX, newX), Math.min(prevY, newY),
                 Math.abs(newX - prevX) + ball.getWidth(), Math.abs(newY - prevY) + ball.getHeight());
         return path.intersects(brick);
     }
 
-    // Handle collisions with bricks accurately
+    // Xử lý va chạm chính xác với gạch
     private void handlePreciseBrickCollision(Rectangle brick) {
         int brickLeft = brick.x;
         int brickRight = brick.x + brick.width;
@@ -369,11 +357,13 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
         int ballTop = ball.getY();
         int ballBottom = ball.getY() + ball.getHeight();
 
+        // Tính toán độ chồng lấp theo từng hướng
         int overlapLeft = Math.abs(ballRight - brickLeft);
         int overlapRight = Math.abs(ballLeft - brickRight);
         int overlapTop = Math.abs(ballBottom - brickTop);
         int overlapBottom = Math.abs(ballTop - brickBottom);
 
+        // Chọn hướng va chạm có độ chồng lấp nhỏ nhất
         int minOverlap = Math.min(Math.min(overlapLeft, overlapRight), Math.min(overlapTop, overlapBottom));
 
         if (minOverlap == overlapTop) {
@@ -391,7 +381,7 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
         }
     }
 
-    // Reset ball and paddle position
+    // Đặt lại vị trí của bóng và paddle sau khi mất mạng
     private void resetBallAndPaddle() {
         paddle.setX((Commons.SCREEN_WIDTH - paddle.getWidth()) / 2);
         ball.setX(paddle.getX() + paddle.getWidth() / 2 - ball.getWidth() / 2);
@@ -416,86 +406,117 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
 
     public void dropItem(int x, int y) {
         if (item1 == null) {
-            Random generator = new Random();
-            int value = generator.nextInt(21)+1;
+             Random generator = new Random();
+             int value = generator.nextInt(21)+1; 
+             if(value%3==0) {
+	            item1 = new Item(x, y, value);
+             }
 
-            if(value%3==0) {
-                   item1 = new Item(x, y, value);
-            }
-
-        } else if(item2 == null) {
+        }else if(item2 == null) {
         	Random generator = new Random();
             int value = generator.nextInt(21)+1;
-           
             if(value%3==0) {
 	            item2 = new Item(x, y, value);
             }
         }
     }
 
-    public void touchItem(Item i) {
+    public void touchItem(Item i) {    	                      
         switch (i.getNum()) {
             case 3:
+            	// Long paddle
                 paddle.setWidth(Commons.PADDLE_WIDTH + 150);
-                setPaddleDefault();
+                setDefaultPaddle();
                 break;
+                
             case 6:
+            	// Short paddle
                 paddle.setWidth(Commons.PADDLE_WIDTH - 60);
-                setPaddleDefault();
+                setDefaultPaddle();
                 break;
+                
             case 9:
-                ball.setWidth(Commons.BALL_SIZE + 6);
-                ball.setHeight(Commons.BALL_SIZE + 6);
+            	// Big + slow ball
+                ball.setWidth(Commons.BALL_SIZE + 8);
+                ball.setHeight(Commons.BALL_SIZE + 8);
                 ball.setSpeed(ball.getSpeed()-50);
-                setBallDefault();
+                setDefaultBallSize();
                 break;
+                
             case 12:
+            	// Small + quick ball
                 ball.setWidth(Commons.BALL_SIZE - 4);
                 ball.setHeight(Commons.BALL_SIZE - 4);
                 ball.setSpeed(ball.getSpeed() + 50);
-                setBallDefault();
+                setDefaultBallSize();
                 break;
+                
             case 15:
+            	// +1 life
             	player.life += 1 ;           
             	break;
+            	
             case 18:
+            	// Power ball
             	item_status=1;
-            	setItemStatusDefault();
+            	setDefaultBall();
             	break;
+            	
             default:
                 break;
         }
     }
-
-    public void setPaddleDefault() {
-        Timer t = new Timer();
-        TimerTask task = new TimerTask() {
+    
+    public void setDefaultPaddle() {
+    	TimerTask task1 = new TimerTask() {
             public void run() {
                 paddle.setWidth(Commons.PADDLE_WIDTH);
             }
         };
-        t.schedule(task, 5000);
+        
+    	if(defaultPaddle==null) {
+        	defaultPaddle = new Timer();
+        	defaultPaddle.schedule(task1, 5000);
+        }else {
+        	defaultPaddle.cancel();
+        	defaultPaddle = new Timer();
+        	defaultPaddle.schedule(task1, 5000);
+        }
     }
-
-    public void setBallDefault() {
-        Timer t = new Timer();
-        TimerTask task = new TimerTask() {
+    
+    public void setDefaultBallSize() {
+    	TimerTask task2 = new TimerTask() {
             public void run() {
-                ball.setWidth(Commons.BALL_SIZE);
+            	ball.setWidth(Commons.BALL_SIZE);
                 ball.setHeight(Commons.BALL_SIZE);
                 ball.setSpeed(Commons.BALL_SPEED);
             }
         };
-        t.schedule(task, 5000);
+        
+    	if(defaultBallSize==null) {
+        	defaultBallSize = new Timer();
+        	defaultBallSize.schedule(task2, 5000);
+        }else {
+        	defaultBallSize.cancel();
+        	defaultBallSize = new Timer();
+        	defaultBallSize.schedule(task2, 5000);
+        }
     }
     
-    public void setItemStatusDefault() {
-        Timer t = new Timer();
-        TimerTask task = new TimerTask() {
+    public void setDefaultBall() {
+    	TimerTask task3 = new TimerTask() {
             public void run() {
-                item_status=0;
+            	item_status=0;
             }
         };
-        t.schedule(task, 5000);
+        
+    	if(defaultBall==null) {
+    		defaultBall = new Timer();
+    		defaultBall.schedule(task3, 5000);
+        }else {
+        	defaultBall.cancel();
+        	defaultBall = new Timer();
+        	defaultBall.schedule(task3, 5000);
+        }
     }
 }
