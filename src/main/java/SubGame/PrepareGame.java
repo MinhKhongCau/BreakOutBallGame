@@ -11,8 +11,9 @@ package SubGame;
 
 import com.Commons;
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Graphics;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -26,7 +27,8 @@ public class PrepareGame extends JPanel{
         this.setOpaque(false);
         this.setLayout(new BorderLayout());
 
-        notice = new JLabel("Click here to Start game");
+        notice = new JLabel();
+        notice.setText("Click here to Start game");
         notice.setFont(Commons.LARGE_FONT);
         notice.setForeground(Commons.COMPONENT_COLOR);
         notice.setSize(Commons.SCREEN_WIDTH,Commons.SCREEN_HEIGHT);
@@ -34,5 +36,10 @@ public class PrepareGame extends JPanel{
         notice.setVerticalAlignment(SwingConstants.CENTER);
         
         this.add(notice,BorderLayout.CENTER);
+    }
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
     }
 }

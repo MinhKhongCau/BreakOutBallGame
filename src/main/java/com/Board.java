@@ -78,16 +78,21 @@ public class Board extends JPanel implements Runnable,Login.StartGameListener{
         this.remove(login);
         
         PrepareGame prepare = new PrepareGame();
-        this.add(prepare, BorderLayout.EAST);
         prepare.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Board.this.remove(prepare);
+                Board.this.repaint();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 startedGame();
             }
         });
+        this.add(prepare, BorderLayout.EAST);
         this.repaint();
-        
     }
 
     private void createBrick(Brick[] brick) {
