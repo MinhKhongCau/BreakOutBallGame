@@ -5,27 +5,27 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-public class Item extends Sprite{
+public class Item extends Sprite {
     private int width;
     private int height;
     private int num;
-    
-    public Item (int x, int y, int num) {
+
+    public Item(int x, int y, int num) {
         this.x = x;
         this.y = y;
         this.num = num;
         this.width = Commons.ITEM_SIZE;
         this.height = Commons.ITEM_SIZE;
     }
-    
+
     public int getNum() {
-    	return num;
+        return num;
     }
-    
+
     public void setNum(int num) {
-    	this.num = num;
+        this.num = num;
     }
-    
+
     public int getWidth() {
         return width;
     }
@@ -41,8 +41,8 @@ public class Item extends Sprite{
     public void setHeight(int height) {
         this.height = height;
     }
-    
-    public void move () {
+
+    public void move() {
         try {
             int speed = 200;
             this.y += (int) speed*Commons.DELTA_TIME;
@@ -52,8 +52,8 @@ public class Item extends Sprite{
             e.printStackTrace();
         }
     }
-    
-    public void draw (Graphics g) {
+
+    public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         switch(num) {
         	case 3:

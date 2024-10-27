@@ -11,30 +11,30 @@ import javax.swing.border.EmptyBorder;
 public interface Commons {
     int ORIGINAL_SIZE = 16;
     double SCALE = 1.2;
-    int TILE_SIZE = (int) (ORIGINAL_SIZE*SCALE);
+    int TILE_SIZE = (int) (ORIGINAL_SIZE * SCALE);
     int BOTTOM_EDGE = 390;
     int N_OF_BRICKS = 30;
     // Common in screen scale size
     int SCREEN_COL = 64;
     int SCREEN_ROW = 36;
-    int SCREEN_WIDTH = TILE_SIZE*SCREEN_COL;
-    int SCREEN_HEIGHT = TILE_SIZE*SCREEN_ROW;
+    int SCREEN_WIDTH = TILE_SIZE * SCREEN_COL;
+    int SCREEN_HEIGHT = TILE_SIZE * SCREEN_ROW;
     // Commons in paddle dimention
-    int INIT_PADDLE_X = 200;
-    int INIT_PADDLE_Y = SCREEN_HEIGHT/10*8;
-    int PADDLE_WIDTH = TILE_SIZE*8;
-    int PADDLE_HEIGHT = TILE_SIZE*1;
+    int INIT_PADDLE_X = SCREEN_WIDTH/2;
+    int INIT_PADDLE_Y = SCREEN_HEIGHT / 10 * 8;
+    int PADDLE_WIDTH = TILE_SIZE * 8;
+    int PADDLE_HEIGHT = TILE_SIZE * 1;
     // Commons in brick dimention
-    int BRICK_WIDTH = TILE_SIZE*6;
-    int BRICK_HEIGHT = TILE_SIZE*2;
-    int BRICK_ROW = (SCREEN_WIDTH*3/4)/BRICK_WIDTH;
-    int BRICK_COL = (SCREEN_HEIGHT/3)/BRICK_HEIGHT;
+    int BRICK_WIDTH = TILE_SIZE * 6;
+    int BRICK_HEIGHT = TILE_SIZE * 2;
+    int BRICK_ROW = (SCREEN_WIDTH * 3 / 4) / BRICK_WIDTH;
+    int BRICK_COL = (SCREEN_HEIGHT / 3) / BRICK_HEIGHT;
     // Commons in item dimention
-    int ITEM_SIZE = TILE_SIZE-5;
+    int ITEM_SIZE = TILE_SIZE - 5;
     // Commons in ball dimention
-    int BALL_SPEED =250;
-    int INIT_BALL_X = 100;
-    int INIT_BALL_Y = 100;
+    int BALL_SPEED = 250;
+    int INIT_BALL_X = SCREEN_WIDTH/2;
+    int INIT_BALL_Y = SCREEN_HEIGHT/2;
     int BALL_SIZE = TILE_SIZE;
     int PERIOD = 10;
     // Commons in login form dimention
@@ -47,16 +47,18 @@ public interface Commons {
     Border BOARD_BORDER = BorderFactory.createMatteBorder(100, 0, 1000, 0, new Color(250, 242, 233));
     int INPUT_WIDTH = 100;
     // Commons of Windows toolkit
-    Toolkit toolkit = Toolkit.getDefaultToolkit();
+    Toolkit TOOL_KIT = Toolkit.getDefaultToolkit();
     // Delta time
     int FPS = 60;
-    double DELTA_TIME = (double) 1/FPS;
+    double DELTA_TIME = (double) 1 / FPS;
     // Commons of Ranking
-    int RANK_WIDTH = TILE_SIZE*18;
-    int RANK_HEIGHT = TILE_SIZE*36;
+    int RANK_WIDTH = TILE_SIZE * 18;
+    int RANK_HEIGHT = TILE_SIZE * 36;
     // Font in Commons
-    Font smallfont = new java.awt.Font("Segoe UI", Font.BOLD, 12);
-    Font mediumfont = new java.awt.Font("Segoe UI", Font.BOLD, 16);
-    Font lanrgefont = new java.awt.Font("Segoe UI", Font.BOLD, 20);
-    
+    Font SMALL_FONT = new java.awt.Font("Segoe UI", Font.BOLD, 12);
+    Font MEDIUM_FONT = new java.awt.Font("Segoe UI", Font.BOLD, 16);
+    Font LARGE_FONT = new java.awt.Font("Segoe UI", Font.BOLD, 20);
+    // Color in Game
+    Color BACKGROUND_COLOR = new Color(54, 66, 66);
+    Color COMPONENT_COLOR = new Color(250, 242, 233);
 }
