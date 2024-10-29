@@ -324,6 +324,8 @@ public class Board extends JPanel implements Runnable {
                 stopGame();
                 savePerformance();
                 addRankingTable();
+                revalidate();
+                repaint();
             }
         }
 
