@@ -1,8 +1,8 @@
 package com;
 
 public class Player extends Person {
-    Integer score;
-    Integer life;
+    private Integer score;
+    private Integer life;
 
     public Player() {
         super();

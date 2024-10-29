@@ -2,10 +2,10 @@ package com;
 
 import javax.swing.JFrame;
 
-public class Breakout extends JFrame{
+public class Main extends JFrame{
     private Player player;
 
-    public Breakout() {
+    public Main() {
         Board board = new Board();
         this.setResizable(true);
         this.setSize(Commons.TILE_SIZE * Commons.SCREEN_COL, Commons.TILE_SIZE * Commons.SCREEN_ROW);
@@ -17,7 +17,7 @@ public class Breakout extends JFrame{
     }
     
     public static void main(String[] args) {
-        Breakout breakout = new Breakout();
+        Main breakout = new Main();
         breakout.setVisible(true);
     }
 }

@@ -23,7 +23,7 @@ public class Login extends JPanel{
     private JLabel labelNickName;
     private JTextField textNickName;
     private JButton buttonStart;
-    private StartGameListener start;
+    private LoginGameListener start;
 
     
     public Login() {
@@ -89,18 +89,18 @@ public class Login extends JPanel{
         public void buttonStartActionPerformed(ActionEvent e) {
         String name = textNickName.getText();
         if (start != null && !name.isEmpty()){
-            start.startGame(name);
+            start.addPlayer(name);
         } else {
             JOptionPane.showMessageDialog(Login.this, "Please enter a player name.");
         }
     }
         
-    public void prepareGame(StartGameListener start) {
+    public void prepareGame(LoginGameListener start) {
        this.start = start;
     } 
     
-    public interface StartGameListener {
-        void startGame(String playerName);
+    public interface LoginGameListener {
+        void addPlayer(String playerName);
     }
         
 }

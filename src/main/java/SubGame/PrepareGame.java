@@ -36,6 +36,11 @@ public class PrepareGame extends JPanel{
         this.add(notice,BorderLayout.CENTER);
         System.out.println("Blur layer was initizalation...");
     }
+
+    public PrepareGame(String title) {
+        this();
+        notice.setText(title);
+    }
     
     @Override
     protected void paintComponent(Graphics g) {
