@@ -17,9 +17,9 @@ public class InfoPanel extends JPanel {
         private JLabel leftLabel;
         private JLabel rightLabel;
 
-        public InfoPanel(JLabel leftLabel, JLabel rightLabel) {
-            this.leftLabel = leftLabel;
-            this.rightLabel = rightLabel;
+        public InfoPanel(String leftLabel, String rightLabel) {
+            this.leftLabel = new JLabel(leftLabel);
+            this.rightLabel = new JLabel(rightLabel);
 
             // set UI label
             this.leftLabel.setForeground(Commons.COMPONENT_COLOR);

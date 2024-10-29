@@ -18,7 +18,6 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import DatabaseConfig.ConnectionConfig;
@@ -36,8 +35,8 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
     private Item item1;
     private Item item2;
     private Timer defaultPaddle;
-	private Timer defaultBallSize;
-	private Timer defaultBall;
+    private Timer defaultBallSize;
+    private Timer defaultBall;
     private int item_status = 0;
     private InfoPanel topPanel;
     private InfoPanel bottomPanel;
@@ -61,41 +60,43 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
         // init screen with scale 16/9
         this.setSize(panelWidth, panelHeight);
         this.setBackground(Commons.BACKGROUND_COLOR);
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout(50,50));
 
-        JLabel labelName = new JLabel("Name: Unknown");
-        JLabel labelFPS = new JLabel(String.format("FPS: %d", Commons.FPS));
-
-        topPanel = new InfoPanel(labelName, labelFPS);
-        this.add(topPanel, BorderLayout.NORTH);
-
-        JLabel labelScore = new JLabel(String.format("Score: %d", 0));
-        JLabel labelLife = new JLabel(String.format("Life: %d", 0));
-
-        bottomPanel = new InfoPanel(labelLife, labelScore);
-        this.add(bottomPanel, BorderLayout.SOUTH);
     }
 
     @Override
     public void startGame(String playerName) {
         this.player = new Player(playerName, 0, 3);
         this.remove(login);
-
+        System.out.println("Login was sucessfully!!!");
+        
         PrepareGame prepare = new PrepareGame();
         prepare.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Board.this.remove(prepare);
+                String name = String.format("Name: %s", player.getName());
+                String FPS = String.format("FPS: %d", 0);
+
+                topPanel = new InfoPanel(name, FPS);
+                Board.this.add(topPanel, BorderLayout.NORTH);
+
+                String score = String.format("Score: %d", 0);
+                String life = String.format("Life: %d", 0);
+
+                bottomPanel = new InfoPanel(life, score);
+                Board.this.add(bottomPanel, BorderLayout.SOUTH);
+                Board.this.revalidate();
                 Board.this.repaint();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                startedGame();
+                new javax.swing.Timer(1000, evt -> {
+                // Start the clock after 2 seconds
+                    clock = new Thread(Board.this);
+                    clock.start();
+                    ((javax.swing.Timer) evt.getSource()).stop(); // Stop the timer after it runs once
+                }).start();
             }
         });
-        this.add(prepare, BorderLayout.EAST);
+        this.add(prepare, BorderLayout.CENTER);
         this.repaint();
     }
 
@@ -112,9 +113,9 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
         }
     }
 
-    public void startedGame() {
-        clock = new Thread(this);
-        clock.start();
+    public void stopGame() {
+        this.clock = null;
+//        clock.start();
     }
 
     public void drawBrick(Graphics g) {
@@ -267,21 +268,6 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
             collisionHandled = true;
         }
 
-        // for (int i = 0; i < amount_brick; i++) {
-        // if (brick[i].getStatus() == 1) {
-        // Rectangle brickRect = brick[i].getRect();
-        // if (intersects(prevX, prevY, newX, newY, brickRect)) {
-        // handlePreciseBrickCollision(brickRect); // Sử dụng thuật toán chính xác hơn
-        // brick[i].brick_break();
-        // // dropItem(brick[i].getX() + Commons.BRICK_WIDTH / 2);
-        // // brick[i].getY()+Commons.BRICK_HEIGHT/2);
-        // player.setScore(player.getScore() + 10);
-        // collisionHandled = true;
-        // break;
-        // }
-        // }
-        // }
-
         // Ball and brick collision
         if (item_status == 1) {
         	// Bóng xuyên gạch 
@@ -330,8 +316,16 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
         // Fail
         if (newY + ball.getHeight() >= Commons.SCREEN_HEIGHT) {
             player.setLife(player.getLife() - 1);
+            
+            repaint();
             if (player.getLife() == 0) {
-                savePerformance();
+                stopGame();
+//                savePerformance();
+                RankingTable rank = new RankingTable();
+                add(rank,BorderLayout.CENTER);
+                revalidate();
+                repaint();
+                
             } else {
                 resetBallAndPaddle();
             }
@@ -383,7 +377,8 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
 
     // Đặt lại vị trí của bóng và paddle sau khi mất mạng
     private void resetBallAndPaddle() {
-        paddle.setX((Commons.SCREEN_WIDTH - paddle.getWidth()) / 2);
+    	
+//        paddle.setX((Commons.SCREEN_WIDTH - paddle.getWidth()) / 2);
         ball.setX(paddle.getX() + paddle.getWidth() / 2 - ball.getWidth() / 2);
         ball.setY(paddle.getY() - ball.getHeight());
     }
@@ -395,6 +390,7 @@ public class Board extends JPanel implements Runnable, Login.StartGameListener {
             // 2. create query insert data to database
             String query = "INSERT INTO Player (nick_name) VALUES ('%s')";
             query = String.format(query, player.getName());
+            System.out.println(query);
             // 3. create statement for execute query
             Statement st = con.createStatement();
             // 4. execute query

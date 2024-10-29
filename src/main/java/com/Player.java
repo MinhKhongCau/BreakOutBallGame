@@ -15,6 +15,11 @@ public class Player extends Person {
         this.score = score;
         this.life = life;
     }
+    
+    public Player(String name, Integer score) {
+        super("A01", name);
+        this.score = score;
+    }
 
     public Integer getScore() {
         return score;

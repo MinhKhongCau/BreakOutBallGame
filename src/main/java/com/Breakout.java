@@ -1,20 +1,23 @@
 package com;
 
-import com.Player;
 import javax.swing.JFrame;
 
-public class Breakout {
+public class Breakout extends JFrame{
     private Player player;
 
-    public static void main(String[] args) {
+    public Breakout() {
         Board board = new Board();
-        JFrame frameBoard = new JFrame();
-        frameBoard.setResizable(false);
-        frameBoard.setSize(Commons.TILE_SIZE * Commons.SCREEN_COL, Commons.TILE_SIZE * Commons.SCREEN_ROW);
-        frameBoard.setTitle("Break out ball");
-        frameBoard.setLocationRelativeTo(null);
-        frameBoard.add(board);
-        frameBoard.setVisible(true);
-        // new RankingTable().setVisible(true);;
+        this.setResizable(true);
+        this.setSize(Commons.TILE_SIZE * Commons.SCREEN_COL, Commons.TILE_SIZE * Commons.SCREEN_ROW);
+        this.setTitle("Break out ball");
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.add(board);
+//        this.add(new RankingTable());
+    }
+    
+    public static void main(String[] args) {
+        Breakout breakout = new Breakout();
+        breakout.setVisible(true);
     }
 }

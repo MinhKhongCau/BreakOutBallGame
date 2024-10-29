@@ -36,6 +36,6 @@ public class ConnectionConfig {
         } catch (SQLException ex) {
                 Logger.getLogger(ConnectionConfig.class.getName()).log(Level.SEVERE, null, ex);
             }
-        return null;
+        return con;
     }
 }

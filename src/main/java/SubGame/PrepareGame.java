@@ -12,8 +12,6 @@ package SubGame;
 import com.Commons;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -36,6 +34,7 @@ public class PrepareGame extends JPanel{
         notice.setVerticalAlignment(SwingConstants.CENTER);
         
         this.add(notice,BorderLayout.CENTER);
+        System.out.println("Blur layer was initizalation...");
     }
     
     @Override
