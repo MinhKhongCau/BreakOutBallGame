@@ -3,7 +3,6 @@ package com;
 import javax.swing.JFrame;
 
 public class Main extends JFrame{
-    private Player player;
 
     public Main() {
         Board board = new Board();
