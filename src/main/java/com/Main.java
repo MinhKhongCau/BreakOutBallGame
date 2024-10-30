@@ -12,7 +12,6 @@ public class Main extends JFrame{
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.add(board);
-//        this.add(new RankingTable());
     }
     
     public static void main(String[] args) {

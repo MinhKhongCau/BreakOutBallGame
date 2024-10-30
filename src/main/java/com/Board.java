@@ -431,15 +431,13 @@ public class Board extends JPanel implements Runnable {
             // 2. create query insert data to database
             if (flagPlayer) {
                 System.out.println("Insert Player...");
-                query = "INSERT INTO Player (nick_name,score,life) VALUES ('%s','%d','%d');";
+                query = "exec BreakOutBall.dbo.AddPlayer @nickName = '%s',@score = %d, @life = %d";
                 query = String.format(query, player.getName(),player.getScore(),player.getLife());   
                 flagPlayer = false;
             } else {
                 System.out.println("Update player...");
-                query = "UPDATE Player\n" +
-                                "SET score = '%d', life = '%d'\n" +
-                                "WHERE nick_name = '%s'";
-                query = String.format(query, player.getScore(),player.getLife(), player.getName());
+                query = "EXEC dbo.UpdatePlayer @name = '%s', @score = %d, @life = %d";
+                query = String.format(query, player.getName(), player.getScore(),player.getLife());
             }
 
             System.out.println(query);
@@ -569,7 +567,7 @@ public class Board extends JPanel implements Runnable {
     }
 
     private void addRankingTable() {
-        RankingTable rank = new RankingTable();                
+        RankingTable rank = new RankingTable(player.getName());                
         // Interface for call when ranking table close
         RankingTableEvent evt;
         evt = new RankingTable.RankingTableEvent() {

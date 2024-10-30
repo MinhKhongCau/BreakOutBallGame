@@ -35,6 +35,7 @@ public class ConnectionConfig {
             }
         } catch (SQLException ex) {
                 Logger.getLogger(ConnectionConfig.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Connect to database Fail!!!");
             }
         return con;
     }
