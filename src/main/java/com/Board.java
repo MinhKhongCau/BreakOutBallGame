@@ -242,7 +242,13 @@ public class Board extends JPanel implements Runnable {
 
         checkCollisions();
 
-        // Create item1
+        createItem();
+        
+    }
+    
+    private void createItem() {
+		// TODO Auto-generated method stub
+    	// Create item1
         if (item1 != null) {
             item1.move();
             if (item1.getRect().intersects(paddle.getRect())) {
@@ -267,10 +273,9 @@ public class Board extends JPanel implements Runnable {
             	 item2 = null;
             }
         }
-        
-    }
+	}
 
-    private void checkCollisions() {
+	private void checkCollisions() {
         boolean collisionHandled = false;
         int prevX = ball.getPrevX();
         int prevY = ball.getPrevY();
@@ -284,27 +289,15 @@ public class Board extends JPanel implements Runnable {
             collisionHandled = true;
         }
 
-        // Ball and brick collision
-        if (item_status == 1) {
-        	// Bóng xuyên gạch 
-            for (int i = 0; i < amount_brick; i++) {
-                if (brick[i].getStatus() == 1 && ball.getRect().intersects(brick[i].getRect())) {
-                    Rectangle brickRect = brick[i].getRect();
-                    if (intersects(prevX, prevY, newX, newY, brickRect)) {
-                        brick[i].brick_break(); // Break the brick
-                        dropItem(brick[i].getX() + Commons.BRICK_WIDTH / 2, brick[i].getY() + Commons.BRICK_HEIGHT / 2);
-                        player.setScore(player.getScore() + 10); // Increase score
-                        break; // Exit loop after collision
-                    }
-                }
-            }
-        } else {
+        // Ball and brick collision       
             int flagEmptyBrick = amount_brick;
             for (int i = 0; i < amount_brick; i++) {
                 if (brick[i].getStatus() == 1 && ball.getRect().intersects(brick[i].getRect())) {
                     Rectangle brickRect = brick[i].getRect();
                     if (intersects(prevX, prevY, newX, newY, brickRect)) {
-                        handlePreciseBrickCollision(brickRect);
+                    	if(item_status==0) {
+                    		handlePreciseBrickCollision(brickRect);
+                    	}
                         brick[i].brick_break(); // Break the brick
                         dropItem(brick[i].getX() + Commons.BRICK_WIDTH / 2, brick[i].getY() + Commons.BRICK_HEIGHT / 2);
                         player.setScore(player.getScore() + 10); // Increase score
@@ -323,7 +316,6 @@ public class Board extends JPanel implements Runnable {
                 revalidate();
                 repaint();
             }
-        }
 
         // Va chạm với tường
         if (!collisionHandled) {
