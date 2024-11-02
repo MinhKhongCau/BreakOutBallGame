@@ -134,11 +134,7 @@ public class Board extends JPanel implements Runnable {
         this.clock = null;
 //        clock.start();
     }
-    
-    public void continueGame() {
-        this.clock = new Thread(this); 
-        this.clock.start();
-    }
+
 
     public void drawBrick(Graphics g) {
         for (int i = 0; i < amount_brick; i++) {
@@ -349,8 +345,7 @@ public class Board extends JPanel implements Runnable {
         if (newY + ball.getHeight() >= Commons.SCREEN_HEIGHT) {
             player.setLife(player.getLife() - 1);
             stopGame();
-            revalidate();
-            repaint();
+            
             if (player.getLife() == 0) {
                 savePerformance();
                 addRankingTable();
@@ -370,6 +365,8 @@ public class Board extends JPanel implements Runnable {
                 add(pre);
                 resetBallAndPaddle();
             }
+            revalidate();
+            repaint();
         }
     }
 
